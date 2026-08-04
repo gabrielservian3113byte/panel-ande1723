@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ANDE1723-EO · Panel Operativo</title>
+<style>
+  :root{
+    --bg:#0d1117; --sidebar:#0a0e14; --panel:#151b26; --panel2:#1a2130; --line:#232b3a;
+    --ink:#e8ecf3; --ink-dim:#9aa7bd; --ink-mute:#5f6b82;
+    --blue:#4d9fef; --blue-dim:#16283f;
+    --green:#3ecf8e; --green-dim:#12332a;
+    --purple:#a682f0; --purple-dim:#291f42;
+    --orange:#f0a94d; --orange-dim:#3d2c14;
+    --red:#f0645f; --red-dim:#3d1e1d;
+    --font:'Segoe UI',system-ui,-apple-system,sans-serif; --mono:'SF Mono','Consolas',monospace;
+  }
+  *{box-sizing:border-box;}
+  body{margin:0; background:var(--bg); color:var(--ink); font-family:var(--font); line-height:1.5;}
+  .app{display:flex; min-height:100vh;}
+  .sidebar{width:220px; flex-shrink:0; background:var(--sidebar); border-right:1px solid var(--line); padding:22px 14px; position:sticky; top:0; height:100vh; overflow-y:auto;}
+  .brand{padding:0 8px 22px; border-bottom:1px solid var(--line); margin-bottom:18px;}
+  .brand .logo{font-size:17px; font-weight:700; letter-spacing:.3px;}
+  .brand .logo span{color:var(--blue);}
+  .brand .tag{font-size:10.5px; color:var(--ink-mute); text-transform:uppercase; letter-spacing:1.2px; margin-top:3px;}
+  .nav-label{font-size:10.5px; color:var(--ink-mute); text-transform:uppercase; letter-spacing:1px; padding:0 10px; margin:16px 0 8px;}
+  .nav-item{display:flex; align-items:center; gap:10px; padding:9px 10px; border-radius:8px; font-size:13px; color:var(--ink-dim); cursor:pointer; margin-bottom:2px; transition:.12s;}
+  .nav-item:hover{background:var(--panel); color:var(--ink);}
+  .nav-item.active{background:var(--blue-dim); color:var(--blue); font-weight:600;}
+  .nav-item .ic{width:16px; text-align:center; opacity:.9;}
+  .nav-item.disabled{opacity:.4; cursor:default;}
+  .nav-item.disabled:hover{background:none; color:var(--ink-dim);}
+  .main{flex:1; min-width:0;}
+  .topbar{display:flex; justify-content:space-between; align-items:center; padding:16px 28px; border-bottom:1px solid var(--line); background:var(--bg); position:sticky; top:0; z-index:5;}
+  .topbar .titles h1{font-size:15px; margin:0; text-transform:uppercase; letter-spacing:1px; color:var(--ink-dim); font-weight:600;}
+  .topbar .right{display:flex; align-items:center; gap:14px; font-size:12px; color:var(--ink-mute); font-family:var(--mono);}
+  .btn-refresh{background:var(--blue); color:#04101f; border:none; padding:7px 14px; border-radius:7px; font-size:12.5px; font-weight:600; cursor:pointer;}
+  .content{padding:26px 28px 60px;}
+  .view{display:none;}
+  .view.active{display:block;}
+  h2.page-title{font-size:26px; margin:0 0 4px; font-weight:700;}
+  .page-sub{color:var(--ink-mute); font-size:13px; margin-bottom:20px;}
+  .grid{display:grid; gap:14px;}
+  .grid.cols-4{grid-template-columns:repeat(4,1fr);}
+  .grid.cols-3{grid-template-columns:repeat(3,1fr);}
+  .grid.cols-2{grid-template-columns:repeat(2,1fr);}
+  @media (max-width:900px){.grid.cols-4,.grid.cols-3,.grid.cols-2{grid-template-columns:repeat(2,1fr);}}
+  .kpi{background:var(--panel); border:1px solid var(--line); border-top:3px solid var(--blue); border-radius:10px; padding:16px 18px;}
+  .kpi.c-green{border-top-color:var(--green);} .kpi.c-purple{border-top-color:var(--purple);}
+  .kpi.c-orange{border-top-color:var(--orange);} .kpi.c-red{border-top-color:var(--red);}
+  .kpi .label{font-size:11px; color:var(--ink-mute); text-transform:uppercase; letter-spacing:.6px;}
+  .kpi .value{font-size:28px; font-weight:700; margin-top:8px; font-family:var(--mono);}
+  .kpi.c-blue .value{color:var(--blue);} .kpi.c-green .value{color:var(--green);}
+  .kpi.c-purple .value{color:var(--purple);} .kpi.c-orange .value{color:var(--orange);} .kpi.c-red .value{color:var(--red);}
+  .kpi .sub{font-size:12px; color:var(--ink-dim); margin-top:5px;}
+  .panel-box{background:var(--panel); border:1px solid var(--line); border-radius:10px; padding:18px 20px;}
+  .panel-box h3{font-size:12px; text-transform:uppercase; letter-spacing:.8px; color:var(--ink-mute); margin:0 0 14px; font-weight:600;}
+  .scroll{max-height:440px; overflow-y:auto;}
+  table{width:100%; border-collapse:collapse; font-size:12.5px;}
+  th{text-align:left; font-size:10.5px; text-transform:uppercase; letter-spacing:.5px; color:var(--ink-mute); padding:8px 10px; border-bottom:1px solid var(--line); font-weight:600; position:sticky; top:0; background:var(--panel);}
+  td{padding:8px 10px; border-bottom:1px solid var(--line); color:var(--ink-dim);}
+  tr:last-child td{border-bottom:none;}
+  td.num, th.num{text-align:right; font-family:var(--mono);}
+  .tag{display:inline-block; font-size:10.5px; padding:3px 9px; border-radius:20px; font-weight:600;}
+  .tag.ok{background:var(--green-dim); color:var(--green);}
+  .tag.warn{background:var(--orange-dim); color:var(--orange);}
+  .tag.bad{background:var(--red-dim); color:var(--red);}
+  .tag.mute{background:#1c2330; color:var(--ink-mute);}
+  .bar-row{display:flex; align-items:center; gap:10px; margin:9px 0; font-size:12.5px;}
+  .bar-row .lbl{width:150px; color:var(--ink-dim); flex-shrink:0;}
+  .bar-row .bar-track{flex:1; height:9px; background:#0f141d; border-radius:5px; overflow:hidden;}
+  .bar-row .bar-fill{height:100%; border-radius:5px;}
+  .bar-row .bar-val{width:90px; text-align:right; font-family:var(--mono); color:var(--ink-mute); flex-shrink:0;}
+  .flag{display:flex; gap:10px; padding:13px 15px; border-radius:8px; background:var(--orange-dim); border:1px solid #5a4420; font-size:12.5px; color:#f5d9a8; margin-top:16px; align-items:flex-start;}
+  .flag b{color:var(--orange);}
+  input[type=text]{background:var(--panel2); border:1px solid var(--line); color:var(--ink); padding:8px 12px; border-radius:7px; font-size:12.5px; width:240px;}
+  .badge-live{display:inline-flex; align-items:center; gap:6px; font-size:11px; padding:4px 10px; border-radius:20px; font-weight:600;}
+  .badge-live.ok{background:var(--green-dim); color:var(--green);}
+  .badge-live.bad{background:var(--red-dim); color:var(--red);}
+  .badge-live.mute{background:#1c2330; color:var(--ink-mute);}
+  .dot{width:6px; height:6px; border-radius:50%; background:currentColor;}
+  .filtro-btn{background:var(--panel2); border:1px solid var(--line); color:var(--ink-dim); padding:6px 13px; border-radius:20px; font-size:12px; cursor:pointer;}
+  .filtro-btn.activo{background:var(--blue-dim); color:var(--blue); border-color:var(--blue);}
+</style>
+</head>
+<body>
+<div class="app">
+  <aside class="sidebar">
+    <div class="brand">
+      <div class="logo">ANDE<span>1723</span>-EO</div>
+      <div class="tag">Panel Operativo</div>
+    </div>
+    <div class="nav-label">Módulos</div>
+    <div class="nav-item active" data-view="v1" onclick="mostrar('v1')"><span class="ic">▣</span> Resumen general</div>
+    <div class="nav-item" data-view="v2" onclick="mostrar('v2')"><span class="ic">⚡</span> Circuitos Este</div>
+    <div class="nav-item" data-view="v3" onclick="mostrar('v3')"><span class="ic">👷</span> Productividad</div>
+    <div class="nav-item" data-view="v4" onclick="mostrar('v4')"><span class="ic">📦</span> Control de lotes</div>
+    <div class="nav-item disabled" title="Pendiente de link"><span class="ic">🔗</span> Lotes · Sheet 2</div>
+    <div class="nav-item" data-view="v6" onclick="mostrar('v6')"><span class="ic">✅</span> Pendientes por área</div>
+  </aside>
+
+  <div class="main">
+    <div class="topbar">
+      <div class="titles"><h1 id="topTitle">Resumen general</h1></div>
+      <div class="right">
+        <span class="badge-live ok"><span class="dot"></span> actualizado {{BUILD_TIMESTAMP}}</span>
+        <button class="btn-refresh" onclick="location.reload()">↻ Actualizar</button>
+      </div>
+    </div>
+
+    <div class="content">
+      <div class="view active" id="v1">
+        <h2 class="page-title">Resumen general</h2>
+        <div class="page-sub">679 alimentadores &middot; 6 regionales &middot; hoja 2. AVANCES + 5. DASHBOARD</div>
+        <div class="grid cols-4">
+          <div class="kpi c-blue"><div class="label">Total alimentadores</div><div class="value">{{TOTAL_ALIM}}</div><div class="sub">6 regionales</div></div>
+          <div class="kpi c-orange"><div class="label">En proceso</div><div class="value">{{EN_PROCESO}}</div><div class="sub">circuitos activos hoy</div></div>
+          <div class="kpi c-red"><div class="label">No iniciado</div><div class="value">{{NO_INICIADO}}</div><div class="sub">circuitos sin arrancar</div></div>
+          <div class="kpi c-green"><div class="label">Finalizados</div><div class="value">{{FINALIZADOS}}</div><div class="sub">actualizado {{BUILD_TIMESTAMP}}</div></div>
+        </div>
+        <div class="grid cols-2" style="margin-top:16px;">
+          <div class="panel-box">
+            <h3>Alimentadores por regional</h3>
+            <div style="position:relative; height:230px;"><canvas id="chartRegional"></canvas></div>
+          </div>
+          <div class="panel-box">
+            <h3>Plan vs. real por regional</h3>
+            <div class="scroll" style="max-height:230px;">
+              <table>
+                <thead><tr><th>Regional</th><th class="num">Circ.</th><th class="num">MT plan</th><th class="num">MT real</th><th class="num">PD plan</th></tr></thead>
+                <tbody>
+{{REGIONAL_TABLE_ROWS}}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="view" id="v2">
+        <h2 class="page-title">Circuitos · Este</h2>
+        <div class="page-sub">128 alimentadores &middot; única regional con SSEE activas &middot; hoja 2. AVANCES</div>
+        <input type="text" id="filtroEste" placeholder="Filtrar por circuito o SSEE…" oninput="filtrarEste()">
+        <div class="panel-box scroll" style="margin-top:12px;">
+          <table id="tablaEste">
+            <thead><tr><th>SSEE</th><th>Circuito</th><th class="num">MT plan (km)</th><th class="num">PD ANDE plan</th><th class="num">PD tercero plan</th><th>Estado</th></tr></thead>
+            <tbody id="tbodyEste"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="view" id="v3">
+        <h2 class="page-title">Productividad por analista</h2>
+        <div class="page-sub">Postes (PD) construidos &middot; hoja 3. REPORTE_DIARIO</div>
+        <div class="panel-box"><div style="position:relative; height:240px;"><canvas id="chartProd"></canvas></div></div>
+        <div class="panel-box" style="margin-top:14px;">
+          <table>
+            <thead><tr><th>Analista</th><th class="num">PD ANDE construido</th><th class="num">PD terceros construido</th></tr></thead>
+            <tbody>
+{{PROD_TABLE_ROWS}}
+            </tbody>
+          </table>
+        </div>
+        <div class="flag"><span>⚠</span><div><b>Dato inconsistente:</b> hoja 4. PRODUCTIVIDAD y la fila de totales del reporte diario devuelven <b>#REF!</b> en la columna de cierres 100% aceptados.</div></div>
+      </div>
+
+      <div class="view" id="v4">
+        <h2 class="page-title">Control de lotes</h2>
+        <div class="page-sub">Google Sheets publicado &middot; datos actualizados una vez por día por el pipeline</div>
+        <div class="grid cols-4">
+          <div class="kpi c-blue"><div class="label">Total lotes</div><div class="value">{{LOTES_TOTAL}}</div><div class="sub">Items cargados en la hoja</div></div>
+          <div class="kpi c-green"><div class="label">En trámite</div><div class="value">{{LOTES_TRAMITE}}</div><div class="sub">Estado general = Realizado</div></div>
+          <div class="kpi c-orange"><div class="label">En cola</div><div class="value">{{LOTES_COLA}}</div><div class="sub">Sin regional asignada</div></div>
+          <div class="kpi c-purple"><div class="label">Postes 8A</div><div class="value">{{LOTES_POSTES}}</div><div class="sub">Suma sobre lotes con conteo</div></div>
+        </div>
+        <div class="grid cols-2" style="margin-top:14px;">
+          <div class="panel-box"><h3>Por regional (lotes en trámite)</h3><div>
+{{LOTES_BARS_REGIONAL}}
+          </div></div>
+          <div class="panel-box"><h3>Estado del lote (muestra ANDE)</h3><div>
+{{LOTES_BARS_ESTADO}}
+          </div></div>
+        </div>
+        <input type="text" id="filtroLotes" placeholder="Filtrar por lote o regional…" style="margin-top:14px;" oninput="filtrarLotes()">
+        <div class="panel-box scroll" style="margin-top:12px;">
+          <table id="tablaLotes">
+            <thead><tr><th>Lote</th><th>Regional</th><th>Estado general</th><th class="num">Postes 8A</th><th>Muestra ANDE</th><th>Hab. 8B</th></tr></thead>
+            <tbody id="tbodyLotes"></tbody>
+          </table>
+        </div>
+      </div>
+      <div class="view" id="v6">
+        <h2 class="page-title">Pendientes por área</h2>
+        <div class="page-sub">Pestaña "Pendientes Grales por Area" &middot; datos actualizados una vez por día por el pipeline</div>
+
+        <div class="grid cols-4">
+          <div class="kpi c-blue"><div class="label">Total tareas</div><div class="value">{{TAREAS_TOTAL}}</div><div class="sub">cargadas en la hoja</div></div>
+          <div class="kpi c-green"><div class="label">Realizadas</div><div class="value">{{TAREAS_OK}}</div><div class="sub">Realizado / Completado</div></div>
+          <div class="kpi c-red"><div class="label">Pendientes</div><div class="value">{{TAREAS_PEND}}</div><div class="sub">sin marcar todavía</div></div>
+          <div class="kpi c-purple"><div class="label">Personas con pendientes</div><div class="value">{{TAREAS_PERSONAS}}</div><div class="sub">responsables activos</div></div>
+        </div>
+
+        <div class="panel-box" style="margin-top:14px;">
+          <h3>Pendientes por responsable</h3>
+          <div class="grid cols-4">
+{{TAREAS_CARDS_RESPONSABLES}}
+          </div>
+        </div>
+
+        <div style="display:flex; gap:8px; margin:16px 0 4px; flex-wrap:wrap;">
+{{TAREAS_FILTROS_AREA}}
+        </div>
+        <div class="panel-box scroll" style="margin-top:8px;">
+          <table id="tablaTareas">
+            <thead><tr><th>Item</th><th>Área</th><th>Tarea</th><th>Responsable</th><th>Regional</th><th>Estado</th><th>Reporte enviado</th></tr></thead>
+            <tbody id="tbodyTareas"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
+<script>
+Chart.defaults.color = '#9aa7bd';
+Chart.defaults.borderColor = '#232b3a';
+
+function mostrar(id){
+  document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+  document.querySelector(`.nav-item[data-view="${id}"]`).classList.add('active');
+  document.getElementById('topTitle').textContent = document.querySelector(`.nav-item[data-view="${id}"]`).textContent.trim();
+}
+
+new Chart(document.getElementById('chartRegional'), {
+  type: 'bar',
+  data: { labels: {{REGIONAL_CHART_LABELS}},
+    datasets: [{ label:'Alimentadores', data:{{REGIONAL_CHART_DATA}}, backgroundColor:'#4d9fef', borderRadius:5, maxBarThickness:34 }] },
+  options: { responsive:true, maintainAspectRatio:false, plugins:{legend:{display:false}},
+    scales:{ y:{beginAtZero:true, grid:{color:'#1a2130'}}, x:{grid:{display:false}} } }
+});
+
+new Chart(document.getElementById('chartProd'), {
+  type: 'bar',
+  data: { labels: {{PROD_CHART_LABELS}},
+    datasets: [
+      { label:'PD ANDE construido', data:{{PROD_CHART_ANDE}}, backgroundColor:'#4d9fef', borderRadius:5, maxBarThickness:26 },
+      { label:'PD terceros construido', data:{{PROD_CHART_TERC}}, backgroundColor:'#f0a94d', borderRadius:5, maxBarThickness:26 }
+    ] },
+  options: { responsive:true, maintainAspectRatio:false,
+    plugins:{ legend:{display:true, position:'top', labels:{boxWidth:10, font:{size:11}}} },
+    scales:{ y:{beginAtZero:true, grid:{color:'#1a2130'}}, x:{grid:{display:false}} } }
+});
+
+const ESTE_DATA = [
+{{ESTE_DATA_JS}}
+];
+
+function estadoTag(estado){
+  if(estado==="En proceso") return '<span class="tag warn">En proceso</span>';
+  if(estado.includes("100%")) return '<span class="tag ok">'+estado+'</span>';
+  return '<span class="tag mute">No iniciado</span>';
+}
+function pintarEste(rows){
+  document.getElementById('tbodyEste').innerHTML = rows.map(r =>
+    `<tr><td>${r[0]}</td><td>${r[1]}</td><td class="num">${(+r[2]).toFixed(2)}</td><td class="num">${r[3]}</td><td class="num">${r[4]}</td><td>${estadoTag(r[5])}</td></tr>`
+  ).join('');
+}
+pintarEste(ESTE_DATA);
+function filtrarEste(){
+  const q = document.getElementById('filtroEste').value.toLowerCase();
+  pintarEste(ESTE_DATA.filter(r => r[0].toLowerCase().includes(q) || r[1].toLowerCase().includes(q)));
+}
+
+let LOTES_DATA = [
+{{LOTES_DATA_JS}}
+];
+
+function lotesTag(v, ok, bad){
+  if(v===ok) return '<span class="tag ok">'+v+'</span>';
+  if(v===bad) return '<span class="tag bad">'+v+'</span>';
+  if(!v) return '&mdash;';
+  return '<span class="tag mute">'+v+'</span>';
+}
+function pintarLotes(rows){
+  document.getElementById('tbodyLotes').innerHTML = rows.map(r =>
+    `<tr><td>${r.lote}</td><td>${r.regional||'Sin asignar'}</td><td>${lotesTag(r.estado_general,'Realizado','')}</td><td class="num">${r.postes||'&mdash;'}</td><td>${lotesTag(r.estado_lote,'Aceptado','Rechazado')}</td><td>${lotesTag(r.hab8b,'SI','NO')}</td></tr>`
+  ).join('') || '<tr><td colspan="6" style="text-align:center;">Sin filas</td></tr>';
+}
+function filtrarLotes(){
+  const q = document.getElementById('filtroLotes').value.toLowerCase();
+  pintarLotes(LOTES_DATA.filter(r => String(r.lote).includes(q) || (r.regional||'').toLowerCase().includes(q)));
+}
+pintarLotes(LOTES_DATA);
+
+let TAREAS_DATA = [
+{{TAREAS_DATA_JS}}
+];
+let FILTRO_AREA_ACTUAL = 'Todas';
+
+function estadoTareaTag(v){
+  const s = (v||'').trim();
+  if(s === 'Realizado' || s === 'Completado') return '<span class="tag ok">'+s+'</span>';
+  if(s === '' || s === 'Pendiente') return '<span class="tag bad">'+(s||'Pendiente')+'</span>';
+  return '<span class="tag warn">'+s+'</span>';
+}
+function pintarTareas(){
+  const filtradas = FILTRO_AREA_ACTUAL === 'Todas' ? TAREAS_DATA : TAREAS_DATA.filter(r => r.area === FILTRO_AREA_ACTUAL);
+  document.getElementById('tbodyTareas').innerHTML = filtradas.map(r =>
+    `<tr><td class="num">${r.item}</td><td>${r.area}</td><td>${r.tarea}</td><td>${r.responsable}</td><td>${r.regional}</td><td>${estadoTareaTag(r.estado)}</td><td>${estadoTareaTag(r.reporte)}</td></tr>`
+  ).join('') || '<tr><td colspan="7" style="text-align:center;">Sin filas para esta área</td></tr>';
+}
+function setFiltroArea(area){
+  FILTRO_AREA_ACTUAL = area;
+  document.querySelectorAll('.filtro-btn').forEach(b => b.classList.toggle('activo', b.dataset.area === area));
+  pintarTareas();
+}
+pintarTareas();
+</script>
+</body>
+</html>
