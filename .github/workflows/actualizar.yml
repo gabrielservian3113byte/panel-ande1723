@@ -1,0 +1,32 @@
+name: Actualizar panel diario
+
+on:
+  schedule:
+    - cron: '0 9 * * *'
+  workflow_dispatch:
+
+jobs:
+  actualizar:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Instalar dependencias
+        run: pip install -r requirements.txt
+
+      - name: Regenerar index.html con datos frescos
+        env:
+          XLSM_URL: ${{ secrets.XLSM_URL }}
+        run: python build.py
+
+      - name: Commit si hubo cambios
+        run: |
+          git config user.name "panel-ande1723-bot"
+          git config user.email "bot@panel.local"
+          git add index.html
+          git diff --staged --quiet || git commit -m "Actualización diaria automática $(date -u +%Y-%m-%d)"
+          git push
