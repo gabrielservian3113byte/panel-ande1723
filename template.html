@@ -18,7 +18,7 @@
   *{box-sizing:border-box;}
   body{margin:0; background:var(--bg); color:var(--ink); font-family:var(--font); line-height:1.5;}
   .app{display:flex; min-height:100vh;}
-  .sidebar{width:220px; flex-shrink:0; background:var(--sidebar); border-right:1px solid var(--line); padding:22px 14px; position:sticky; top:0; height:100vh; overflow-y:auto;}
+  .sidebar{width:230px; flex-shrink:0; background:var(--sidebar); border-right:1px solid var(--line); padding:22px 14px; position:sticky; top:0; height:100vh; overflow-y:auto;}
   .brand{padding:0 8px 22px; border-bottom:1px solid var(--line); margin-bottom:18px;}
   .brand .logo{font-size:17px; font-weight:700; letter-spacing:.3px;}
   .brand .logo span{color:var(--blue);}
@@ -28,12 +28,10 @@
   .nav-item:hover{background:var(--panel); color:var(--ink);}
   .nav-item.active{background:var(--blue-dim); color:var(--blue); font-weight:600;}
   .nav-item .ic{width:16px; text-align:center; opacity:.9;}
-  .nav-item.disabled{opacity:.4; cursor:default;}
-  .nav-item.disabled:hover{background:none; color:var(--ink-dim);}
   .main{flex:1; min-width:0;}
-  .topbar{display:flex; justify-content:space-between; align-items:center; padding:16px 28px; border-bottom:1px solid var(--line); background:var(--bg); position:sticky; top:0; z-index:5;}
+  .topbar{display:flex; justify-content:space-between; align-items:center; padding:16px 28px; border-bottom:1px solid var(--line); background:var(--bg); position:sticky; top:0; z-index:5; flex-wrap:wrap; gap:10px;}
   .topbar .titles h1{font-size:15px; margin:0; text-transform:uppercase; letter-spacing:1px; color:var(--ink-dim); font-weight:600;}
-  .topbar .right{display:flex; align-items:center; gap:14px; font-size:12px; color:var(--ink-mute); font-family:var(--mono);}
+  .topbar .right{display:flex; align-items:center; gap:14px; font-size:12px; color:var(--ink-mute); font-family:var(--mono); flex-wrap:wrap;}
   .btn-refresh{background:var(--blue); color:#04101f; border:none; padding:7px 14px; border-radius:7px; font-size:12.5px; font-weight:600; cursor:pointer;}
   .content{padding:26px 28px 60px;}
   .view{display:none;}
@@ -73,14 +71,23 @@
   .bar-row .bar-val{width:90px; text-align:right; font-family:var(--mono); color:var(--ink-mute); flex-shrink:0;}
   .flag{display:flex; gap:10px; padding:13px 15px; border-radius:8px; background:var(--orange-dim); border:1px solid #5a4420; font-size:12.5px; color:#f5d9a8; margin-top:16px; align-items:flex-start;}
   .flag b{color:var(--orange);}
-  input[type=text]{background:var(--panel2); border:1px solid var(--line); color:var(--ink); padding:8px 12px; border-radius:7px; font-size:12.5px; width:240px;}
+  input[type=text]{background:var(--panel2); border:1px solid var(--line); color:var(--ink); padding:8px 12px; border-radius:7px; font-size:12.5px; width:220px;}
   .badge-live{display:inline-flex; align-items:center; gap:6px; font-size:11px; padding:4px 10px; border-radius:20px; font-weight:600;}
   .badge-live.ok{background:var(--green-dim); color:var(--green);}
   .badge-live.bad{background:var(--red-dim); color:var(--red);}
-  .badge-live.mute{background:#1c2330; color:var(--ink-mute);}
   .dot{width:6px; height:6px; border-radius:50%; background:currentColor;}
   .filtro-btn{background:var(--panel2); border:1px solid var(--line); color:var(--ink-dim); padding:6px 13px; border-radius:20px; font-size:12px; cursor:pointer;}
   .filtro-btn.activo{background:var(--blue-dim); color:var(--blue); border-color:var(--blue);}
+  .chips-wrap{display:flex; flex-wrap:wrap; gap:7px; max-height:150px; overflow-y:auto;}
+  .chip{background:var(--orange-dim); color:var(--orange); font-size:12px; padding:5px 11px; border-radius:16px; font-weight:600;}
+  .chip small{color:var(--ink-mute); font-weight:400;}
+  .chip-vacio{color:var(--ink-mute); font-size:12.5px; font-style:italic;}
+  .chip.atrasado{background:var(--red-dim); color:var(--red);}
+  .select-filtro{background:var(--panel2); border:1px solid var(--line); color:var(--ink); padding:8px 12px; border-radius:7px; font-size:12.5px;}
+  .versus{display:flex; flex-direction:column; gap:2px; width:110px;}
+  .versus .vbar{height:6px; border-radius:3px; background:#0f141d; overflow:hidden;}
+  .versus .vbar .fill{height:100%;}
+  .versus .vlabel{font-size:9.5px; color:var(--ink-mute); font-family:var(--mono);}
 </style>
 </head>
 <body>
@@ -92,10 +99,9 @@
     </div>
     <div class="nav-label">Módulos</div>
     <div class="nav-item active" data-view="v1" onclick="mostrar('v1')"><span class="ic">▣</span> Resumen general</div>
-    <div class="nav-item" data-view="v2" onclick="mostrar('v2')"><span class="ic">⚡</span> Circuitos Este</div>
-    <div class="nav-item" data-view="v3" onclick="mostrar('v3')"><span class="ic">👷</span> Productividad</div>
+    <div class="nav-item" data-view="v2" onclick="mostrar('v2')"><span class="ic">⚡</span> Construcción de Circuitos</div>
     <div class="nav-item" data-view="v4" onclick="mostrar('v4')"><span class="ic">📦</span> Control de lotes</div>
-    <div class="nav-item disabled" title="Pendiente de link"><span class="ic">🔗</span> Lotes · Sheet 2</div>
+    <div class="nav-item" data-view="v5" onclick="mostrar('v5')"><span class="ic">📈</span> Ritmo de avance</div>
     <div class="nav-item" data-view="v6" onclick="mostrar('v6')"><span class="ic">✅</span> Pendientes por área</div>
   </aside>
 
@@ -103,15 +109,16 @@
     <div class="topbar">
       <div class="titles"><h1 id="topTitle">Resumen general</h1></div>
       <div class="right">
-        <span class="badge-live ok"><span class="dot"></span> actualizado {{BUILD_TIMESTAMP}}</span>
-        <button class="btn-refresh" onclick="location.reload()">↻ Actualizar</button>
+        <span class="badge-live ok" title="La foto de datos se renueva una vez por día, corriendo el pipeline en GitHub Actions."><span class="dot"></span> última actualización de datos: {{BUILD_TIMESTAMP}}</span>
+        <button class="btn-refresh" onclick="location.reload()" title="Recarga la página. No trae datos nuevos, esos se actualizan una vez por día.">↻ Recargar página</button>
       </div>
     </div>
 
     <div class="content">
+
       <div class="view active" id="v1">
         <h2 class="page-title">Resumen general</h2>
-        <div class="page-sub">679 alimentadores &middot; 6 regionales &middot; hoja 2. AVANCES + 5. DASHBOARD</div>
+        <div class="page-sub">679 alimentadores &middot; 6 regionales &middot; hoja AVANCES (V2) + 5. DASHBOARD</div>
         <div class="grid cols-4">
           <div class="kpi c-blue"><div class="label">Total alimentadores</div><div class="value">{{TOTAL_ALIM}}</div><div class="sub">6 regionales</div></div>
           <div class="kpi c-orange"><div class="label">En proceso</div><div class="value">{{EN_PROCESO}}</div><div class="sub">circuitos activos hoy</div></div>
@@ -138,30 +145,66 @@
       </div>
 
       <div class="view" id="v2">
-        <h2 class="page-title">Circuitos · Este</h2>
-        <div class="page-sub">128 alimentadores &middot; única regional con SSEE activas &middot; hoja 2. AVANCES</div>
-        <input type="text" id="filtroEste" placeholder="Filtrar por circuito o SSEE…" oninput="filtrarEste()">
-        <div class="panel-box scroll" style="margin-top:12px;">
-          <table id="tablaEste">
-            <thead><tr><th>SSEE</th><th>Circuito</th><th class="num">MT plan (km)</th><th class="num">PD ANDE plan</th><th class="num">PD tercero plan</th><th>Estado</th></tr></thead>
-            <tbody id="tbodyEste"></tbody>
-          </table>
-        </div>
-      </div>
+        <h2 class="page-title">Construcción de circuitos</h2>
+        <div class="page-sub">679 alimentadores &middot; hoja AVANCES (V2) &middot; PD ANDE Reportado (MT) vs. PD ANDE Construido (BT) &middot; vinculado con hoja 1. GENERAL</div>
 
-      <div class="view" id="v3">
-        <h2 class="page-title">Productividad por analista</h2>
-        <div class="page-sub">Postes (PD) construidos &middot; hoja 3. REPORTE_DIARIO</div>
-        <div class="panel-box"><div style="position:relative; height:240px;"><canvas id="chartProd"></canvas></div></div>
+        <div class="grid cols-4">
+          <div class="kpi c-blue"><div class="label">Circuitos filtrados</div><div class="value" id="kpiCircFiltrados">—</div><div class="sub">según los filtros de abajo</div></div>
+          <div class="kpi c-orange"><div class="label">PD ANDE Reportado (MT)</div><div class="value" id="kpiCircMT">—</div><div class="sub">suma columna N</div></div>
+          <div class="kpi c-purple"><div class="label">PD ANDE Construido (BT)</div><div class="value" id="kpiCircBT">—</div><div class="sub">suma columna T</div></div>
+          <div class="kpi c-red"><div class="label">Atrasados</div><div class="value" id="kpiCircAtrasados">—</div><div class="sub">Fin BT vencido y BT no completado</div></div>
+        </div>
+        <div class="grid cols-3" style="margin-top:14px;">
+          <div class="kpi c-green"><div class="label">Culminados (8C)</div><div class="value" id="kpiCirc8CAceptado">—</div><div class="sub">Estado inspección 8C = Aceptado</div></div>
+          <div class="kpi c-orange"><div class="label">Pendientes (8C)</div><div class="value" id="kpiCirc8CPendiente">—</div><div class="sub">Estado inspección 8C = Pendiente</div></div>
+          <div class="kpi c-blue"><div class="label">En curso ahora (1. GENERAL)</div><div class="value" id="kpiCircEnCurso">—</div><div class="sub">MT o BT en estado "En curso"</div></div>
+        </div>
+
         <div class="panel-box" style="margin-top:14px;">
-          <table>
-            <thead><tr><th>Analista</th><th class="num">PD ANDE construido</th><th class="num">PD terceros construido</th></tr></thead>
-            <tbody>
-{{PROD_TABLE_ROWS}}
-            </tbody>
+          <h3>Circuitos en curso ahora mismo <span style="color:var(--ink-mute); text-transform:none; font-weight:400;">(hoja 1. GENERAL)</span></h3>
+          <div class="chips-wrap" id="chipsEnCursoCirc"></div>
+        </div>
+
+        <div class="panel-box" style="margin-top:14px; border-color:#5a2e2c;">
+          <h3 style="color:var(--red);">⚠ Circuitos atrasados <span style="color:var(--ink-mute); text-transform:none; font-weight:400;">(Fin BT ya pasó y BT no está completado)</span></h3>
+          <div class="chips-wrap" id="chipsAtrasadosCirc"></div>
+        </div>
+
+        <div style="display:flex; gap:10px; margin:16px 0 4px; flex-wrap:wrap; align-items:center;">
+          <select id="filtroRegionalCirc" onchange="onFiltroRegionalCirc()" class="select-filtro"></select>
+          <select id="filtroSSEECirc" onchange="pintarCircuitos()" class="select-filtro"></select>
+          <select id="filtroInspeccionCirc" onchange="pintarCircuitos()" class="select-filtro">
+            <option value="Todas">Todos los estados de inspección</option>
+            <option value="Devuelto">Solo devueltos</option>
+          </select>
+          <select id="filtro8CCirc" onchange="pintarCircuitos()" class="select-filtro">
+            <option value="Todas">8C: todos</option>
+            <option value="Aceptado">8C: solo culminados</option>
+            <option value="Pendiente">8C: solo pendientes</option>
+          </select>
+          <select id="filtroAsignadoCirc" onchange="pintarCircuitos()" class="select-filtro">
+            <option value="Todas">Asignado a: todos</option>
+          </select>
+          <input type="text" id="filtroCircuito" placeholder="Buscar circuito…" oninput="pintarCircuitos()" style="flex:1; min-width:180px;">
+        </div>
+
+        <div class="panel-box scroll" style="margin-top:10px;">
+          <table id="tablaCircuitos">
+            <thead><tr>
+              <th>Regional</th><th>SSEE</th><th>Circuito</th>
+              <th class="num">MT reportado</th><th class="num">BT construido</th>
+              <th>MT vs. BT</th><th class="num">% BT</th><th class="num">Avance total MT</th>
+              <th>Estado general</th><th>Insp. gabinete</th><th>Estado 8C</th>
+              <th>Inicio BT</th><th>Fin BT</th>
+              <th>Trabajo MT (GENERAL)</th><th>Trabajo BT (GENERAL)</th>
+            </tr></thead>
+            <tbody id="tbodyCircuitos"></tbody>
           </table>
         </div>
-        <div class="flag"><span>⚠</span><div><b>Dato inconsistente:</b> hoja 4. PRODUCTIVIDAD y la fila de totales del reporte diario devuelven <b>#REF!</b> en la columna de cierres 100% aceptados.</div></div>
+        <div class="flag">
+          <span>&#9888;</span>
+          <div>Las columnas "Trabajo MT/BT" vienen de la hoja <b>1. GENERAL</b> (asignado, estado y fechas), cruzadas por nombre de circuito. "Inicio BT", "Fin BT" y "Avance total MT" vienen directo de <b>AVANCES (V2)</b>.</div>
+        </div>
       </div>
 
       <div class="view" id="v4">
@@ -169,26 +212,91 @@
         <div class="page-sub">Google Sheets publicado &middot; datos actualizados una vez por día por el pipeline</div>
         <div class="grid cols-4">
           <div class="kpi c-blue"><div class="label">Total lotes</div><div class="value">{{LOTES_TOTAL}}</div><div class="sub">Items cargados en la hoja</div></div>
-          <div class="kpi c-green"><div class="label">En trámite</div><div class="value">{{LOTES_TRAMITE}}</div><div class="sub">Estado general = Realizado</div></div>
-          <div class="kpi c-orange"><div class="label">En cola</div><div class="value">{{LOTES_COLA}}</div><div class="sub">Sin regional asignada</div></div>
+          <div class="kpi c-green"><div class="label">En trámite</div><div class="value">{{LOTES_TRAMITE}}</div><div class="sub">Columna Z distinto de "Sin iniciar"</div></div>
+          <div class="kpi c-orange"><div class="label">En cola</div><div class="value">{{LOTES_COLA}}</div><div class="sub">Columna Z = Sin iniciar / vacío</div></div>
           <div class="kpi c-purple"><div class="label">Postes 8A</div><div class="value">{{LOTES_POSTES}}</div><div class="sub">Suma sobre lotes con conteo</div></div>
         </div>
+
+        <div class="grid cols-3" style="margin-top:14px;">
+          <div class="panel-box">
+            <h3>Lotes en curso ahora (columna Z)</h3>
+            <div class="chips-wrap">
+{{LOTES_EN_CURSO_CHIPS}}
+            </div>
+          </div>
+          <div class="panel-box">
+            <h3>Aceptados sin firma 8A <span style="color:var(--ink-mute); text-transform:none; font-weight:400;">(Z=Aceptado, AD≠SI)</span></h3>
+            <div class="chips-wrap">
+{{LOTES_PEND_8A_CHIPS}}
+            </div>
+          </div>
+          <div class="panel-box">
+            <h3>Habilitados sin firma 8B <span style="color:var(--ink-mute); text-transform:none; font-weight:400;">(AE=SI, AF≠SI)</span></h3>
+            <div class="chips-wrap">
+{{LOTES_PEND_8B_CHIPS}}
+            </div>
+          </div>
+        </div>
+
         <div class="grid cols-2" style="margin-top:14px;">
           <div class="panel-box"><h3>Por regional (lotes en trámite)</h3><div>
 {{LOTES_BARS_REGIONAL}}
           </div></div>
-          <div class="panel-box"><h3>Estado del lote (muestra ANDE)</h3><div>
+          <div class="panel-box"><h3>Estado del lote (columna Z)</h3><div>
 {{LOTES_BARS_ESTADO}}
           </div></div>
         </div>
-        <input type="text" id="filtroLotes" placeholder="Filtrar por lote o regional…" style="margin-top:14px;" oninput="filtrarLotes()">
-        <div class="panel-box scroll" style="margin-top:12px;">
+
+        <div style="display:flex; gap:8px; margin:16px 0 4px; flex-wrap:wrap;" id="filtrosRegionalLotes"></div>
+        <input type="text" id="filtroLotes" placeholder="Filtrar por número de lote…" style="margin-top:6px;" oninput="filtrarLotes()">
+        <div class="panel-box scroll" style="margin-top:10px;">
           <table id="tablaLotes">
-            <thead><tr><th>Lote</th><th>Regional</th><th>Estado general</th><th class="num">Postes 8A</th><th>Muestra ANDE</th><th>Hab. 8B</th></tr></thead>
+            <thead><tr><th>Lote</th><th>Regional</th><th>Estado (Z)</th><th class="num">Postes 8A</th><th>Muestra ANDE (Y)</th><th>Firmado 8A (AD)</th><th>Hab. 8B (AE)</th><th>Firmado 8B (AF)</th></tr></thead>
             <tbody id="tbodyLotes"></tbody>
           </table>
         </div>
       </div>
+
+      <div class="view" id="v5">
+        <h2 class="page-title">Ritmo de avance</h2>
+        <div class="page-sub">Cruce de 3. REPORTE_DIARIO x 1. GENERAL &middot; promedio diario asumiendo semana laboral lunes a viernes</div>
+
+        <div class="grid cols-2">
+          <div class="kpi c-blue"><div class="label">Circuito/tipo con ritmo calculado</div><div class="value">{{RITMO_TOTAL}}</div><div class="sub">con fecha de asignación en 1. GENERAL</div></div>
+          <div class="kpi c-orange"><div class="label">Circuitos filtrados</div><div class="value" id="kpiRitmoFiltrados">—</div><div class="sub">según los filtros de abajo</div></div>
+        </div>
+
+        <div style="display:flex; gap:10px; margin:16px 0 4px; flex-wrap:wrap; align-items:center;">
+          <select id="filtroTipoRitmo" onchange="pintarRitmo()" class="select-filtro">
+            <option value="Todas">MT y BT</option>
+            <option value="MT">Solo MT</option>
+            <option value="BT">Solo BT</option>
+          </select>
+          <select id="filtroAnalistaRitmo" onchange="pintarRitmo()" class="select-filtro"></select>
+          <input type="text" id="filtroCircuitoRitmo" placeholder="Buscar circuito…" oninput="pintarRitmo()" style="flex:1; min-width:180px;">
+        </div>
+
+        <div style="overflow-x:auto; margin-top:10px;">
+          <div class="panel-box scroll" style="min-width:1400px;">
+            <table id="tablaRitmo">
+              <thead><tr>
+                <th>Circuito</th><th>Tipo</th><th>Analista</th><th>Estado</th><th>Fecha asignación</th>
+                <th class="num">Días hábiles (L-V)</th>
+                <th class="num">Km MT Ajustados</th><th class="num">PD ANDE</th><th class="num">PD Terceros</th>
+                <th class="num">PD ANDE Construido</th><th class="num">PD Terceros Construido</th><th class="num">Puntos de Servicio</th>
+                <th class="num">Km MT Ajustados / día</th><th class="num">PD ANDE / día</th><th class="num">PD Terceros / día</th>
+                <th class="num">PD ANDE Construido / día</th><th class="num">PD Terceros Construido / día</th><th class="num">Puntos de Servicio / día</th>
+              </tr></thead>
+              <tbody id="tbodyRitmo"></tbody>
+            </table>
+          </div>
+        </div>
+        <div class="flag">
+          <span>&#9888;</span>
+          <div>El promedio diario = total reportado &divide; días hábiles transcurridos desde la <b>fecha de asignación</b> (1. GENERAL) hasta la <b>fecha de culminación</b> si ya terminó, o hasta hoy si sigue en curso. Solo se cuentan <b>lunes a viernes</b> como hábiles (sábado y domingo quedan afuera). Solo se calcula para circuitos que tienen fecha de asignación cargada en 1. GENERAL — hoy son pocos, va a crecer a medida que se completen más filas ahí. Cada fila trae todas las columnas de REPORTE_DIARIO tal cual están en el Excel: en una fila de tipo MT, las columnas de BT quedan en 0 (y viceversa), no es un error.</div>
+        </div>
+      </div>
+
       <div class="view" id="v6">
         <h2 class="page-title">Pendientes por área</h2>
         <div class="page-sub">Pestaña "Pendientes Grales por Area" &middot; datos actualizados una vez por día por el pipeline</div>
@@ -207,7 +315,10 @@
           </div>
         </div>
 
-        <div style="display:flex; gap:8px; margin:16px 0 4px; flex-wrap:wrap;">
+        <div style="display:flex; gap:10px; margin:16px 0 4px; flex-wrap:wrap; align-items:center;">
+          <select id="filtroResponsableTareas" onchange="setFiltroResponsable(this.value)" class="select-filtro"></select>
+        </div>
+        <div style="display:flex; gap:8px; margin:8px 0 4px; flex-wrap:wrap;">
 {{TAREAS_FILTROS_AREA}}
         </div>
         <div class="panel-box scroll" style="margin-top:8px;">
@@ -217,6 +328,7 @@
           </table>
         </div>
       </div>
+
     </div>
   </div>
 </div>
@@ -243,37 +355,124 @@ new Chart(document.getElementById('chartRegional'), {
     scales:{ y:{beginAtZero:true, grid:{color:'#1a2130'}}, x:{grid:{display:false}} } }
 });
 
-new Chart(document.getElementById('chartProd'), {
-  type: 'bar',
-  data: { labels: {{PROD_CHART_LABELS}},
-    datasets: [
-      { label:'PD ANDE construido', data:{{PROD_CHART_ANDE}}, backgroundColor:'#4d9fef', borderRadius:5, maxBarThickness:26 },
-      { label:'PD terceros construido', data:{{PROD_CHART_TERC}}, backgroundColor:'#f0a94d', borderRadius:5, maxBarThickness:26 }
-    ] },
-  options: { responsive:true, maintainAspectRatio:false,
-    plugins:{ legend:{display:true, position:'top', labels:{boxWidth:10, font:{size:11}}} },
-    scales:{ y:{beginAtZero:true, grid:{color:'#1a2130'}}, x:{grid:{display:false}} } }
-});
-
-const ESTE_DATA = [
-{{ESTE_DATA_JS}}
+const CIRCUITOS_DATA = [
+{{CIRCUITOS_DATA_JS}}
 ];
 
-function estadoTag(estado){
+function estadoCircTag(estado){
   if(estado==="En proceso") return '<span class="tag warn">En proceso</span>';
   if(estado.includes("100%")) return '<span class="tag ok">'+estado+'</span>';
-  return '<span class="tag mute">No iniciado</span>';
+  if(estado==="No iniciado" || !estado) return '<span class="tag mute">No iniciado</span>';
+  return '<span class="tag mute">'+estado+'</span>';
 }
-function pintarEste(rows){
-  document.getElementById('tbodyEste').innerHTML = rows.map(r =>
-    `<tr><td>${r[0]}</td><td>${r[1]}</td><td class="num">${(+r[2]).toFixed(2)}</td><td class="num">${r[3]}</td><td class="num">${r[4]}</td><td>${estadoTag(r[5])}</td></tr>`
-  ).join('');
+function estadoTrabajoTag(v){
+  if(v==='En curso') return '<span class="tag warn">En curso</span>';
+  if(v==='Completado') return '<span class="tag ok">Completado</span>';
+  if(v==='Publicación parcial') return '<span class="tag warn">Publicación parcial</span>';
+  if(v==='Pendiente') return '<span class="tag bad">Pendiente</span>';
+  return '<span class="tag mute">Sin asignar</span>';
 }
-pintarEste(ESTE_DATA);
-function filtrarEste(){
-  const q = document.getElementById('filtroEste').value.toLowerCase();
-  pintarEste(ESTE_DATA.filter(r => r[0].toLowerCase().includes(q) || r[1].toLowerCase().includes(q)));
+function trabajoCelda(asignado, estado, fechaIni, fechaFin){
+  if(!asignado && !estado) return '<span class="tag mute">Sin asignar</span>';
+  const fecha = estado === 'En curso' ? (fechaIni ? 'desde '+fechaIni : '') : (fechaFin ? 'hasta '+fechaFin : '');
+  return `<div>${asignado||'&mdash;'} ${estadoTrabajoTag(estado)}</div><div style="font-size:10.5px; color:var(--ink-mute); margin-top:2px;">${fecha}</div>`;
 }
+function versusBar(mt, bt){
+  const max = Math.max(mt, bt, 1);
+  return `<div class="versus">
+    <div class="vlabel">MT ${mt}</div>
+    <div class="vbar"><div class="fill" style="width:${Math.round(mt/max*100)}%; background:#4d9fef"></div></div>
+    <div class="vlabel">BT ${bt}</div>
+    <div class="vbar"><div class="fill" style="width:${Math.round(bt/max*100)}%; background:#a682f0"></div></div>
+  </div>`;
+}
+function parseFechaDDMMYYYY(str){
+  if(!str) return null;
+  const partes = str.split('/');
+  if(partes.length !== 3) return null;
+  const d = parseInt(partes[0],10), m = parseInt(partes[1],10), y = parseInt(partes[2],10);
+  if(!d || !m || !y) return null;
+  return new Date(y, m-1, d);
+}
+function estaAtrasado(r){
+  const fecha = parseFechaDDMMYYYY(r.fin_bt);
+  if(!fecha) return false;
+  const hoy = new Date(); hoy.setHours(0,0,0,0);
+  return fecha < hoy && r.bt_estado !== 'Completado';
+}
+function celdaFinBT(r){
+  if(!r.fin_bt) return '&mdash;';
+  return estaAtrasado(r) ? `<span class="tag bad">${r.fin_bt} · atrasado</span>` : r.fin_bt;
+}
+function pintarCircuitos(){
+  const regional = document.getElementById('filtroRegionalCirc').value;
+  const ssee = document.getElementById('filtroSSEECirc').value;
+  const insp = document.getElementById('filtroInspeccionCirc').value;
+  const est8c = document.getElementById('filtro8CCirc').value;
+  const asignado = document.getElementById('filtroAsignadoCirc').value;
+  const q = document.getElementById('filtroCircuito').value.toLowerCase();
+
+  let filtradas = CIRCUITOS_DATA;
+  if(regional !== 'Todas') filtradas = filtradas.filter(r => r.regional === regional);
+  if(ssee !== 'Todas') filtradas = filtradas.filter(r => r.ssee === ssee);
+  if(insp === 'Devuelto') filtradas = filtradas.filter(r => r.estado_insp === 'Devuelto');
+  if(est8c !== 'Todas') filtradas = filtradas.filter(r => r.estado_8c === est8c);
+  if(asignado !== 'Todas') filtradas = filtradas.filter(r => r.mt_asignado === asignado || r.bt_asignado === asignado);
+  if(q) filtradas = filtradas.filter(r => r.circuito.toLowerCase().includes(q));
+
+  document.getElementById('kpiCircFiltrados').textContent = filtradas.length;
+  document.getElementById('kpiCircMT').textContent = filtradas.reduce((s,r)=>s+r.mt,0).toLocaleString('es-PY');
+  document.getElementById('kpiCircBT').textContent = filtradas.reduce((s,r)=>s+r.bt,0).toLocaleString('es-PY');
+  document.getElementById('kpiCircAtrasados').textContent = filtradas.filter(estaAtrasado).length;
+  document.getElementById('kpiCirc8CAceptado').textContent = filtradas.filter(r => r.estado_8c === 'Aceptado').length;
+  document.getElementById('kpiCirc8CPendiente').textContent = filtradas.filter(r => r.estado_8c === 'Pendiente').length;
+  document.getElementById('kpiCircEnCurso').textContent = filtradas.filter(r => r.mt_estado==='En curso' || r.bt_estado==='En curso').length;
+
+  document.getElementById('tbodyCircuitos').innerHTML = filtradas.map(r =>
+    `<tr><td>${r.regional}</td><td>${r.ssee}</td><td>${r.circuito}</td>
+      <td class="num">${r.mt}</td><td class="num">${r.bt}</td>
+      <td>${versusBar(r.mt, r.bt)}</td><td class="num">${r.pctbt.toFixed(1)}%</td>
+      <td class="num">${r.avance_mt.toFixed(1)}%</td>
+      <td>${estadoCircTag(r.estado)}</td>
+      <td>${r.estado_insp === 'Devuelto' ? '<span class="tag bad">Devuelto</span>' : (r.estado_insp || '&mdash;')}</td>
+      <td>${r.estado_8c === 'Aceptado' ? '<span class="tag ok">Culminado</span>' : (r.estado_8c ? '<span class="tag mute">'+r.estado_8c+'</span>' : '&mdash;')}</td>
+      <td>${r.inicio_bt || '&mdash;'}</td><td>${celdaFinBT(r)}</td>
+      <td>${trabajoCelda(r.mt_asignado, r.mt_estado, r.mt_fecha_ini, r.mt_fecha_fin)}</td>
+      <td>${trabajoCelda(r.bt_asignado, r.bt_estado, r.bt_fecha_ini, r.bt_fecha_fin)}</td></tr>`
+  ).join('') || '<tr><td colspan="15" style="text-align:center;">Sin circuitos para estos filtros</td></tr>';
+
+  const enCurso = CIRCUITOS_DATA.filter(r => r.mt_estado==='En curso' || r.bt_estado==='En curso');
+  document.getElementById('chipsEnCursoCirc').innerHTML = enCurso.length
+    ? enCurso.map(r => {
+        const tipo = r.mt_estado==='En curso' ? 'MT' : 'BT';
+        const asig = r.mt_estado==='En curso' ? r.mt_asignado : r.bt_asignado;
+        return `<span class="chip">${r.circuito} <small>(${tipo} · ${asig||'sin asignar'})</small></span>`;
+      }).join('')
+    : '<div class="chip-vacio">Ningún circuito en curso en la hoja 1. GENERAL ahora mismo</div>';
+
+  const atrasados = CIRCUITOS_DATA.filter(estaAtrasado);
+  document.getElementById('chipsAtrasadosCirc').innerHTML = atrasados.length
+    ? atrasados.map(r => `<span class="chip atrasado">${r.circuito} <small>(Fin BT: ${r.fin_bt} · ${r.bt_asignado||'sin asignar'})</small></span>`).join('')
+    : '<div class="chip-vacio">Ningún circuito atrasado ahora mismo</div>';
+}
+function onFiltroRegionalCirc(){
+  const regional = document.getElementById('filtroRegionalCirc').value;
+  const sseeDisponibles = regional === 'Todas'
+    ? [...new Set(CIRCUITOS_DATA.map(r => r.ssee))].sort()
+    : [...new Set(CIRCUITOS_DATA.filter(r => r.regional === regional).map(r => r.ssee))].sort();
+  document.getElementById('filtroSSEECirc').innerHTML = '<option value="Todas">Todas las SSEE</option>' +
+    sseeDisponibles.map(s => `<option value="${s}">${s}</option>`).join('');
+  pintarCircuitos();
+}
+(function initFiltrosCircuitos(){
+  const regionales = ['Todas', ...new Set(CIRCUITOS_DATA.map(r => r.regional))].sort((a,b)=> a==='Todas'?-1:(b==='Todas'?1:a.localeCompare(b)));
+  document.getElementById('filtroRegionalCirc').innerHTML = regionales.map(r => `<option value="${r}">${r==='Todas'?'Todas las regionales':r}</option>`).join('');
+  const asignadosSet = new Set();
+  CIRCUITOS_DATA.forEach(r => { if(r.mt_asignado) asignadosSet.add(r.mt_asignado); if(r.bt_asignado) asignadosSet.add(r.bt_asignado); });
+  const asignados = ['Todas', ...asignadosSet].sort((a,b)=> a==='Todas'?-1:(b==='Todas'?1:a.localeCompare(b)));
+  document.getElementById('filtroAsignadoCirc').innerHTML = asignados.map(a => `<option value="${a}">${a==='Todas'?'Asignado a: todos':a}</option>`).join('');
+  onFiltroRegionalCirc();
+})();
 
 let LOTES_DATA = [
 {{LOTES_DATA_JS}}
@@ -287,19 +486,73 @@ function lotesTag(v, ok, bad){
 }
 function pintarLotes(rows){
   document.getElementById('tbodyLotes').innerHTML = rows.map(r =>
-    `<tr><td>${r.lote}</td><td>${r.regional||'Sin asignar'}</td><td>${lotesTag(r.estado_general,'Realizado','')}</td><td class="num">${r.postes||'&mdash;'}</td><td>${lotesTag(r.estado_lote,'Aceptado','Rechazado')}</td><td>${lotesTag(r.hab8b,'SI','NO')}</td></tr>`
-  ).join('') || '<tr><td colspan="6" style="text-align:center;">Sin filas</td></tr>';
+    `<tr><td>${r.lote}</td><td>${r.regional||'Sin asignar'}</td><td>${lotesTag(r.estado_lote,'Aceptado','Rechazado')}</td><td class="num">${r.postes||'&mdash;'}</td><td>${lotesTag(r.muestra_ande,'Aceptado','Rechazado')}</td><td>${lotesTag(r.emitido_8a,'SI','')}</td><td>${lotesTag(r.hab8b,'SI','NO')}</td><td>${lotesTag(r.emitido_8b,'SI','')}</td></tr>`
+  ).join('') || '<tr><td colspan="8" style="text-align:center;">Sin filas</td></tr>';
 }
-function filtrarLotes(){
+let FILTRO_REGIONAL_LOTES = 'Todas';
+function aplicarFiltrosLotes(){
   const q = document.getElementById('filtroLotes').value.toLowerCase();
-  pintarLotes(LOTES_DATA.filter(r => String(r.lote).includes(q) || (r.regional||'').toLowerCase().includes(q)));
+  let filtradas = LOTES_DATA;
+  if(FILTRO_REGIONAL_LOTES !== 'Todas') filtradas = filtradas.filter(r => (r.regional||'Sin asignar') === FILTRO_REGIONAL_LOTES);
+  if(q) filtradas = filtradas.filter(r => String(r.lote).includes(q));
+  pintarLotes(filtradas);
 }
+function filtrarLotes(){ aplicarFiltrosLotes(); }
+function setFiltroRegionalLotes(reg){
+  FILTRO_REGIONAL_LOTES = reg;
+  document.querySelectorAll('#filtrosRegionalLotes button').forEach(b => b.classList.toggle('activo', b.dataset.reg === reg));
+  aplicarFiltrosLotes();
+}
+(function initFiltrosRegionalLotes(){
+  const regiones = ['Todas', ...new Set(LOTES_DATA.map(r => r.regional || 'Sin asignar'))];
+  document.getElementById('filtrosRegionalLotes').innerHTML = regiones.map(reg =>
+    `<button data-reg="${reg}" class="filtro-btn${reg==='Todas'?' activo':''}" onclick="setFiltroRegionalLotes('${reg}')">${reg}</button>`
+  ).join('');
+})();
 pintarLotes(LOTES_DATA);
+
+const RITMO_DATA = [
+{{RITMO_DATA_JS}}
+];
+
+function estadoRitmoTag(v){
+  if(v==='Completado') return '<span class="tag ok">Completado</span>';
+  if(v==='En curso') return '<span class="tag warn">En curso</span>';
+  if(v==='Publicación parcial') return '<span class="tag warn">Public. parcial</span>';
+  return '<span class="tag mute">'+(v||'Sin dato')+'</span>';
+}
+function nn(v){ return v === null ? '&mdash;' : v; }
+function pintarRitmo(){
+  const tipo = document.getElementById('filtroTipoRitmo').value;
+  const analista = document.getElementById('filtroAnalistaRitmo').value;
+  const q = document.getElementById('filtroCircuitoRitmo').value.toLowerCase();
+
+  let filtradas = RITMO_DATA;
+  if(tipo !== 'Todas') filtradas = filtradas.filter(r => r.tipo === tipo);
+  if(analista !== 'Todos') filtradas = filtradas.filter(r => r.analista === analista);
+  if(q) filtradas = filtradas.filter(r => r.circuito.toLowerCase().includes(q));
+
+  document.getElementById('kpiRitmoFiltrados').textContent = filtradas.length;
+  document.getElementById('tbodyRitmo').innerHTML = filtradas.map(r =>
+    `<tr><td>${r.circuito}</td><td>${r.tipo}</td><td>${r.analista}</td><td>${estadoRitmoTag(r.estado)}</td>
+      <td>${r.fecha_asignacion}</td><td class="num">${nn(r.dias)}</td>
+      <td class="num">${r.km_mt_ajustados}</td><td class="num">${r.pd_ande}</td><td class="num">${r.pd_terceros}</td>
+      <td class="num">${r.pd_ande_construido}</td><td class="num">${r.pd_terceros_construido}</td><td class="num">${r.puntos_servicio}</td>
+      <td class="num">${nn(r.prom_km_mt_ajustados)}</td><td class="num">${nn(r.prom_pd_ande)}</td><td class="num">${nn(r.prom_pd_terceros)}</td>
+      <td class="num">${nn(r.prom_pd_ande_construido)}</td><td class="num">${nn(r.prom_pd_terceros_construido)}</td><td class="num">${nn(r.prom_puntos_servicio)}</td></tr>`
+  ).join('') || '<tr><td colspan="18" style="text-align:center;">Sin filas para estos filtros</td></tr>';
+}
+(function initFiltrosRitmo(){
+  const analistas = ['Todos', ...new Set(RITMO_DATA.map(r => r.analista).filter(Boolean))].sort((a,b)=> a==='Todos'?-1:(b==='Todos'?1:a.localeCompare(b)));
+  document.getElementById('filtroAnalistaRitmo').innerHTML = analistas.map(a => `<option value="${a}">${a==='Todos'?'Analista: todos':a}</option>`).join('');
+  pintarRitmo();
+})();
 
 let TAREAS_DATA = [
 {{TAREAS_DATA_JS}}
 ];
 let FILTRO_AREA_ACTUAL = 'Todas';
+let FILTRO_RESPONSABLE_ACTUAL = 'Todos';
 
 function estadoTareaTag(v){
   const s = (v||'').trim();
@@ -308,16 +561,26 @@ function estadoTareaTag(v){
   return '<span class="tag warn">'+s+'</span>';
 }
 function pintarTareas(){
-  const filtradas = FILTRO_AREA_ACTUAL === 'Todas' ? TAREAS_DATA : TAREAS_DATA.filter(r => r.area === FILTRO_AREA_ACTUAL);
+  let filtradas = TAREAS_DATA;
+  if(FILTRO_AREA_ACTUAL !== 'Todas') filtradas = filtradas.filter(r => r.area === FILTRO_AREA_ACTUAL);
+  if(FILTRO_RESPONSABLE_ACTUAL !== 'Todos') filtradas = filtradas.filter(r => r.responsable === FILTRO_RESPONSABLE_ACTUAL);
   document.getElementById('tbodyTareas').innerHTML = filtradas.map(r =>
     `<tr><td class="num">${r.item}</td><td>${r.area}</td><td>${r.tarea}</td><td>${r.responsable}</td><td>${r.regional}</td><td>${estadoTareaTag(r.estado)}</td><td>${estadoTareaTag(r.reporte)}</td></tr>`
-  ).join('') || '<tr><td colspan="7" style="text-align:center;">Sin filas para esta área</td></tr>';
+  ).join('') || '<tr><td colspan="7" style="text-align:center;">Sin filas para estos filtros</td></tr>';
 }
 function setFiltroArea(area){
   FILTRO_AREA_ACTUAL = area;
-  document.querySelectorAll('.filtro-btn').forEach(b => b.classList.toggle('activo', b.dataset.area === area));
+  document.querySelectorAll('.filtro-btn').forEach(b => { if(b.dataset.area !== undefined) b.classList.toggle('activo', b.dataset.area === area); });
   pintarTareas();
 }
+function setFiltroResponsable(nombre){
+  FILTRO_RESPONSABLE_ACTUAL = nombre;
+  pintarTareas();
+}
+(function initFiltroResponsable(){
+  const responsables = ['Todos', ...new Set(TAREAS_DATA.map(r => r.responsable).filter(Boolean))].sort((a,b)=> a==='Todos'?-1:(b==='Todos'?1:a.localeCompare(b)));
+  document.getElementById('filtroResponsableTareas').innerHTML = responsables.map(n => `<option value="${n}">${n==='Todos'?'Todos los responsables':n}</option>`).join('');
+})();
 pintarTareas();
 </script>
 </body>
