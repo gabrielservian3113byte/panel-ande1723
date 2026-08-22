@@ -109,7 +109,7 @@
     <div class="topbar">
       <div class="titles"><h1 id="topTitle">Resumen general</h1></div>
       <div class="right">
-        <span class="badge-live ok" title="La foto de datos se renueva una vez por día, corriendo el pipeline en GitHub Actions."><span class="dot"></span> última actualización de datos: 21/08/2026 13:06 UTC</span>
+        <span class="badge-live ok" title="La foto de datos se renueva una vez por día, corriendo el pipeline en GitHub Actions."><span class="dot"></span> última actualización de datos: 22/08/2026 09:33 UTC</span>
         <button class="btn-refresh" onclick="location.reload()" title="Recarga la página. No trae datos nuevos, esos se actualizan una vez por día.">↻ Recargar página</button>
       </div>
     </div>
@@ -123,7 +123,7 @@
           <div class="kpi c-blue"><div class="label">Total alimentadores</div><div class="value">754</div><div class="sub">6 regionales</div></div>
           <div class="kpi c-orange"><div class="label">En proceso</div><div class="value">11</div><div class="sub">circuitos activos hoy</div></div>
           <div class="kpi c-red"><div class="label">No iniciado</div><div class="value">741</div><div class="sub">circuitos sin arrancar</div></div>
-          <div class="kpi c-green"><div class="label">Finalizados</div><div class="value">2</div><div class="sub">actualizado 21/08/2026 13:06 UTC</div></div>
+          <div class="kpi c-green"><div class="label">Finalizados</div><div class="value">2</div><div class="sub">actualizado 22/08/2026 09:33 UTC</div></div>
         </div>
         <div class="grid cols-2" style="margin-top:16px;">
           <div class="panel-box">
@@ -137,7 +137,7 @@
                 <thead><tr><th>Regional</th><th class="num">Circ.</th><th class="num">MT plan</th><th class="num">MT real</th><th class="num">PD plan</th></tr></thead>
                 <tbody>
 <tr><td>Metro Y Central</td><td class='num'>333</td><td class='num'>11,202</td><td class='num'>0</td><td class='num'>30,020</td><td class='num'>0</td><td class='num'>10,836</td></tr>
-<tr><td>Este</td><td class='num'>153</td><td class='num'>19,141</td><td class='num'>1,120</td><td class='num'>12,501</td><td class='num'>842</td><td class='num'>11,243</td></tr>
+<tr><td>Este</td><td class='num'>153</td><td class='num'>19,141</td><td class='num'>1,124</td><td class='num'>12,501</td><td class='num'>857</td><td class='num'>11,243</td></tr>
 <tr><td>Sur</td><td class='num'>101</td><td class='num'>14,375</td><td class='num'>0</td><td class='num'>9,275</td><td class='num'>0</td><td class='num'>4,299</td></tr>
 <tr><td>Norte</td><td class='num'>78</td><td class='num'>15,792</td><td class='num'>0</td><td class='num'>9,073</td><td class='num'>0</td><td class='num'>5,226</td></tr>
 <tr><td>Centro</td><td class='num'>64</td><td class='num'>12,146</td><td class='num'>0</td><td class='num'>8,609</td><td class='num'>0</td><td class='num'>3,090</td></tr>
@@ -217,17 +217,17 @@
         <div class="page-sub">Google Sheets publicado &middot; datos actualizados una vez por día por el pipeline</div>
         <div class="grid cols-4">
           <div class="kpi c-blue"><div class="label">Total lotes</div><div class="value">250</div><div class="sub">Items cargados en la hoja</div></div>
-          <div class="kpi c-green"><div class="label">En trámite</div><div class="value">65</div><div class="sub">Columna Z distinto de "Sin iniciar"</div></div>
-          <div class="kpi c-orange"><div class="label">En cola</div><div class="value">185</div><div class="sub">Columna Z = Sin iniciar / vacío</div></div>
-          <div class="kpi c-purple"><div class="label">Postes 8A</div><div class="value">273.667</div><div class="sub">Suma sobre lotes con conteo</div></div>
+          <div class="kpi c-green"><div class="label">En trámite</div><div class="value">67</div><div class="sub">Columna Z distinto de "Sin iniciar"</div></div>
+          <div class="kpi c-orange"><div class="label">En cola</div><div class="value">183</div><div class="sub">Columna Z = Sin iniciar / vacío</div></div>
+          <div class="kpi c-purple"><div class="label">Postes 8A</div><div class="value">293.546</div><div class="sub">Suma sobre lotes con conteo</div></div>
         </div>
 
         <div class="grid cols-3" style="margin-top:14px;">
           <div class="panel-box">
             <h3>Lotes en curso ahora (columna Z)</h3>
             <div class="chips-wrap">
-<span class="chip">Lote 64 <small>(SUR)</small></span>
-<span class="chip">Lote 65 <small>(SUR)</small></span>
+<span class="chip">Lote 66 <small>(METRO Y CENTRAL)</small></span>
+<span class="chip">Lote 67 <small>(METRO Y CENTRAL)</small></span>
             </div>
           </div>
           <div class="panel-box">
@@ -235,72 +235,14 @@
             <div class="chips-wrap">
 <span class="chip">Lote 55 <small>(SUR)</small></span>
 <span class="chip">Lote 57 <small>(SUR)</small></span>
+<span class="chip">Lote 64 <small>(SUR)</small></span>
+<span class="chip">Lote 65 <small>(SUR)</small></span>
             </div>
           </div>
           <div class="panel-box">
             <h3>Habilitados sin firma 8B <span style="color:var(--ink-mute); text-transform:none; font-weight:400;">(AE=SI, AF≠SI)</span></h3>
             <div class="chips-wrap">
-<span class="chip">Lote 1 <small>(ESTE)</small></span>
-<span class="chip">Lote 2 <small>(ESTE)</small></span>
-<span class="chip">Lote 3 <small>(ESTE)</small></span>
-<span class="chip">Lote 4 <small>(ESTE)</small></span>
-<span class="chip">Lote 5 <small>(ESTE)</small></span>
-<span class="chip">Lote 6 <small>(ESTE)</small></span>
-<span class="chip">Lote 7 <small>(ESTE)</small></span>
-<span class="chip">Lote 8 <small>(ESTE)</small></span>
-<span class="chip">Lote 9 <small>(ESTE)</small></span>
-<span class="chip">Lote 10 <small>(ESTE)</small></span>
-<span class="chip">Lote 11 <small>(ESTE)</small></span>
-<span class="chip">Lote 12 <small>(ESTE)</small></span>
-<span class="chip">Lote 13 <small>(ESTE)</small></span>
-<span class="chip">Lote 14 <small>(ESTE)</small></span>
-<span class="chip">Lote 15 <small>(ESTE)</small></span>
-<span class="chip">Lote 16 <small>(ESTE)</small></span>
-<span class="chip">Lote 17 <small>(ESTE)</small></span>
-<span class="chip">Lote 18 <small>(ESTE)</small></span>
-<span class="chip">Lote 19 <small>(ESTE)</small></span>
-<span class="chip">Lote 20 <small>(ESTE)</small></span>
-<span class="chip">Lote 21 <small>(ESTE)</small></span>
-<span class="chip">Lote 22 <small>(ESTE)</small></span>
-<span class="chip">Lote 23 <small>(ESTE)</small></span>
-<span class="chip">Lote 24 <small>(ESTE)</small></span>
-<span class="chip">Lote 25 <small>(ESTE)</small></span>
-<span class="chip">Lote 26 <small>(ESTE)</small></span>
-<span class="chip">Lote 27 <small>(ESTE)</small></span>
-<span class="chip">Lote 28 <small>(ESTE)</small></span>
-<span class="chip">Lote 29 <small>(ESTE)</small></span>
-<span class="chip">Lote 30 <small>(ESTE)</small></span>
-<span class="chip">Lote 31 <small>(ESTE)</small></span>
-<span class="chip">Lote 32 <small>(SUR)</small></span>
-<span class="chip">Lote 33 <small>(SUR)</small></span>
-<span class="chip">Lote 34 <small>(SUR)</small></span>
-<span class="chip">Lote 35 <small>(SUR)</small></span>
-<span class="chip">Lote 36 <small>(SUR)</small></span>
-<span class="chip">Lote 37 <small>(SUR)</small></span>
-<span class="chip">Lote 38 <small>(SUR)</small></span>
-<span class="chip">Lote 39 <small>(SUR)</small></span>
-<span class="chip">Lote 40 <small>(SUR)</small></span>
-<span class="chip">Lote 41 <small>(SUR)</small></span>
-<span class="chip">Lote 42 <small>(SUR)</small></span>
-<span class="chip">Lote 43 <small>(SUR)</small></span>
-<span class="chip">Lote 44 <small>(SUR)</small></span>
-<span class="chip">Lote 45 <small>(SUR)</small></span>
-<span class="chip">Lote 46 <small>(SUR)</small></span>
-<span class="chip">Lote 47 <small>(SUR)</small></span>
-<span class="chip">Lote 48 <small>(SUR)</small></span>
-<span class="chip">Lote 49 <small>(SUR)</small></span>
-<span class="chip">Lote 50 <small>(SUR)</small></span>
-<span class="chip">Lote 51 <small>(SUR)</small></span>
-<span class="chip">Lote 52 <small>(SUR)</small></span>
-<span class="chip">Lote 53 <small>(SUR)</small></span>
-<span class="chip">Lote 54 <small>(SUR)</small></span>
-<span class="chip">Lote 56 <small>(SUR)</small></span>
-<span class="chip">Lote 58 <small>(ESTE)</small></span>
-<span class="chip">Lote 59 <small>(ESTE)</small></span>
-<span class="chip">Lote 60 <small>(ESTE)</small></span>
-<span class="chip">Lote 61 <small>(SUR)</small></span>
-<span class="chip">Lote 62 <small>(SUR)</small></span>
-<span class="chip">Lote 63 <small>(SUR)</small></span>
+<div class="chip-vacio">Ningún habilitado esperando firma 8B</div>
             </div>
           </div>
         </div>
@@ -309,10 +251,11 @@
           <div class="panel-box"><h3>Por regional (lotes en trámite)</h3><div>
 <div class="bar-row"><div class="lbl">ESTE</div><div class="bar-track"><div class="bar-fill" style="width:100%; background:#4d9fef"></div></div><div class="bar-val">34</div></div>
 <div class="bar-row"><div class="lbl">SUR</div><div class="bar-track"><div class="bar-fill" style="width:91%; background:#4d9fef"></div></div><div class="bar-val">31</div></div>
+<div class="bar-row"><div class="lbl">METRO Y CENTRAL</div><div class="bar-track"><div class="bar-fill" style="width:6%; background:#4d9fef"></div></div><div class="bar-val">2</div></div>
           </div></div>
           <div class="panel-box"><h3>Estado del lote (columna Z)</h3><div>
-<div class="bar-row"><div class="lbl">Sin iniciar</div><div class="bar-track"><div class="bar-fill" style="width:100%; background:#f0a94d"></div></div><div class="bar-val">185</div></div>
-<div class="bar-row"><div class="lbl">Aceptado</div><div class="bar-track"><div class="bar-fill" style="width:34%; background:#3ecf8e"></div></div><div class="bar-val">63</div></div>
+<div class="bar-row"><div class="lbl">Sin iniciar</div><div class="bar-track"><div class="bar-fill" style="width:100%; background:#f0a94d"></div></div><div class="bar-val">183</div></div>
+<div class="bar-row"><div class="lbl">Aceptado</div><div class="bar-track"><div class="bar-fill" style="width:36%; background:#3ecf8e"></div></div><div class="bar-val">65</div></div>
 <div class="bar-row"><div class="lbl">En curso</div><div class="bar-track"><div class="bar-fill" style="width:1%; background:#f0a94d"></div></div><div class="bar-val">2</div></div>
           </div></div>
         </div>
@@ -332,7 +275,7 @@
         <div class="page-sub">Cruce de 3. REPORTE_DIARIO x 1. GENERAL &middot; promedio diario asumiendo semana laboral lunes a viernes</div>
 
         <div class="grid cols-2">
-          <div class="kpi c-blue"><div class="label">Circuito/tipo con ritmo calculado</div><div class="value">20</div><div class="sub">con fecha de asignación en 1. GENERAL</div></div>
+          <div class="kpi c-blue"><div class="label">Circuito/tipo con ritmo calculado</div><div class="value">22</div><div class="sub">con fecha de asignación en 1. GENERAL</div></div>
           <div class="kpi c-orange"><div class="label">Circuitos filtrados</div><div class="value" id="kpiRitmoFiltrados">—</div><div class="sub">según los filtros de abajo</div></div>
         </div>
 
@@ -448,17 +391,17 @@ const CIRCUITOS_DATA = [
 {regional:'ESTE',ssee:'SRI',circuito:'SRI1',mt:0,bt:116,pctbt:92.8,estado:'En proceso',estado_insp:'Devuelto',estado_8c:'Aceptado',inicio_bt:'06/08/2026',fin_bt:'20/08/2026',avance_mt:0.0,mt_asignado:'Cvasconi',mt_estado:'Completado',mt_fecha_ini:'03/10/2026',mt_fecha_fin:'13/04/2026',bt_asignado:'Mostermann',bt_estado:'Completado',bt_fecha_ini:'08/04/2026',bt_fecha_fin:'19/05/2026'},
 {regional:'ESTE',ssee:'SRI',circuito:'SRI2',mt:0,bt:101,pctbt:61.96,estado:'En proceso',estado_insp:'Devuelto',estado_8c:'Aceptado',inicio_bt:'21/08/2026',fin_bt:'28/08/2026',avance_mt:0.0,mt_asignado:'Cvasconi',mt_estado:'Completado',mt_fecha_ini:'04/10/2026',mt_fecha_fin:'13/04/2026',bt_asignado:'Jzarza',bt_estado:'Completado',bt_fecha_ini:'19/06/2026',bt_fecha_fin:'03/07/2026'},
 {regional:'ESTE',ssee:'SRI',circuito:'SRI5',mt:0,bt:0,pctbt:0.0,estado:'No iniciado',estado_insp:'Devuelto',estado_8c:'Aceptado',inicio_bt:'31/08/2026',fin_bt:'09/09/2026',avance_mt:0.0,mt_asignado:'Cvasconi',mt_estado:'Completado',mt_fecha_ini:'07/10/2026',mt_fecha_fin:'13/04/2026',bt_asignado:'',bt_estado:'',bt_fecha_ini:'',bt_fecha_fin:''},
-{regional:'ESTE',ssee:'PBU',circuito:'PBU01',mt:120,bt:60,pctbt:50.0,estado:'En proceso',estado_insp:'Pendiente',estado_8c:'Pendiente',inicio_bt:'11/08/2026',fin_bt:'25/08/2026',avance_mt:99.12,mt_asignado:'Cvasconi',mt_estado:'Publicación parcial',mt_fecha_ini:'10/04/2026',mt_fecha_fin:'30/04/2026',bt_asignado:'Gferreira',bt_estado:'En curso',bt_fecha_ini:'11/08/2026',bt_fecha_fin:''},
-{regional:'ESTE',ssee:'PBU',circuito:'PBU02',mt:79,bt:0,pctbt:0.0,estado:'En proceso',estado_insp:'Pendiente',estado_8c:'Pendiente',inicio_bt:'24/08/2026',fin_bt:'07/09/2026',avance_mt:99.45,mt_asignado:'Cvasconi',mt_estado:'Publicación parcial',mt_fecha_ini:'10/06/2026',mt_fecha_fin:'06/07/2026',bt_asignado:'Jzarza',bt_estado:'En curso',bt_fecha_ini:'20/08/2026',bt_fecha_fin:''},
-{regional:'ESTE',ssee:'PBU',circuito:'PBU03',mt:52,bt:46,pctbt:88.46,estado:'En proceso',estado_insp:'Pendiente',estado_8c:'Pendiente',inicio_bt:'12/08/2026',fin_bt:'27/08/2026',avance_mt:99.45,mt_asignado:'Cvasconi',mt_estado:'Publicación parcial',mt_fecha_ini:'10/04/2026',mt_fecha_fin:'27/05/2026',bt_asignado:'Jzarza',bt_estado:'Completado',bt_fecha_ini:'11/08/2026',bt_fecha_fin:'20/08/2026'},
-{regional:'ESTE',ssee:'PBU',circuito:'PBU04',mt:33,bt:0,pctbt:0.0,estado:'En proceso',estado_insp:'Pendiente',estado_8c:'Pendiente',inicio_bt:'20/08/2026',fin_bt:'01/09/2026',avance_mt:99.4,mt_asignado:'Cvasconi',mt_estado:'Publicación parcial',mt_fecha_ini:'15/04/2026',mt_fecha_fin:'13/05/2026',bt_asignado:'',bt_estado:'',bt_fecha_ini:'',bt_fecha_fin:''},
-{regional:'ESTE',ssee:'PBU',circuito:'PBU05',mt:137,bt:12,pctbt:8.76,estado:'En proceso',estado_insp:'Pendiente',estado_8c:'Pendiente',inicio_bt:'11/08/2026',fin_bt:'09/09/2026',avance_mt:98.3,mt_asignado:'Cvasconi',mt_estado:'Publicación parcial',mt_fecha_ini:'29/04/2026',mt_fecha_fin:'29/05/2026',bt_asignado:'Hgonzalez',bt_estado:'En curso',bt_fecha_ini:'12/08/2026',bt_fecha_fin:''},
-{regional:'ESTE',ssee:'DES',circuito:'DES10',mt:114,bt:0,pctbt:0.0,estado:'MT 100% - BT pendiente',estado_insp:'Pendiente',estado_8c:'Pendiente',inicio_bt:'10/09/2026',fin_bt:'15/09/2026',avance_mt:100.0,mt_asignado:'Mostermann',mt_estado:'Publicación parcial',mt_fecha_ini:'12/08/2026',mt_fecha_fin:'19/08/2026',bt_asignado:'',bt_estado:'',bt_fecha_ini:'',bt_fecha_fin:''},
+{regional:'ESTE',ssee:'PBU',circuito:'PBU01',mt:120,bt:78,pctbt:65.0,estado:'En proceso',estado_insp:'Pendiente',estado_8c:'Pendiente',inicio_bt:'11/08/2026',fin_bt:'25/08/2026',avance_mt:99.12,mt_asignado:'Cvasconi',mt_estado:'Completado',mt_fecha_ini:'10/04/2026',mt_fecha_fin:'30/04/2026',bt_asignado:'Gferreira',bt_estado:'En curso',bt_fecha_ini:'11/08/2026',bt_fecha_fin:''},
+{regional:'ESTE',ssee:'PBU',circuito:'PBU02',mt:79,bt:7,pctbt:8.86,estado:'En proceso',estado_insp:'Pendiente',estado_8c:'Pendiente',inicio_bt:'24/08/2026',fin_bt:'07/09/2026',avance_mt:99.45,mt_asignado:'Cvasconi',mt_estado:'Completado',mt_fecha_ini:'10/06/2026',mt_fecha_fin:'06/07/2026',bt_asignado:'Fgarcia',bt_estado:'En curso',bt_fecha_ini:'20/08/2026',bt_fecha_fin:''},
+{regional:'ESTE',ssee:'PBU',circuito:'PBU03',mt:52,bt:46,pctbt:88.46,estado:'En proceso',estado_insp:'Pendiente',estado_8c:'Pendiente',inicio_bt:'12/08/2026',fin_bt:'27/08/2026',avance_mt:99.45,mt_asignado:'Cvasconi',mt_estado:'Completado',mt_fecha_ini:'10/04/2026',mt_fecha_fin:'27/05/2026',bt_asignado:'Jzarza',bt_estado:'Completado',bt_fecha_ini:'11/08/2026',bt_fecha_fin:'20/08/2026'},
+{regional:'ESTE',ssee:'PBU',circuito:'PBU04',mt:33,bt:0,pctbt:0.0,estado:'En proceso',estado_insp:'Pendiente',estado_8c:'Pendiente',inicio_bt:'20/08/2026',fin_bt:'01/09/2026',avance_mt:99.4,mt_asignado:'Cvasconi',mt_estado:'Completado',mt_fecha_ini:'15/04/2026',mt_fecha_fin:'13/05/2026',bt_asignado:'Mostermann',bt_estado:'En curso',bt_fecha_ini:'21/08/2026',bt_fecha_fin:''},
+{regional:'ESTE',ssee:'PBU',circuito:'PBU05',mt:137,bt:26,pctbt:18.98,estado:'En proceso',estado_insp:'Pendiente',estado_8c:'Pendiente',inicio_bt:'11/08/2026',fin_bt:'09/09/2026',avance_mt:98.3,mt_asignado:'Cvasconi',mt_estado:'Completado',mt_fecha_ini:'29/04/2026',mt_fecha_fin:'29/05/2026',bt_asignado:'Hgonzalez',bt_estado:'En curso',bt_fecha_ini:'12/08/2026',bt_fecha_fin:''},
+{regional:'ESTE',ssee:'DES',circuito:'DES10',mt:114,bt:0,pctbt:0.0,estado:'MT 100% - BT pendiente',estado_insp:'Pendiente',estado_8c:'Pendiente',inicio_bt:'10/09/2026',fin_bt:'15/09/2026',avance_mt:100.0,mt_asignado:'Mostermann',mt_estado:'Completado',mt_fecha_ini:'12/08/2026',mt_fecha_fin:'19/08/2026',bt_asignado:'',bt_estado:'',bt_fecha_ini:'',bt_fecha_fin:''},
 {regional:'ESTE',ssee:'DES',circuito:'DES3',mt:37,bt:0,pctbt:0.0,estado:'En proceso',estado_insp:'Pendiente',estado_8c:'Pendiente',inicio_bt:'15/09/2026',fin_bt:'18/09/2026',avance_mt:46.25,mt_asignado:'Mostermann',mt_estado:'En curso',mt_fecha_ini:'20/08/2026',mt_fecha_fin:'',bt_asignado:'',bt_estado:'',bt_fecha_ini:'',bt_fecha_fin:''},
-{regional:'ESTE',ssee:'DES',circuito:'DES4',mt:115,bt:0,pctbt:0.0,estado:'MT 100% - BT pendiente',estado_insp:'Pendiente',estado_8c:'Pendiente',inicio_bt:'18/09/2026',fin_bt:'25/09/2026',avance_mt:100.0,mt_asignado:'',mt_estado:'',mt_fecha_ini:'',mt_fecha_fin:'',bt_asignado:'',bt_estado:'',bt_fecha_ini:'',bt_fecha_fin:''},
-{regional:'ESTE',ssee:'DES',circuito:'DES5',mt:155,bt:0,pctbt:0.0,estado:'En proceso',estado_insp:'Pendiente',estado_8c:'Pendiente',inicio_bt:'25/09/2026',fin_bt:'06/10/2026',avance_mt:97.54,mt_asignado:'Cvasconi',mt_estado:'En curso',mt_fecha_ini:'15/08/2026',mt_fecha_fin:'',bt_asignado:'',bt_estado:'',bt_fecha_ini:'',bt_fecha_fin:''},
+{regional:'ESTE',ssee:'DES',circuito:'DES4',mt:115,bt:0,pctbt:0.0,estado:'MT 100% - BT pendiente',estado_insp:'Pendiente',estado_8c:'Pendiente',inicio_bt:'18/09/2026',fin_bt:'25/09/2026',avance_mt:100.0,mt_asignado:'Cvasconi',mt_estado:'Completado',mt_fecha_ini:'18/08/2026',mt_fecha_fin:'20/08/2026',bt_asignado:'',bt_estado:'',bt_fecha_ini:'',bt_fecha_fin:''},
+{regional:'ESTE',ssee:'DES',circuito:'DES5',mt:155,bt:0,pctbt:0.0,estado:'En proceso',estado_insp:'Pendiente',estado_8c:'Pendiente',inicio_bt:'25/09/2026',fin_bt:'06/10/2026',avance_mt:97.54,mt_asignado:'Cvasconi',mt_estado:'Completado',mt_fecha_ini:'15/08/2026',mt_fecha_fin:'15/08/2026',bt_asignado:'',bt_estado:'',bt_fecha_ini:'',bt_fecha_fin:''},
 {regional:'ESTE',ssee:'DES',circuito:'DES8',mt:0,bt:0,pctbt:0.0,estado:'No iniciado',estado_insp:'Pendiente',estado_8c:'Pendiente',inicio_bt:'06/10/2026',fin_bt:'15/10/2026',avance_mt:0.0,mt_asignado:'',mt_estado:'',mt_fecha_ini:'',mt_fecha_fin:'',bt_asignado:'',bt_estado:'',bt_fecha_ini:'',bt_fecha_fin:''},
-{regional:'ESTE',ssee:'DES',circuito:'DES9',mt:0,bt:0,pctbt:0.0,estado:'En proceso',estado_insp:'Pendiente',estado_8c:'Pendiente',inicio_bt:'15/10/2026',fin_bt:'23/10/2026',avance_mt:5.7,mt_asignado:'Fgarcia',mt_estado:'En curso',mt_fecha_ini:'18/08/2026',mt_fecha_fin:'',bt_asignado:'',bt_estado:'',bt_fecha_ini:'',bt_fecha_fin:''},
+{regional:'ESTE',ssee:'DES',circuito:'DES9',mt:15,bt:0,pctbt:0.0,estado:'En proceso',estado_insp:'Pendiente',estado_8c:'Pendiente',inicio_bt:'15/10/2026',fin_bt:'23/10/2026',avance_mt:17.29,mt_asignado:'Fgarcia',mt_estado:'En curso',mt_fecha_ini:'18/08/2026',mt_fecha_fin:'',bt_asignado:'',bt_estado:'',bt_fecha_ini:'',bt_fecha_fin:''},
 {regional:'ESTE',ssee:'SGA',circuito:'SGA1',mt:0,bt:0,pctbt:0.0,estado:'No iniciado',estado_insp:'Pendiente',estado_8c:'Pendiente',inicio_bt:'23/10/2026',fin_bt:'27/10/2026',avance_mt:0.0,mt_asignado:'',mt_estado:'',mt_fecha_ini:'',mt_fecha_fin:'',bt_asignado:'',bt_estado:'',bt_fecha_ini:'',bt_fecha_fin:''},
 {regional:'ESTE',ssee:'SGA',circuito:'SGA2',mt:0,bt:0,pctbt:0.0,estado:'No iniciado',estado_insp:'Pendiente',estado_8c:'Pendiente',inicio_bt:'27/10/2026',fin_bt:'28/10/2026',avance_mt:0.0,mt_asignado:'',mt_estado:'',mt_fecha_ini:'',mt_fecha_fin:'',bt_asignado:'',bt_estado:'',bt_fecha_ini:'',bt_fecha_fin:''},
 {regional:'ESTE',ssee:'SGA',circuito:'SGA3',mt:0,bt:0,pctbt:0.0,estado:'No iniciado',estado_insp:'Pendiente',estado_8c:'Pendiente',inicio_bt:'28/10/2026',fin_bt:'29/10/2026',avance_mt:0.0,mt_asignado:'',mt_estado:'',mt_fecha_ini:'',mt_fecha_fin:'',bt_asignado:'',bt_estado:'',bt_fecha_ini:'',bt_fecha_fin:''},
@@ -1315,77 +1258,77 @@ function onFiltroRegionalCirc(){
 })();
 
 let LOTES_DATA = [
-{lote:1,regional:'ESTE',estado_general:'Realizado',postes:980,estado_lote:'Aceptado',muestra_ande:'Emitido',emitido_8a:'SI',hab8b:'SI',emitido_8b:'Firmado'},
-{lote:2,regional:'ESTE',estado_general:'Realizado',postes:9,estado_lote:'Aceptado',muestra_ande:'Emitido',emitido_8a:'SI',hab8b:'SI',emitido_8b:'Firmado'},
-{lote:3,regional:'ESTE',estado_general:'Realizado',postes:9,estado_lote:'Aceptado',muestra_ande:'Emitido',emitido_8a:'SI',hab8b:'SI',emitido_8b:'Firmado'},
-{lote:4,regional:'ESTE',estado_general:'Realizado',postes:9,estado_lote:'Aceptado',muestra_ande:'Emitido',emitido_8a:'SI',hab8b:'SI',emitido_8b:'Firmado'},
-{lote:5,regional:'ESTE',estado_general:'Realizado',postes:9,estado_lote:'Aceptado',muestra_ande:'Emitido',emitido_8a:'SI',hab8b:'SI',emitido_8b:'Firmado'},
-{lote:6,regional:'ESTE',estado_general:'Realizado',postes:9,estado_lote:'Aceptado',muestra_ande:'Emitido',emitido_8a:'SI',hab8b:'SI',emitido_8b:'Firmado'},
-{lote:7,regional:'ESTE',estado_general:'Realizado',postes:9,estado_lote:'Aceptado',muestra_ande:'Emitido',emitido_8a:'SI',hab8b:'SI',emitido_8b:'Firmado'},
-{lote:8,regional:'ESTE',estado_general:'Realizado',postes:9,estado_lote:'Aceptado',muestra_ande:'Emitido',emitido_8a:'SI',hab8b:'SI',emitido_8b:'Firmado'},
-{lote:9,regional:'ESTE',estado_general:'Realizado',postes:9,estado_lote:'Aceptado',muestra_ande:'Emitido',emitido_8a:'SI',hab8b:'SI',emitido_8b:'Firmado'},
-{lote:10,regional:'ESTE',estado_general:'Realizado',postes:9,estado_lote:'Aceptado',muestra_ande:'Emitido',emitido_8a:'SI',hab8b:'SI',emitido_8b:'Firmado'},
-{lote:11,regional:'ESTE',estado_general:'Realizado',postes:9,estado_lote:'Aceptado',muestra_ande:'Emitido',emitido_8a:'SI',hab8b:'SI',emitido_8b:'Firmado'},
-{lote:12,regional:'ESTE',estado_general:'Realizado',postes:10,estado_lote:'Aceptado',muestra_ande:'Emitido',emitido_8a:'SI',hab8b:'SI',emitido_8b:'Firmado'},
-{lote:13,regional:'ESTE',estado_general:'Realizado',postes:9,estado_lote:'Aceptado',muestra_ande:'Emitido',emitido_8a:'SI',hab8b:'SI',emitido_8b:'Firmado'},
-{lote:14,regional:'ESTE',estado_general:'Realizado',postes:10,estado_lote:'Aceptado',muestra_ande:'Emitido',emitido_8a:'SI',hab8b:'SI',emitido_8b:'Firmado'},
-{lote:15,regional:'ESTE',estado_general:'Realizado',postes:9,estado_lote:'Aceptado',muestra_ande:'Emitido',emitido_8a:'SI',hab8b:'SI',emitido_8b:'Firmado'},
-{lote:16,regional:'ESTE',estado_general:'Realizado',postes:9,estado_lote:'Aceptado',muestra_ande:'Emitido',emitido_8a:'SI',hab8b:'SI',emitido_8b:'Firmado'},
-{lote:17,regional:'ESTE',estado_general:'Realizado',postes:9,estado_lote:'Aceptado',muestra_ande:'Emitido',emitido_8a:'SI',hab8b:'SI',emitido_8b:'Firmado'},
-{lote:18,regional:'ESTE',estado_general:'Realizado',postes:9,estado_lote:'Aceptado',muestra_ande:'Emitido',emitido_8a:'SI',hab8b:'SI',emitido_8b:'Firmado'},
-{lote:19,regional:'ESTE',estado_general:'Realizado',postes:9,estado_lote:'Aceptado',muestra_ande:'Emitido',emitido_8a:'SI',hab8b:'SI',emitido_8b:'Firmado'},
-{lote:20,regional:'ESTE',estado_general:'Realizado',postes:9,estado_lote:'Aceptado',muestra_ande:'Emitido',emitido_8a:'SI',hab8b:'SI',emitido_8b:'Firmado'},
-{lote:21,regional:'ESTE',estado_general:'Realizado',postes:9,estado_lote:'Aceptado',muestra_ande:'Emitido',emitido_8a:'SI',hab8b:'SI',emitido_8b:'Firmado'},
-{lote:22,regional:'ESTE',estado_general:'Realizado',postes:9,estado_lote:'Aceptado',muestra_ande:'Emitido',emitido_8a:'SI',hab8b:'SI',emitido_8b:'Firmado'},
-{lote:23,regional:'ESTE',estado_general:'Realizado',postes:9,estado_lote:'Aceptado',muestra_ande:'Emitido',emitido_8a:'SI',hab8b:'SI',emitido_8b:'Firmado'},
-{lote:24,regional:'ESTE',estado_general:'Realizado',postes:9,estado_lote:'Aceptado',muestra_ande:'Emitido',emitido_8a:'SI',hab8b:'SI',emitido_8b:'Firmado'},
-{lote:25,regional:'ESTE',estado_general:'Realizado',postes:9,estado_lote:'Aceptado',muestra_ande:'Emitido',emitido_8a:'SI',hab8b:'SI',emitido_8b:'Firmado'},
-{lote:26,regional:'ESTE',estado_general:'Realizado',postes:9,estado_lote:'Aceptado',muestra_ande:'Emitido',emitido_8a:'SI',hab8b:'SI',emitido_8b:'Firmado'},
-{lote:27,regional:'ESTE',estado_general:'Realizado',postes:9,estado_lote:'Aceptado',muestra_ande:'Emitido',emitido_8a:'SI',hab8b:'SI',emitido_8b:'Firmado'},
-{lote:28,regional:'ESTE',estado_general:'Realizado',postes:9,estado_lote:'Aceptado',muestra_ande:'Emitido',emitido_8a:'SI',hab8b:'SI',emitido_8b:'Firmado'},
-{lote:29,regional:'ESTE',estado_general:'Realizado',postes:9,estado_lote:'Aceptado',muestra_ande:'Emitido',emitido_8a:'SI',hab8b:'SI',emitido_8b:'Firmado'},
-{lote:30,regional:'ESTE',estado_general:'Realizado',postes:9,estado_lote:'Aceptado',muestra_ande:'Emitido',emitido_8a:'SI',hab8b:'SI',emitido_8b:'Firmado'},
-{lote:31,regional:'ESTE',estado_general:'Realizado',postes:9,estado_lote:'Aceptado',muestra_ande:'Emitido',emitido_8a:'SI',hab8b:'SI',emitido_8b:'Firmado'},
-{lote:32,regional:'SUR',estado_general:'Realizado',postes:9,estado_lote:'Aceptado',muestra_ande:'Emitido',emitido_8a:'SI',hab8b:'SI',emitido_8b:'Firmado'},
-{lote:33,regional:'SUR',estado_general:'Realizado',postes:9,estado_lote:'Aceptado',muestra_ande:'Emitido',emitido_8a:'SI',hab8b:'SI',emitido_8b:'Firmado'},
-{lote:34,regional:'SUR',estado_general:'Realizado',postes:10,estado_lote:'Aceptado',muestra_ande:'Emitido',emitido_8a:'SI',hab8b:'SI',emitido_8b:'Firmado'},
-{lote:35,regional:'SUR',estado_general:'Realizado',postes:9,estado_lote:'Aceptado',muestra_ande:'Emitido',emitido_8a:'SI',hab8b:'SI',emitido_8b:'Firmado'},
-{lote:36,regional:'SUR',estado_general:'Realizado',postes:9,estado_lote:'Aceptado',muestra_ande:'Emitido',emitido_8a:'SI',hab8b:'SI',emitido_8b:'Firmado'},
-{lote:37,regional:'SUR',estado_general:'Realizado',postes:9,estado_lote:'Aceptado',muestra_ande:'Emitido',emitido_8a:'SI',hab8b:'SI',emitido_8b:'Firmado'},
-{lote:38,regional:'SUR',estado_general:'Realizado',postes:9,estado_lote:'Aceptado',muestra_ande:'Emitido',emitido_8a:'SI',hab8b:'SI',emitido_8b:'Firmado'},
-{lote:39,regional:'SUR',estado_general:'Realizado',postes:9,estado_lote:'Aceptado',muestra_ande:'Emitido',emitido_8a:'SI',hab8b:'SI',emitido_8b:'Firmado'},
-{lote:40,regional:'SUR',estado_general:'Realizado',postes:9506,estado_lote:'Aceptado',muestra_ande:'Emitido',emitido_8a:'SI',hab8b:'SI',emitido_8b:'Pendiente'},
-{lote:41,regional:'SUR',estado_general:'Realizado',postes:9068,estado_lote:'Aceptado',muestra_ande:'Emitido',emitido_8a:'SI',hab8b:'SI',emitido_8b:'Firmado'},
-{lote:42,regional:'SUR',estado_general:'Realizado',postes:9399,estado_lote:'Aceptado',muestra_ande:'Emitido',emitido_8a:'SI',hab8b:'SI',emitido_8b:'Firmado'},
-{lote:43,regional:'SUR',estado_general:'Realizado',postes:9605,estado_lote:'Aceptado',muestra_ande:'Emitido',emitido_8a:'SI',hab8b:'SI',emitido_8b:'Firmado'},
-{lote:44,regional:'SUR',estado_general:'Realizado',postes:9074,estado_lote:'Aceptado',muestra_ande:'Emitido',emitido_8a:'SI',hab8b:'SI',emitido_8b:'Firmado'},
-{lote:45,regional:'SUR',estado_general:'Realizado',postes:9890,estado_lote:'Aceptado',muestra_ande:'Emitido',emitido_8a:'SI',hab8b:'SI',emitido_8b:'Firmado'},
-{lote:46,regional:'SUR',estado_general:'Realizado',postes:9888,estado_lote:'Aceptado',muestra_ande:'Emitido',emitido_8a:'SI',hab8b:'SI',emitido_8b:'Firmado'},
-{lote:47,regional:'SUR',estado_general:'Realizado',postes:9927,estado_lote:'Aceptado',muestra_ande:'Emitido',emitido_8a:'SI',hab8b:'SI',emitido_8b:'Firmado'},
-{lote:48,regional:'SUR',estado_general:'Realizado',postes:9810,estado_lote:'Aceptado',muestra_ande:'Emitido',emitido_8a:'SI',hab8b:'SI',emitido_8b:'Firmado'},
-{lote:49,regional:'SUR',estado_general:'Realizado',postes:9973,estado_lote:'Aceptado',muestra_ande:'Emitido',emitido_8a:'SI',hab8b:'SI',emitido_8b:'Firmado'},
-{lote:50,regional:'SUR',estado_general:'Realizado',postes:9788,estado_lote:'Aceptado',muestra_ande:'Emitido',emitido_8a:'SI',hab8b:'SI',emitido_8b:'Firmado'},
-{lote:51,regional:'SUR',estado_general:'Realizado',postes:9937,estado_lote:'Aceptado',muestra_ande:'Emitido',emitido_8a:'SI',hab8b:'SI',emitido_8b:'Firmado'},
-{lote:52,regional:'SUR',estado_general:'Realizado',postes:9953,estado_lote:'Aceptado',muestra_ande:'Emitido',emitido_8a:'SI',hab8b:'SI',emitido_8b:'Firmado'},
-{lote:53,regional:'SUR',estado_general:'Realizado',postes:9989,estado_lote:'Aceptado',muestra_ande:'Emitido',emitido_8a:'SI',hab8b:'SI',emitido_8b:'Firmado'},
-{lote:54,regional:'SUR',estado_general:'Realizado',postes:9815,estado_lote:'Aceptado',muestra_ande:'Emitido',emitido_8a:'SI',hab8b:'SI',emitido_8b:'Firmado'},
+{lote:1,regional:'ESTE',estado_general:'Realizado',postes:980,estado_lote:'Aceptado',muestra_ande:'Emitido',emitido_8a:'SI',hab8b:'SI',emitido_8b:'SI'},
+{lote:2,regional:'ESTE',estado_general:'Realizado',postes:9,estado_lote:'Aceptado',muestra_ande:'Emitido',emitido_8a:'SI',hab8b:'SI',emitido_8b:'SI'},
+{lote:3,regional:'ESTE',estado_general:'Realizado',postes:9,estado_lote:'Aceptado',muestra_ande:'Emitido',emitido_8a:'SI',hab8b:'SI',emitido_8b:'SI'},
+{lote:4,regional:'ESTE',estado_general:'Realizado',postes:9,estado_lote:'Aceptado',muestra_ande:'Emitido',emitido_8a:'SI',hab8b:'SI',emitido_8b:'SI'},
+{lote:5,regional:'ESTE',estado_general:'Realizado',postes:9,estado_lote:'Aceptado',muestra_ande:'Emitido',emitido_8a:'SI',hab8b:'SI',emitido_8b:'SI'},
+{lote:6,regional:'ESTE',estado_general:'Realizado',postes:9,estado_lote:'Aceptado',muestra_ande:'Emitido',emitido_8a:'SI',hab8b:'SI',emitido_8b:'SI'},
+{lote:7,regional:'ESTE',estado_general:'Realizado',postes:9,estado_lote:'Aceptado',muestra_ande:'Emitido',emitido_8a:'SI',hab8b:'SI',emitido_8b:'SI'},
+{lote:8,regional:'ESTE',estado_general:'Realizado',postes:9,estado_lote:'Aceptado',muestra_ande:'Emitido',emitido_8a:'SI',hab8b:'SI',emitido_8b:'SI'},
+{lote:9,regional:'ESTE',estado_general:'Realizado',postes:9,estado_lote:'Aceptado',muestra_ande:'Emitido',emitido_8a:'SI',hab8b:'SI',emitido_8b:'SI'},
+{lote:10,regional:'ESTE',estado_general:'Realizado',postes:9,estado_lote:'Aceptado',muestra_ande:'Emitido',emitido_8a:'SI',hab8b:'SI',emitido_8b:'SI'},
+{lote:11,regional:'ESTE',estado_general:'Realizado',postes:9,estado_lote:'Aceptado',muestra_ande:'Emitido',emitido_8a:'SI',hab8b:'SI',emitido_8b:'SI'},
+{lote:12,regional:'ESTE',estado_general:'Realizado',postes:10,estado_lote:'Aceptado',muestra_ande:'Emitido',emitido_8a:'SI',hab8b:'SI',emitido_8b:'SI'},
+{lote:13,regional:'ESTE',estado_general:'Realizado',postes:9,estado_lote:'Aceptado',muestra_ande:'Emitido',emitido_8a:'SI',hab8b:'SI',emitido_8b:'SI'},
+{lote:14,regional:'ESTE',estado_general:'Realizado',postes:10,estado_lote:'Aceptado',muestra_ande:'Emitido',emitido_8a:'SI',hab8b:'SI',emitido_8b:'SI'},
+{lote:15,regional:'ESTE',estado_general:'Realizado',postes:9,estado_lote:'Aceptado',muestra_ande:'Emitido',emitido_8a:'SI',hab8b:'SI',emitido_8b:'SI'},
+{lote:16,regional:'ESTE',estado_general:'Realizado',postes:9,estado_lote:'Aceptado',muestra_ande:'Emitido',emitido_8a:'SI',hab8b:'SI',emitido_8b:'SI'},
+{lote:17,regional:'ESTE',estado_general:'Realizado',postes:9,estado_lote:'Aceptado',muestra_ande:'Emitido',emitido_8a:'SI',hab8b:'SI',emitido_8b:'SI'},
+{lote:18,regional:'ESTE',estado_general:'Realizado',postes:9,estado_lote:'Aceptado',muestra_ande:'Emitido',emitido_8a:'SI',hab8b:'SI',emitido_8b:'SI'},
+{lote:19,regional:'ESTE',estado_general:'Realizado',postes:9,estado_lote:'Aceptado',muestra_ande:'Emitido',emitido_8a:'SI',hab8b:'SI',emitido_8b:'SI'},
+{lote:20,regional:'ESTE',estado_general:'Realizado',postes:9,estado_lote:'Aceptado',muestra_ande:'Emitido',emitido_8a:'SI',hab8b:'SI',emitido_8b:'SI'},
+{lote:21,regional:'ESTE',estado_general:'Realizado',postes:9,estado_lote:'Aceptado',muestra_ande:'Emitido',emitido_8a:'SI',hab8b:'SI',emitido_8b:'SI'},
+{lote:22,regional:'ESTE',estado_general:'Realizado',postes:9,estado_lote:'Aceptado',muestra_ande:'Emitido',emitido_8a:'SI',hab8b:'SI',emitido_8b:'SI'},
+{lote:23,regional:'ESTE',estado_general:'Realizado',postes:9,estado_lote:'Aceptado',muestra_ande:'Emitido',emitido_8a:'SI',hab8b:'SI',emitido_8b:'SI'},
+{lote:24,regional:'ESTE',estado_general:'Realizado',postes:9,estado_lote:'Aceptado',muestra_ande:'Emitido',emitido_8a:'SI',hab8b:'SI',emitido_8b:'SI'},
+{lote:25,regional:'ESTE',estado_general:'Realizado',postes:9,estado_lote:'Aceptado',muestra_ande:'Emitido',emitido_8a:'SI',hab8b:'SI',emitido_8b:'SI'},
+{lote:26,regional:'ESTE',estado_general:'Realizado',postes:9,estado_lote:'Aceptado',muestra_ande:'Emitido',emitido_8a:'SI',hab8b:'SI',emitido_8b:'SI'},
+{lote:27,regional:'ESTE',estado_general:'Realizado',postes:9,estado_lote:'Aceptado',muestra_ande:'Emitido',emitido_8a:'SI',hab8b:'SI',emitido_8b:'SI'},
+{lote:28,regional:'ESTE',estado_general:'Realizado',postes:9,estado_lote:'Aceptado',muestra_ande:'Emitido',emitido_8a:'SI',hab8b:'SI',emitido_8b:'SI'},
+{lote:29,regional:'ESTE',estado_general:'Realizado',postes:9,estado_lote:'Aceptado',muestra_ande:'Emitido',emitido_8a:'SI',hab8b:'SI',emitido_8b:'SI'},
+{lote:30,regional:'ESTE',estado_general:'Realizado',postes:9,estado_lote:'Aceptado',muestra_ande:'Emitido',emitido_8a:'SI',hab8b:'SI',emitido_8b:'SI'},
+{lote:31,regional:'ESTE',estado_general:'Realizado',postes:9,estado_lote:'Aceptado',muestra_ande:'Emitido',emitido_8a:'SI',hab8b:'SI',emitido_8b:'SI'},
+{lote:32,regional:'SUR',estado_general:'Realizado',postes:9,estado_lote:'Aceptado',muestra_ande:'Emitido',emitido_8a:'SI',hab8b:'SI',emitido_8b:'SI'},
+{lote:33,regional:'SUR',estado_general:'Realizado',postes:9,estado_lote:'Aceptado',muestra_ande:'Emitido',emitido_8a:'SI',hab8b:'SI',emitido_8b:'SI'},
+{lote:34,regional:'SUR',estado_general:'Realizado',postes:10,estado_lote:'Aceptado',muestra_ande:'Emitido',emitido_8a:'SI',hab8b:'SI',emitido_8b:'SI'},
+{lote:35,regional:'SUR',estado_general:'Realizado',postes:9,estado_lote:'Aceptado',muestra_ande:'Emitido',emitido_8a:'SI',hab8b:'SI',emitido_8b:'SI'},
+{lote:36,regional:'SUR',estado_general:'Realizado',postes:9,estado_lote:'Aceptado',muestra_ande:'Emitido',emitido_8a:'SI',hab8b:'SI',emitido_8b:'SI'},
+{lote:37,regional:'SUR',estado_general:'Realizado',postes:9,estado_lote:'Aceptado',muestra_ande:'Emitido',emitido_8a:'SI',hab8b:'SI',emitido_8b:'SI'},
+{lote:38,regional:'SUR',estado_general:'Realizado',postes:9,estado_lote:'Aceptado',muestra_ande:'Emitido',emitido_8a:'SI',hab8b:'SI',emitido_8b:'SI'},
+{lote:39,regional:'SUR',estado_general:'Realizado',postes:9,estado_lote:'Aceptado',muestra_ande:'Emitido',emitido_8a:'SI',hab8b:'SI',emitido_8b:'SI'},
+{lote:40,regional:'SUR',estado_general:'Realizado',postes:9506,estado_lote:'Aceptado',muestra_ande:'Emitido',emitido_8a:'SI',hab8b:'SI',emitido_8b:'SI'},
+{lote:41,regional:'SUR',estado_general:'Realizado',postes:9068,estado_lote:'Aceptado',muestra_ande:'Emitido',emitido_8a:'SI',hab8b:'SI',emitido_8b:'SI'},
+{lote:42,regional:'SUR',estado_general:'Realizado',postes:9399,estado_lote:'Aceptado',muestra_ande:'Emitido',emitido_8a:'SI',hab8b:'SI',emitido_8b:'SI'},
+{lote:43,regional:'SUR',estado_general:'Realizado',postes:9605,estado_lote:'Aceptado',muestra_ande:'Emitido',emitido_8a:'SI',hab8b:'SI',emitido_8b:'SI'},
+{lote:44,regional:'SUR',estado_general:'Realizado',postes:9074,estado_lote:'Aceptado',muestra_ande:'Emitido',emitido_8a:'SI',hab8b:'SI',emitido_8b:'SI'},
+{lote:45,regional:'SUR',estado_general:'Realizado',postes:9890,estado_lote:'Aceptado',muestra_ande:'Emitido',emitido_8a:'SI',hab8b:'SI',emitido_8b:'SI'},
+{lote:46,regional:'SUR',estado_general:'Realizado',postes:9888,estado_lote:'Aceptado',muestra_ande:'Emitido',emitido_8a:'SI',hab8b:'SI',emitido_8b:'SI'},
+{lote:47,regional:'SUR',estado_general:'Realizado',postes:9927,estado_lote:'Aceptado',muestra_ande:'Emitido',emitido_8a:'SI',hab8b:'SI',emitido_8b:'SI'},
+{lote:48,regional:'SUR',estado_general:'Realizado',postes:9810,estado_lote:'Aceptado',muestra_ande:'Emitido',emitido_8a:'SI',hab8b:'SI',emitido_8b:'SI'},
+{lote:49,regional:'SUR',estado_general:'Realizado',postes:9973,estado_lote:'Aceptado',muestra_ande:'Emitido',emitido_8a:'SI',hab8b:'SI',emitido_8b:'SI'},
+{lote:50,regional:'SUR',estado_general:'Realizado',postes:9788,estado_lote:'Aceptado',muestra_ande:'Emitido',emitido_8a:'SI',hab8b:'SI',emitido_8b:'SI'},
+{lote:51,regional:'SUR',estado_general:'Realizado',postes:9937,estado_lote:'Aceptado',muestra_ande:'Emitido',emitido_8a:'SI',hab8b:'SI',emitido_8b:'SI'},
+{lote:52,regional:'SUR',estado_general:'Realizado',postes:9953,estado_lote:'Aceptado',muestra_ande:'Emitido',emitido_8a:'SI',hab8b:'SI',emitido_8b:'SI'},
+{lote:53,regional:'SUR',estado_general:'Realizado',postes:9989,estado_lote:'Aceptado',muestra_ande:'Emitido',emitido_8a:'SI',hab8b:'SI',emitido_8b:'SI'},
+{lote:54,regional:'SUR',estado_general:'Realizado',postes:9815,estado_lote:'Aceptado',muestra_ande:'Emitido',emitido_8a:'SI',hab8b:'SI',emitido_8b:'SI'},
 {lote:55,regional:'SUR',estado_general:'Realizado',postes:9926,estado_lote:'Aceptado',muestra_ande:'Emitido',emitido_8a:'NO',hab8b:'NO',emitido_8b:'Pendiente'},
-{lote:56,regional:'SUR',estado_general:'Realizado',postes:9945,estado_lote:'Aceptado',muestra_ande:'Emitido',emitido_8a:'SI',hab8b:'SI',emitido_8b:'Firmado'},
+{lote:56,regional:'SUR',estado_general:'Realizado',postes:9945,estado_lote:'Aceptado',muestra_ande:'Emitido',emitido_8a:'SI',hab8b:'SI',emitido_8b:'SI'},
 {lote:57,regional:'SUR',estado_general:'Realizado',postes:9895,estado_lote:'Aceptado',muestra_ande:'Emitido',emitido_8a:'NO',hab8b:'NO',emitido_8b:'Pendiente'},
-{lote:58,regional:'ESTE',estado_general:'Realizado',postes:9767,estado_lote:'Aceptado',muestra_ande:'Emitido',emitido_8a:'SI',hab8b:'SI',emitido_8b:'Firmado'},
-{lote:59,regional:'ESTE',estado_general:'Realizado',postes:9152,estado_lote:'Aceptado',muestra_ande:'Emitido',emitido_8a:'SI',hab8b:'SI',emitido_8b:'Firmado'},
-{lote:60,regional:'ESTE',estado_general:'Realizado',postes:9434,estado_lote:'Aceptado',muestra_ande:'Emitido',emitido_8a:'SI',hab8b:'SI',emitido_8b:'Firmado'},
-{lote:61,regional:'SUR',estado_general:'Realizado',postes:9962,estado_lote:'Aceptado',muestra_ande:'Emitido',emitido_8a:'SI',hab8b:'SI',emitido_8b:'Firmado'},
-{lote:62,regional:'SUR',estado_general:'Realizado',postes:9801,estado_lote:'Aceptado',muestra_ande:'Emitido',emitido_8a:'SI',hab8b:'SI',emitido_8b:'Firmado'},
-{lote:63,regional:'SUR',estado_general:'Realizado',postes:9382,estado_lote:'Aceptado',muestra_ande:'Emitido',emitido_8a:'SI',hab8b:'SI',emitido_8b:'Firmado'},
-{lote:64,regional:'SUR',estado_general:'Realizado',postes:9955,estado_lote:'En curso',muestra_ande:'Emitido',emitido_8a:'NO',hab8b:'',emitido_8b:''},
-{lote:65,regional:'SUR',estado_general:'Realizado',postes:9618,estado_lote:'En curso',muestra_ande:'Emitido',emitido_8a:'NO',hab8b:'',emitido_8b:''},
-{lote:66,regional:'METRO Y CENTRAL',estado_general:'Realizado',postes:9915,estado_lote:'Sin iniciar',muestra_ande:'Pendiente',emitido_8a:'NO',hab8b:'',emitido_8b:''},
-{lote:67,regional:'METRO Y CENTRAL',estado_general:'Realizado',postes:9968,estado_lote:'Sin iniciar',muestra_ande:'Pendiente',emitido_8a:'NO',hab8b:'',emitido_8b:''},
-{lote:68,regional:'METRO Y CENTRAL',estado_general:'Realizado',postes:null,estado_lote:'Sin iniciar',muestra_ande:'',emitido_8a:'NO',hab8b:'',emitido_8b:''},
-{lote:69,regional:'METRO Y CENTRAL',estado_general:'Realizado',postes:null,estado_lote:'Sin iniciar',muestra_ande:'',emitido_8a:'NO',hab8b:'',emitido_8b:''},
+{lote:58,regional:'ESTE',estado_general:'Realizado',postes:9767,estado_lote:'Aceptado',muestra_ande:'Emitido',emitido_8a:'SI',hab8b:'SI',emitido_8b:'SI'},
+{lote:59,regional:'ESTE',estado_general:'Realizado',postes:9152,estado_lote:'Aceptado',muestra_ande:'Emitido',emitido_8a:'SI',hab8b:'SI',emitido_8b:'SI'},
+{lote:60,regional:'ESTE',estado_general:'Realizado',postes:9434,estado_lote:'Aceptado',muestra_ande:'Emitido',emitido_8a:'SI',hab8b:'SI',emitido_8b:'SI'},
+{lote:61,regional:'SUR',estado_general:'Realizado',postes:9962,estado_lote:'Aceptado',muestra_ande:'Emitido',emitido_8a:'SI',hab8b:'SI',emitido_8b:'SI'},
+{lote:62,regional:'SUR',estado_general:'Realizado',postes:9801,estado_lote:'Aceptado',muestra_ande:'Emitido',emitido_8a:'SI',hab8b:'SI',emitido_8b:'SI'},
+{lote:63,regional:'SUR',estado_general:'Realizado',postes:9382,estado_lote:'Aceptado',muestra_ande:'Emitido',emitido_8a:'SI',hab8b:'SI',emitido_8b:'SI'},
+{lote:64,regional:'SUR',estado_general:'Realizado',postes:9955,estado_lote:'Aceptado',muestra_ande:'Emitido',emitido_8a:'NO',hab8b:'',emitido_8b:''},
+{lote:65,regional:'SUR',estado_general:'Realizado',postes:9618,estado_lote:'Aceptado',muestra_ande:'Emitido',emitido_8a:'NO',hab8b:'',emitido_8b:''},
+{lote:66,regional:'METRO Y CENTRAL',estado_general:'Realizado',postes:9915,estado_lote:'En curso',muestra_ande:'Emitido',emitido_8a:'NO',hab8b:'',emitido_8b:''},
+{lote:67,regional:'METRO Y CENTRAL',estado_general:'Realizado',postes:9968,estado_lote:'En curso',muestra_ande:'Emitido',emitido_8a:'NO',hab8b:'',emitido_8b:''},
+{lote:68,regional:'METRO Y CENTRAL',estado_general:'Realizado',postes:9907,estado_lote:'Sin iniciar',muestra_ande:'',emitido_8a:'NO',hab8b:'',emitido_8b:''},
+{lote:69,regional:'METRO Y CENTRAL',estado_general:'Realizado',postes:9972,estado_lote:'Sin iniciar',muestra_ande:'',emitido_8a:'NO',hab8b:'',emitido_8b:''},
 {lote:70,regional:'METRO Y CENTRAL',estado_general:'Realizado',postes:null,estado_lote:'Sin iniciar',muestra_ande:'',emitido_8a:'NO',hab8b:'',emitido_8b:''},
-{lote:71,regional:'METRO Y CENTRAL, SUR',estado_general:'Realizado',postes:null,estado_lote:'Sin iniciar',muestra_ande:'',emitido_8a:'NO',hab8b:'',emitido_8b:''},
+{lote:71,regional:'METRO Y CENTRAL',estado_general:'Realizado',postes:null,estado_lote:'Sin iniciar',muestra_ande:'',emitido_8a:'NO',hab8b:'',emitido_8b:''},
 {lote:72,regional:'METRO Y CENTRAL',estado_general:'Realizado',postes:null,estado_lote:'Sin iniciar',muestra_ande:'',emitido_8a:'NO',hab8b:'',emitido_8b:''},
 {lote:73,regional:'METRO Y CENTRAL',estado_general:'Realizado',postes:null,estado_lote:'Sin iniciar',muestra_ande:'',emitido_8a:'NO',hab8b:'',emitido_8b:''},
 {lote:74,regional:'METRO Y CENTRAL',estado_general:'Realizado',postes:null,estado_lote:'Sin iniciar',muestra_ande:'',emitido_8a:'NO',hab8b:'',emitido_8b:''},
@@ -1601,19 +1544,21 @@ function setFiltroRegionalLotes(reg){
 pintarLotes(LOTES_DATA);
 
 const RITMO_DATA = [
-{circuito:'DES10',tipo:'MT',analista:'Mostermann',estado:'Publicación parcial',fecha_asignacion:'12/08/2026',dias:8,km_mt_ajustados:29.09,pd_ande:114.0,pd_terceros:19.0,pd_ande_construido:0.0,pd_terceros_construido:0.0,puntos_servicio:0.0,prom_km_mt_ajustados:3.64,prom_pd_ande:14.25,prom_pd_terceros:2.38,prom_pd_ande_construido:0.0,prom_pd_terceros_construido:0.0,prom_puntos_servicio:0.0},
+{circuito:'DES10',tipo:'MT',analista:'Mostermann',estado:'Completado',fecha_asignacion:'12/08/2026',dias:6,km_mt_ajustados:29.09,pd_ande:114.0,pd_terceros:19.0,pd_ande_construido:0.0,pd_terceros_construido:0.0,puntos_servicio:0.0,prom_km_mt_ajustados:4.85,prom_pd_ande:19.0,prom_pd_terceros:3.17,prom_pd_ande_construido:0.0,prom_pd_terceros_construido:0.0,prom_puntos_servicio:0.0},
 {circuito:'DES3',tipo:'MT',analista:'Mostermann',estado:'En curso',fecha_asignacion:'20/08/2026',dias:2,km_mt_ajustados:6.46,pd_ande:37.0,pd_terceros:10.0,pd_ande_construido:0.0,pd_terceros_construido:0.0,puntos_servicio:0.0,prom_km_mt_ajustados:3.23,prom_pd_ande:18.5,prom_pd_terceros:5.0,prom_pd_ande_construido:0.0,prom_pd_terceros_construido:0.0,prom_puntos_servicio:0.0},
-{circuito:'DES4',tipo:'MT',analista:'Cvasconi',estado:'Sin dato',fecha_asignacion:'&mdash;',dias:null,km_mt_ajustados:18.29,pd_ande:115.0,pd_terceros:15.0,pd_ande_construido:0.0,pd_terceros_construido:0.0,puntos_servicio:0.0,prom_km_mt_ajustados:null,prom_pd_ande:null,prom_pd_terceros:null,prom_pd_ande_construido:null,prom_pd_terceros_construido:null,prom_puntos_servicio:null},
-{circuito:'DES5',tipo:'MT',analista:'Cvasconi',estado:'En curso',fecha_asignacion:'15/08/2026',dias:5,km_mt_ajustados:26.36,pd_ande:155.0,pd_terceros:35.0,pd_ande_construido:0.0,pd_terceros_construido:0.0,puntos_servicio:0.0,prom_km_mt_ajustados:5.27,prom_pd_ande:31.0,prom_pd_terceros:7.0,prom_pd_ande_construido:0.0,prom_pd_terceros_construido:0.0,prom_puntos_servicio:0.0},
-{circuito:'DES9',tipo:'MT',analista:'Fgarcia',estado:'En curso',fecha_asignacion:'18/08/2026',dias:4,km_mt_ajustados:4.92,pd_ande:0.0,pd_terceros:0.0,pd_ande_construido:0.0,pd_terceros_construido:0.0,puntos_servicio:0.0,prom_km_mt_ajustados:1.23,prom_pd_ande:0.0,prom_pd_terceros:0.0,prom_pd_ande_construido:0.0,prom_pd_terceros_construido:0.0,prom_puntos_servicio:0.0},
-{circuito:'PBU01',tipo:'BT',analista:'Gferreira',estado:'En curso',fecha_asignacion:'11/08/2026',dias:9,km_mt_ajustados:0.0,pd_ande:0.0,pd_terceros:0.0,pd_ande_construido:60.0,pd_terceros_construido:0.0,puntos_servicio:0.0,prom_km_mt_ajustados:0.0,prom_pd_ande:0.0,prom_pd_terceros:0.0,prom_pd_ande_construido:6.67,prom_pd_terceros_construido:0.0,prom_puntos_servicio:0.0},
-{circuito:'PBU01',tipo:'MT',analista:'Cvasconi',estado:'Publicación parcial',fecha_asignacion:'10/04/2026',dias:96,km_mt_ajustados:305.5,pd_ande:120.0,pd_terceros:152.0,pd_ande_construido:0.0,pd_terceros_construido:0.0,puntos_servicio:0.0,prom_km_mt_ajustados:3.18,prom_pd_ande:1.25,prom_pd_terceros:1.58,prom_pd_ande_construido:0.0,prom_pd_terceros_construido:0.0,prom_puntos_servicio:0.0},
-{circuito:'PBU02',tipo:'MT',analista:'Cvasconi',estado:'Publicación parcial',fecha_asignacion:'10/06/2026',dias:53,km_mt_ajustados:143.4,pd_ande:79.0,pd_terceros:75.0,pd_ande_construido:0.0,pd_terceros_construido:0.0,puntos_servicio:0.0,prom_km_mt_ajustados:2.71,prom_pd_ande:1.49,prom_pd_terceros:1.42,prom_pd_ande_construido:0.0,prom_pd_terceros_construido:0.0,prom_puntos_servicio:0.0},
+{circuito:'DES4',tipo:'MT',analista:'Cvasconi',estado:'Completado',fecha_asignacion:'18/08/2026',dias:3,km_mt_ajustados:18.29,pd_ande:115.0,pd_terceros:15.0,pd_ande_construido:0.0,pd_terceros_construido:0.0,puntos_servicio:0.0,prom_km_mt_ajustados:6.1,prom_pd_ande:38.33,prom_pd_terceros:5.0,prom_pd_ande_construido:0.0,prom_pd_terceros_construido:0.0,prom_puntos_servicio:0.0},
+{circuito:'DES5',tipo:'MT',analista:'Cvasconi',estado:'Completado',fecha_asignacion:'15/08/2026',dias:0,km_mt_ajustados:26.36,pd_ande:155.0,pd_terceros:35.0,pd_ande_construido:0.0,pd_terceros_construido:0.0,puntos_servicio:0.0,prom_km_mt_ajustados:null,prom_pd_ande:null,prom_pd_terceros:null,prom_pd_ande_construido:null,prom_pd_terceros_construido:null,prom_puntos_servicio:null},
+{circuito:'DES9',tipo:'MT',analista:'Fgarcia',estado:'En curso',fecha_asignacion:'18/08/2026',dias:4,km_mt_ajustados:8.45,pd_ande:15.0,pd_terceros:2.0,pd_ande_construido:0.0,pd_terceros_construido:0.0,puntos_servicio:0.0,prom_km_mt_ajustados:2.11,prom_pd_ande:3.75,prom_pd_terceros:0.5,prom_pd_ande_construido:0.0,prom_pd_terceros_construido:0.0,prom_puntos_servicio:0.0},
+{circuito:'PBU01',tipo:'BT',analista:'Gferreira',estado:'En curso',fecha_asignacion:'11/08/2026',dias:9,km_mt_ajustados:0.0,pd_ande:0.0,pd_terceros:0.0,pd_ande_construido:78.0,pd_terceros_construido:0.0,puntos_servicio:0.0,prom_km_mt_ajustados:0.0,prom_pd_ande:0.0,prom_pd_terceros:0.0,prom_pd_ande_construido:8.67,prom_pd_terceros_construido:0.0,prom_puntos_servicio:0.0},
+{circuito:'PBU01',tipo:'MT',analista:'Cvasconi',estado:'Completado',fecha_asignacion:'10/04/2026',dias:15,km_mt_ajustados:305.5,pd_ande:120.0,pd_terceros:152.0,pd_ande_construido:0.0,pd_terceros_construido:0.0,puntos_servicio:0.0,prom_km_mt_ajustados:20.37,prom_pd_ande:8.0,prom_pd_terceros:10.13,prom_pd_ande_construido:0.0,prom_pd_terceros_construido:0.0,prom_puntos_servicio:0.0},
+{circuito:'PBU02',tipo:'BT',analista:'Fgarcia',estado:'En curso',fecha_asignacion:'20/08/2026',dias:2,km_mt_ajustados:0.0,pd_ande:0.0,pd_terceros:0.0,pd_ande_construido:7.0,pd_terceros_construido:0.0,puntos_servicio:0.0,prom_km_mt_ajustados:0.0,prom_pd_ande:0.0,prom_pd_terceros:0.0,prom_pd_ande_construido:3.5,prom_pd_terceros_construido:0.0,prom_puntos_servicio:0.0},
+{circuito:'PBU02',tipo:'MT',analista:'Cvasconi',estado:'Completado',fecha_asignacion:'10/06/2026',dias:19,km_mt_ajustados:143.4,pd_ande:79.0,pd_terceros:75.0,pd_ande_construido:0.0,pd_terceros_construido:0.0,puntos_servicio:0.0,prom_km_mt_ajustados:7.55,prom_pd_ande:4.16,prom_pd_terceros:3.95,prom_pd_ande_construido:0.0,prom_pd_terceros_construido:0.0,prom_puntos_servicio:0.0},
 {circuito:'PBU03',tipo:'BT',analista:'Jzarza',estado:'Completado',fecha_asignacion:'11/08/2026',dias:8,km_mt_ajustados:0.0,pd_ande:0.0,pd_terceros:0.0,pd_ande_construido:46.0,pd_terceros_construido:63.0,puntos_servicio:0.0,prom_km_mt_ajustados:0.0,prom_pd_ande:0.0,prom_pd_terceros:0.0,prom_pd_ande_construido:5.75,prom_pd_terceros_construido:7.88,prom_puntos_servicio:0.0},
-{circuito:'PBU03',tipo:'MT',analista:'Cvasconi',estado:'Publicación parcial',fecha_asignacion:'10/04/2026',dias:96,km_mt_ajustados:149.31,pd_ande:52.0,pd_terceros:142.0,pd_ande_construido:0.0,pd_terceros_construido:0.0,puntos_servicio:0.0,prom_km_mt_ajustados:1.56,prom_pd_ande:0.54,prom_pd_terceros:1.48,prom_pd_ande_construido:0.0,prom_pd_terceros_construido:0.0,prom_puntos_servicio:0.0},
-{circuito:'PBU04',tipo:'MT',analista:'Cvasconi',estado:'Publicación parcial',fecha_asignacion:'15/04/2026',dias:93,km_mt_ajustados:227.84,pd_ande:33.0,pd_terceros:187.0,pd_ande_construido:0.0,pd_terceros_construido:0.0,puntos_servicio:0.0,prom_km_mt_ajustados:2.45,prom_pd_ande:0.35,prom_pd_terceros:2.01,prom_pd_ande_construido:0.0,prom_pd_terceros_construido:0.0,prom_puntos_servicio:0.0},
-{circuito:'PBU05',tipo:'BT',analista:'Hgonzalez',estado:'En curso',fecha_asignacion:'12/08/2026',dias:8,km_mt_ajustados:0.0,pd_ande:0.0,pd_terceros:0.0,pd_ande_construido:12.0,pd_terceros_construido:0.0,puntos_servicio:0.0,prom_km_mt_ajustados:0.0,prom_pd_ande:0.0,prom_pd_terceros:0.0,prom_pd_ande_construido:1.5,prom_pd_terceros_construido:0.0,prom_puntos_servicio:0.0},
-{circuito:'PBU05',tipo:'MT',analista:'Cvasconi',estado:'Publicación parcial',fecha_asignacion:'29/04/2026',dias:83,km_mt_ajustados:209.15,pd_ande:137.0,pd_terceros:127.0,pd_ande_construido:0.0,pd_terceros_construido:0.0,puntos_servicio:0.0,prom_km_mt_ajustados:2.52,prom_pd_ande:1.65,prom_pd_terceros:1.53,prom_pd_ande_construido:0.0,prom_pd_terceros_construido:0.0,prom_puntos_servicio:0.0},
+{circuito:'PBU03',tipo:'MT',analista:'Cvasconi',estado:'Completado',fecha_asignacion:'10/04/2026',dias:34,km_mt_ajustados:149.31,pd_ande:52.0,pd_terceros:142.0,pd_ande_construido:0.0,pd_terceros_construido:0.0,puntos_servicio:0.0,prom_km_mt_ajustados:4.39,prom_pd_ande:1.53,prom_pd_terceros:4.18,prom_pd_ande_construido:0.0,prom_pd_terceros_construido:0.0,prom_puntos_servicio:0.0},
+{circuito:'PBU04',tipo:'BT',analista:'Mostermann',estado:'En curso',fecha_asignacion:'21/08/2026',dias:1,km_mt_ajustados:0.0,pd_ande:0.0,pd_terceros:0.0,pd_ande_construido:0.0,pd_terceros_construido:0.0,puntos_servicio:0.0,prom_km_mt_ajustados:0.0,prom_pd_ande:0.0,prom_pd_terceros:0.0,prom_pd_ande_construido:0.0,prom_pd_terceros_construido:0.0,prom_puntos_servicio:0.0},
+{circuito:'PBU04',tipo:'MT',analista:'Cvasconi',estado:'Completado',fecha_asignacion:'15/04/2026',dias:21,km_mt_ajustados:227.84,pd_ande:33.0,pd_terceros:187.0,pd_ande_construido:0.0,pd_terceros_construido:0.0,puntos_servicio:0.0,prom_km_mt_ajustados:10.85,prom_pd_ande:1.57,prom_pd_terceros:8.9,prom_pd_ande_construido:0.0,prom_pd_terceros_construido:0.0,prom_puntos_servicio:0.0},
+{circuito:'PBU05',tipo:'BT',analista:'Hgonzalez',estado:'En curso',fecha_asignacion:'12/08/2026',dias:8,km_mt_ajustados:0.0,pd_ande:0.0,pd_terceros:0.0,pd_ande_construido:26.0,pd_terceros_construido:0.0,puntos_servicio:0.0,prom_km_mt_ajustados:0.0,prom_pd_ande:0.0,prom_pd_terceros:0.0,prom_pd_ande_construido:3.25,prom_pd_terceros_construido:0.0,prom_puntos_servicio:0.0},
+{circuito:'PBU05',tipo:'MT',analista:'Cvasconi',estado:'Completado',fecha_asignacion:'29/04/2026',dias:23,km_mt_ajustados:209.15,pd_ande:137.0,pd_terceros:127.0,pd_ande_construido:0.0,pd_terceros_construido:0.0,puntos_servicio:0.0,prom_km_mt_ajustados:9.09,prom_pd_ande:5.96,prom_pd_terceros:5.52,prom_pd_ande_construido:0.0,prom_pd_terceros_construido:0.0,prom_puntos_servicio:0.0},
 {circuito:'SRI1',tipo:'BT',analista:'Mostermann',estado:'Completado',fecha_asignacion:'08/04/2026',dias:30,km_mt_ajustados:0.0,pd_ande:0.0,pd_terceros:0.0,pd_ande_construido:116.0,pd_terceros_construido:74.0,puntos_servicio:0.0,prom_km_mt_ajustados:0.0,prom_pd_ande:0.0,prom_pd_terceros:0.0,prom_pd_ande_construido:3.87,prom_pd_terceros_construido:2.47,prom_puntos_servicio:0.0},
 {circuito:'SRI1',tipo:'MT',analista:'Cvasconi',estado:'Completado',fecha_asignacion:'03/10/2026',dias:0,km_mt_ajustados:0.0,pd_ande:0.0,pd_terceros:0.0,pd_ande_construido:0.0,pd_terceros_construido:0.0,puntos_servicio:0.0,prom_km_mt_ajustados:null,prom_pd_ande:null,prom_pd_terceros:null,prom_pd_ande_construido:null,prom_pd_terceros_construido:null,prom_puntos_servicio:null},
 {circuito:'SRI2',tipo:'BT',analista:'Jzarza',estado:'Completado',fecha_asignacion:'19/06/2026',dias:11,km_mt_ajustados:0.0,pd_ande:0.0,pd_terceros:0.0,pd_ande_construido:101.0,pd_terceros_construido:116.0,puntos_servicio:0.0,prom_km_mt_ajustados:0.0,prom_pd_ande:0.0,prom_pd_terceros:0.0,prom_pd_ande_construido:9.18,prom_pd_terceros_construido:10.55,prom_puntos_servicio:0.0},
