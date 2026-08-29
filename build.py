@@ -10,6 +10,7 @@ Variables de entorno esperadas (se configuran como Secrets en GitHub Actions):
 import os
 import sys
 from datetime import datetime, timezone
+from zoneinfo import ZoneInfo
 
 import requests
 import numpy as np
@@ -132,7 +133,7 @@ def calcular_ritmo(df_reporte, asignaciones):
         puntos_servicio=("Puntos de Servicio", "sum"),
     ).reset_index()
 
-    hoy = datetime.now(timezone.utc).replace(tzinfo=None)
+    hoy = datetime.now(ZoneInfo("America/Asuncion")).replace(tzinfo=None)
     filas = []
     for _, r in g.iterrows():
         circuito = r["Alimentador / Circuito"]
@@ -293,7 +294,7 @@ def cargar_lotes():
             "lote": r[2],
             "regional": col(r, 1),
             "estado_general": col(r, 4),          # E
-            "postes": int(r[22]) if pd.notna(r[22]) and str(r[22]).strip() not in ("", "-") else None,
+            "postes": int(str(r[22]).strip().replace(".", "")) if pd.notna(r[22]) and str(r[22]).strip() not in ("", "-") else None,
             "muestra_ande": col(r, 24),            # Y
             "estado_lote": col(r, 25),             # Z
             "emitido_8a": col(r, 29),              # AD
@@ -385,10 +386,12 @@ def cargar_tareas():
             "item": r[0],
             "area": str(r[1]).strip() if pd.notna(r[1]) else "",
             "tarea": str(r[2]).strip() if pd.notna(r[2]) else "",
-            "responsable": str(r[4]).strip() if pd.notna(r[4]) else "",
-            "regional": str(r[5]).strip() if pd.notna(r[5]) else "",
-            "estado": str(r[6]).strip() if pd.notna(r[6]) else "",
-            "reporte": str(r[7]).strip() if pd.notna(r[7]) else "",
+            "fecha_inicio": str(r[3]).strip() if pd.notna(r[3]) else "",
+            "fecha_venc": str(r[4]).strip() if pd.notna(r[4]) else "",
+            "responsable": str(r[5]).strip() if pd.notna(r[5]) else "",
+            "regional": str(r[6]).strip() if pd.notna(r[6]) else "",
+            "estado": str(r[7]).strip() if pd.notna(r[7]) else "",
+            "reporte": str(r[8]).strip() if pd.notna(r[8]) else "",
         })
 
     def es_ok(estado):
@@ -421,10 +424,53 @@ def tareas_data_js(tareas):
     filas = []
     for f in tareas["filas"]:
         filas.append(
-            "{item:%r,area:%r,tarea:%r,responsable:%r,regional:%r,estado:%r,reporte:%r}"
-            % (f["item"], f["area"], f["tarea"], f["responsable"], f["regional"], f["estado"], f["reporte"])
+            "{item:%r,area:%r,tarea:%r,fecha_inicio:%r,fecha_venc:%r,responsable:%r,regional:%r,estado:%r,reporte:%r}"
+            % (f["item"], f["area"], f["tarea"], f["fecha_inicio"], f["fecha_venc"],
+               f["responsable"], f["regional"], f["estado"], f["reporte"])
         )
     return ",\n".join(filas)
+
+
+def parse_fecha_ddmmyyyy(s):
+    try:
+        d, m, y = s.strip().split("/")
+        return datetime(int(y), int(m), int(d)).date()
+    except Exception:
+        return None
+
+
+def calcular_proximas_a_vencer(tareas, dias_ventana=7):
+    hoy = datetime.now(ZoneInfo("America/Asuncion")).date()
+    filas = []
+    for f in tareas["filas"]:
+        if f["estado"] in ("Realizado", "Completado"):
+            continue
+        fecha = parse_fecha_ddmmyyyy(f["fecha_venc"])
+        if not fecha:
+            continue
+        delta = (fecha - hoy).days
+        if delta <= dias_ventana:
+            filas.append({**f, "dias_restantes": delta})
+    filas.sort(key=lambda f: f["dias_restantes"])
+    return filas
+
+
+def proximas_vencer_html(filas):
+    if not filas:
+        return '<div class="chip-vacio">Ninguna tarea próxima a vencer ni vencida</div>'
+    chips = []
+    for f in filas:
+        d = f["dias_restantes"]
+        if d < 0:
+            etiqueta, clase = f"vencida hace {abs(d)} d.", "chip atrasado"
+        elif d == 0:
+            etiqueta, clase = "vence hoy", "chip atrasado"
+        else:
+            etiqueta, clase = f"vence en {d} d.", "chip"
+        chips.append(
+            f'<span class="{clase}">{f["tarea"]} <small>({f["responsable"] or "sin asignar"} &middot; {etiqueta})</small></span>'
+        )
+    return "\n".join(chips)
 
 
 def cards_responsables_html(por_persona):
@@ -493,10 +539,11 @@ def main():
         "{{TAREAS_PERSONAS}}": str(tareas["personas_con_pendientes"]),
         "{{TAREAS_CARDS_RESPONSABLES}}": cards_responsables_html(tareas["por_persona"]),
         "{{TAREAS_FILTROS_AREA}}": filtros_area_html(tareas["areas"]),
+        "{{TAREAS_PROX_VENCER}}": proximas_vencer_html(calcular_proximas_a_vencer(tareas)),
         "{{TAREAS_DATA_JS}}": tareas_data_js(tareas),
         "{{RITMO_DATA_JS}}": ritmo_data_js(ritmo),
         "{{RITMO_TOTAL}}": str(len(ritmo)),
-        "{{BUILD_TIMESTAMP}}": datetime.now(timezone.utc).strftime("%d/%m/%Y %H:%M UTC"),
+        "{{BUILD_TIMESTAMP}}": datetime.now(ZoneInfo("America/Asuncion")).strftime("%d/%m/%Y %H:%M hs"),
     }
     for k, v in reemplazos.items():
         html = html.replace(k, v)
