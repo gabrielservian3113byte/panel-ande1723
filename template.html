@@ -75,6 +75,7 @@
   .badge-live{display:inline-flex; align-items:center; gap:6px; font-size:11px; padding:4px 10px; border-radius:20px; font-weight:600;}
   .badge-live.ok{background:var(--green-dim); color:var(--green);}
   .badge-live.bad{background:var(--red-dim); color:var(--red);}
+  .badge-live.mute{background:#1c2330; color:var(--ink-mute);}
   .dot{width:6px; height:6px; border-radius:50%; background:currentColor;}
   .filtro-btn{background:var(--panel2); border:1px solid var(--line); color:var(--ink-dim); padding:6px 13px; border-radius:20px; font-size:12px; cursor:pointer;}
   .filtro-btn.activo{background:var(--blue-dim); color:var(--blue); border-color:var(--blue);}
@@ -109,8 +110,9 @@
     <div class="topbar">
       <div class="titles"><h1 id="topTitle">Resumen general</h1></div>
       <div class="right">
-        <span class="badge-live ok" title="La foto de datos se renueva una vez por día, corriendo el pipeline en GitHub Actions."><span class="dot"></span> última actualización de datos: {{BUILD_TIMESTAMP}}</span>
-        <button class="btn-refresh" onclick="location.reload()" title="Recarga la página. No trae datos nuevos, esos se actualizan una vez por día.">↻ Recargar página</button>
+        <span class="badge-live ok" title="El Excel (circuitos, productividad, ritmo) viene de SharePoint y solo se actualiza una vez por día."><span class="dot"></span> Excel actualizado {{BUILD_TIMESTAMP}}</span>
+        <span id="badgeLotesLive" class="badge-live mute"><span class="dot"></span> Sheets: cargando…</span>
+        <button class="btn-refresh" id="btnActualizar" onclick="actualizarEnVivo()">↻ Actualizar</button>
       </div>
     </div>
 
@@ -211,38 +213,38 @@
         <h2 class="page-title">Control de lotes</h2>
         <div class="page-sub">Google Sheets publicado &middot; datos actualizados una vez por día por el pipeline</div>
         <div class="grid cols-4">
-          <div class="kpi c-blue"><div class="label">Total lotes</div><div class="value">{{LOTES_TOTAL}}</div><div class="sub">Items cargados en la hoja</div></div>
-          <div class="kpi c-green"><div class="label">En trámite</div><div class="value">{{LOTES_TRAMITE}}</div><div class="sub">Columna Z distinto de "Sin iniciar"</div></div>
-          <div class="kpi c-orange"><div class="label">En cola</div><div class="value">{{LOTES_COLA}}</div><div class="sub">Columna Z = Sin iniciar / vacío</div></div>
-          <div class="kpi c-purple"><div class="label">Postes 8A</div><div class="value">{{LOTES_POSTES}}</div><div class="sub">Suma sobre lotes con conteo</div></div>
+          <div class="kpi c-blue"><div class="label">Total lotes</div><div class="value" id="idLotesTotal">{{LOTES_TOTAL}}</div><div class="sub">Items cargados en la hoja</div></div>
+          <div class="kpi c-green"><div class="label">En trámite</div><div class="value" id="idLotesTramite">{{LOTES_TRAMITE}}</div><div class="sub">Columna Z distinto de "Sin iniciar"</div></div>
+          <div class="kpi c-orange"><div class="label">En cola</div><div class="value" id="idLotesCola">{{LOTES_COLA}}</div><div class="sub">Columna Z = Sin iniciar / vacío</div></div>
+          <div class="kpi c-purple"><div class="label">Postes 8A</div><div class="value" id="idLotesPostes">{{LOTES_POSTES}}</div><div class="sub">Suma sobre lotes con conteo</div></div>
         </div>
 
         <div class="grid cols-3" style="margin-top:14px;">
           <div class="panel-box">
             <h3>Lotes en curso ahora (columna Z)</h3>
-            <div class="chips-wrap">
+            <div class="chips-wrap" id="idLotesEnCursoChips">
 {{LOTES_EN_CURSO_CHIPS}}
             </div>
           </div>
           <div class="panel-box">
             <h3>Aceptados sin firma 8A <span style="color:var(--ink-mute); text-transform:none; font-weight:400;">(Z=Aceptado, AD≠SI)</span></h3>
-            <div class="chips-wrap">
+            <div class="chips-wrap" id="idLotesPend8aChips">
 {{LOTES_PEND_8A_CHIPS}}
             </div>
           </div>
           <div class="panel-box">
             <h3>Habilitados sin firma 8B <span style="color:var(--ink-mute); text-transform:none; font-weight:400;">(AE=SI, AF≠SI)</span></h3>
-            <div class="chips-wrap">
+            <div class="chips-wrap" id="idLotesPend8bChips">
 {{LOTES_PEND_8B_CHIPS}}
             </div>
           </div>
         </div>
 
         <div class="grid cols-2" style="margin-top:14px;">
-          <div class="panel-box"><h3>Por regional (lotes en trámite)</h3><div>
+          <div class="panel-box"><h3>Por regional (lotes en trámite)</h3><div id="idLotesBarsRegional">
 {{LOTES_BARS_REGIONAL}}
           </div></div>
-          <div class="panel-box"><h3>Estado del lote (columna Z)</h3><div>
+          <div class="panel-box"><h3>Estado del lote (columna Z)</h3><div id="idLotesBarsEstado">
 {{LOTES_BARS_ESTADO}}
           </div></div>
         </div>
@@ -302,23 +304,30 @@
         <div class="page-sub">Pestaña "Pendientes Grales por Area" &middot; datos actualizados una vez por día por el pipeline</div>
 
         <div class="grid cols-4">
-          <div class="kpi c-blue"><div class="label">Total tareas</div><div class="value">{{TAREAS_TOTAL}}</div><div class="sub">cargadas en la hoja</div></div>
-          <div class="kpi c-green"><div class="label">Realizadas</div><div class="value">{{TAREAS_OK}}</div><div class="sub">Realizado / Completado</div></div>
-          <div class="kpi c-red"><div class="label">Pendientes</div><div class="value">{{TAREAS_PEND}}</div><div class="sub">sin marcar todavía</div></div>
-          <div class="kpi c-purple"><div class="label">Personas con pendientes</div><div class="value">{{TAREAS_PERSONAS}}</div><div class="sub">responsables activos</div></div>
+          <div class="kpi c-blue"><div class="label">Total tareas</div><div class="value" id="idTareasTotal">{{TAREAS_TOTAL}}</div><div class="sub">cargadas en la hoja</div></div>
+          <div class="kpi c-green"><div class="label">Realizadas</div><div class="value" id="idTareasOk">{{TAREAS_OK}}</div><div class="sub">Realizado / Completado</div></div>
+          <div class="kpi c-red"><div class="label">Pendientes</div><div class="value" id="idTareasPend">{{TAREAS_PEND}}</div><div class="sub">sin marcar todavía</div></div>
+          <div class="kpi c-purple"><div class="label">Personas con pendientes</div><div class="value" id="idTareasPersonas">{{TAREAS_PERSONAS}}</div><div class="sub">responsables activos</div></div>
         </div>
 
         <div class="panel-box" style="margin-top:14px;">
           <h3>Pendientes por responsable</h3>
-          <div class="grid cols-4">
+          <div class="grid cols-4" id="idTareasCardsResponsables">
 {{TAREAS_CARDS_RESPONSABLES}}
+          </div>
+        </div>
+
+        <div class="panel-box" style="margin-top:14px; border-color:#5a2e2c;">
+          <h3 style="color:var(--red);">⚠ Próximas a vencer / vencidas <span style="color:var(--ink-mute); text-transform:none; font-weight:400;">(columna Fecha de vencimiento, ventana de 7 días)</span></h3>
+          <div class="chips-wrap" id="idTareasProxVencer">
+{{TAREAS_PROX_VENCER}}
           </div>
         </div>
 
         <div style="display:flex; gap:10px; margin:16px 0 4px; flex-wrap:wrap; align-items:center;">
           <select id="filtroResponsableTareas" onchange="setFiltroResponsable(this.value)" class="select-filtro"></select>
         </div>
-        <div style="display:flex; gap:8px; margin:8px 0 4px; flex-wrap:wrap;">
+        <div style="display:flex; gap:8px; margin:8px 0 4px; flex-wrap:wrap;" id="idTareasFiltrosArea">
 {{TAREAS_FILTROS_AREA}}
         </div>
         <div class="panel-box scroll" style="margin-top:8px;">
@@ -503,13 +512,16 @@ function setFiltroRegionalLotes(reg){
   document.querySelectorAll('#filtrosRegionalLotes button').forEach(b => b.classList.toggle('activo', b.dataset.reg === reg));
   aplicarFiltrosLotes();
 }
-(function initFiltrosRegionalLotes(){
+function initFiltrosRegionalLotes(){
+  FILTRO_REGIONAL_LOTES = 'Todas';
   const regiones = ['Todas', ...new Set(LOTES_DATA.map(r => r.regional || 'Sin asignar'))];
   document.getElementById('filtrosRegionalLotes').innerHTML = regiones.map(reg =>
     `<button data-reg="${reg}" class="filtro-btn${reg==='Todas'?' activo':''}" onclick="setFiltroRegionalLotes('${reg}')">${reg}</button>`
   ).join('');
-})();
-pintarLotes(LOTES_DATA);
+  document.getElementById('filtroLotes').value = '';
+  aplicarFiltrosLotes();
+}
+initFiltrosRegionalLotes();
 
 const RITMO_DATA = [
 {{RITMO_DATA_JS}}
@@ -577,11 +589,198 @@ function setFiltroResponsable(nombre){
   FILTRO_RESPONSABLE_ACTUAL = nombre;
   pintarTareas();
 }
-(function initFiltroResponsable(){
+function initFiltrosArea(){
+  const areasSet = new Set(TAREAS_DATA.map(r => r.area).filter(Boolean));
+  const botones = ['<button data-area="Todas" onclick="setFiltroArea(\'Todas\')" class="filtro-btn activo">Todas</button>']
+    .concat([...areasSet].map(a => `<button data-area="${a}" onclick="setFiltroArea('${a}')" class="filtro-btn">${a}</button>`));
+  document.getElementById('idTareasFiltrosArea').innerHTML = botones.join('');
+}
+function initFiltroResponsable(){
+  FILTRO_AREA_ACTUAL = 'Todas';
+  FILTRO_RESPONSABLE_ACTUAL = 'Todos';
   const responsables = ['Todos', ...new Set(TAREAS_DATA.map(r => r.responsable).filter(Boolean))].sort((a,b)=> a==='Todos'?-1:(b==='Todos'?1:a.localeCompare(b)));
   document.getElementById('filtroResponsableTareas').innerHTML = responsables.map(n => `<option value="${n}">${n==='Todos'?'Todos los responsables':n}</option>`).join('');
-})();
-pintarTareas();
+  initFiltrosArea();
+  pintarTareas();
+}
+initFiltroResponsable();
+
+// ---------- Refresco en vivo de Control de lotes y Pendientes por área (JSONP, evita CORS) ----------
+
+const SPREADSHEET_ID = '1rbRSwcReTrYZJYzuDWzV12qFkGqEJjLK-afASTAo2WM';
+let jsonpContador = 0;
+
+function cargarGvizJsonp(gid){
+  return new Promise((resolve, reject) => {
+    const cbName = 'gvizCb' + (jsonpContador++);
+    const t = setTimeout(() => { limpiar(); reject(new Error('timeout')); }, 12000);
+    function limpiar(){
+      clearTimeout(t);
+      delete window[cbName];
+      if(script.parentNode) script.parentNode.removeChild(script);
+    }
+    window[cbName] = function(data){
+      limpiar();
+      try{
+        const rows = data.table.rows.map(r => r.c.map(c => (c && c.v !== null && c.v !== undefined) ? String(c.v) : ''));
+        resolve(rows);
+      }catch(e){ reject(e); }
+    };
+    const script = document.createElement('script');
+    script.src = `https://docs.google.com/spreadsheets/d/${SPREADSHEET_ID}/gviz/tq?gid=${gid}&tqx=out:json;responseHandler=${cbName}`;
+    script.onerror = () => { limpiar(); reject(new Error('script error')); };
+    document.body.appendChild(script);
+  });
+}
+
+function esFilaNumerica(v){ return v !== '' && v !== undefined && !isNaN(Number(v)); }
+function limpiarPostes(v){
+  if(!v) return null;
+  const n = parseInt(String(v).replace(/\./g, ''), 10);
+  return isNaN(n) ? null : n;
+}
+
+function parseLotesGviz(rows){
+  let inicio = rows.findIndex(r => (r[0]||'').toString().trim().toUpperCase() === 'ITEM');
+  let data = inicio >= 0 ? rows.slice(inicio + 1) : rows;
+  data = data.filter(r => esFilaNumerica(r[0]));
+  return data.map(r => ({
+    lote: r[2], regional: (r[1]||'').trim(), estado_general: (r[4]||'').trim(),
+    postes: limpiarPostes(r[22]), muestra_ande: (r[24]||'').trim(), estado_lote: (r[25]||'').trim(),
+    emitido_8a: (r[29]||'').trim(), hab8b: (r[30]||'').trim(), emitido_8b: (r[31]||'').trim(),
+  }));
+}
+function parseTareasGviz(rows){
+  let inicio = rows.findIndex(r => (r[0]||'').toString().trim().toLowerCase() === 'item');
+  let data = inicio >= 0 ? rows.slice(inicio + 1) : rows;
+  data = data.filter(r => esFilaNumerica(r[0]));
+  return data.map(r => ({
+    item: r[0], area: (r[1]||'').trim(), tarea: (r[2]||'').trim(),
+    fecha_inicio: (r[3]||'').trim(), fecha_venc: (r[4]||'').trim(),
+    responsable: (r[5]||'').trim(), regional: (r[6]||'').trim(), estado: (r[7]||'').trim(), reporte: (r[8]||'').trim(),
+  }));
+}
+
+function parseFechaDDMMYYYYTareas(str){
+  if(!str) return null;
+  const p = str.split('/');
+  if(p.length !== 3) return null;
+  const d = parseInt(p[0],10), m = parseInt(p[1],10), y = parseInt(p[2],10);
+  if(!d||!m||!y) return null;
+  return new Date(y, m-1, d);
+}
+function proximasVencerHtmlJs(filas){
+  const hoy = new Date(); hoy.setHours(0,0,0,0);
+  const candidatas = filas
+    .filter(f => f.estado !== 'Realizado' && f.estado !== 'Completado')
+    .map(f => {
+      const fecha = parseFechaDDMMYYYYTareas(f.fecha_venc);
+      if(!fecha) return null;
+      const dias = Math.round((fecha - hoy) / 86400000);
+      return dias <= 7 ? {...f, dias} : null;
+    })
+    .filter(Boolean)
+    .sort((a,b) => a.dias - b.dias);
+  if(!candidatas.length) return '<div class="chip-vacio">Ninguna tarea próxima a vencer ni vencida</div>';
+  return candidatas.map(f => {
+    let etiqueta, clase;
+    if(f.dias < 0){ etiqueta = `vencida hace ${Math.abs(f.dias)} d.`; clase = 'chip atrasado'; }
+    else if(f.dias === 0){ etiqueta = 'vence hoy'; clase = 'chip atrasado'; }
+    else { etiqueta = `vence en ${f.dias} d.`; clase = 'chip'; }
+    return `<span class="${clase}">${f.tarea} <small>(${f.responsable||'sin asignar'} &middot; ${etiqueta})</small></span>`;
+  }).join('');
+}
+
+function zVacioOSinIniciar(z){ return z === '' || z.replace(/_/g,' ').trim().toLowerCase() === 'sin iniciar'; }
+function barsHtmlJs(counts, colorMap, defaultColor){
+  const entries = Object.entries(counts).sort((a,b)=>b[1]-a[1]);
+  if(!entries.length) return '';
+  const max = Math.max(...entries.map(e=>e[1]));
+  return entries.map(([k,v]) => {
+    const pct = Math.round(v/max*100);
+    return `<div class="bar-row"><div class="lbl">${k}</div><div class="bar-track"><div class="bar-fill" style="width:${pct}%; background:${colorMap[k]||defaultColor}"></div></div><div class="bar-val">${v}</div></div>`;
+  }).join('');
+}
+function chipsHtmlJs(filas, vacioTexto){
+  if(!filas.length) return `<div class="chip-vacio">${vacioTexto}</div>`;
+  return filas.map(f => `<span class="chip">Lote ${f.lote} <small>(${f.regional||'Sin asignar'})</small></span>`).join('');
+}
+
+function actualizarModuloLotes(filas){
+  LOTES_DATA = filas;
+  const total = filas.length;
+  const tramite = filas.filter(f => !zVacioOSinIniciar(f.estado_lote)).length;
+  document.getElementById('idLotesTotal').textContent = total;
+  document.getElementById('idLotesTramite').textContent = tramite;
+  document.getElementById('idLotesCola').textContent = total - tramite;
+  document.getElementById('idLotesPostes').textContent = filas.reduce((s,f)=>s+(f.postes||0),0).toLocaleString('es-PY');
+
+  const regCounts = {};
+  filas.filter(f => !zVacioOSinIniciar(f.estado_lote)).forEach(f => { const k = f.regional || 'Sin asignar'; regCounts[k]=(regCounts[k]||0)+1; });
+  document.getElementById('idLotesBarsRegional').innerHTML = barsHtmlJs(regCounts, {}, '#4d9fef');
+
+  const estCounts = {};
+  filas.forEach(f => { const k = f.estado_lote || 'Sin iniciar'; estCounts[k]=(estCounts[k]||0)+1; });
+  document.getElementById('idLotesBarsEstado').innerHTML = barsHtmlJs(estCounts, {Aceptado:'#3ecf8e', Rechazado:'#f0645f'}, '#f0a94d');
+
+  document.getElementById('idLotesEnCursoChips').innerHTML = chipsHtmlJs(filas.filter(f => f.estado_lote.toLowerCase().includes('curso')), 'Ningún lote en curso en la columna Z ahora mismo');
+  document.getElementById('idLotesPend8aChips').innerHTML = chipsHtmlJs(filas.filter(f => f.estado_lote.toLowerCase()==='aceptado' && f.emitido_8a.toUpperCase()!=='SI'), 'Ningún aceptado esperando firma 8A');
+  document.getElementById('idLotesPend8bChips').innerHTML = chipsHtmlJs(filas.filter(f => f.hab8b.toUpperCase()==='SI' && f.emitido_8b.toUpperCase()!=='SI'), 'Ningún habilitado esperando firma 8B');
+
+  initFiltrosRegionalLotes();
+}
+
+function actualizarModuloTareas(filas){
+  TAREAS_DATA = filas;
+  const esOk = e => e === 'Realizado' || e === 'Completado';
+  const total = filas.length;
+  const ok = filas.filter(f => esOk(f.estado)).length;
+  document.getElementById('idTareasTotal').textContent = total;
+  document.getElementById('idTareasOk').textContent = ok;
+  document.getElementById('idTareasPend').textContent = total - ok;
+
+  const porPersona = {};
+  filas.forEach(f => {
+    if(!f.responsable) return;
+    porPersona[f.responsable] = porPersona[f.responsable] || {total:0, pend:0};
+    porPersona[f.responsable].total++;
+    if(!esOk(f.estado)) porPersona[f.responsable].pend++;
+  });
+  document.getElementById('idTareasPersonas').textContent = Object.values(porPersona).filter(p=>p.pend>0).length;
+  document.getElementById('idTareasCardsResponsables').innerHTML = Object.entries(porPersona)
+    .sort((a,b)=>b[1].pend-a[1].pend)
+    .map(([nombre,c]) => `<div class="kpi ${c.pend>0?'c-red':'c-green'}"><div class="label">${nombre}</div><div class="value">${c.pend}</div><div class="sub">pendientes de ${c.total} tareas</div></div>`)
+    .join('');
+  document.getElementById('idTareasProxVencer').innerHTML = proximasVencerHtmlJs(filas);
+
+  initFiltroResponsable();
+}
+
+async function actualizarEnVivo(){
+  const badge = document.getElementById('badgeLotesLive');
+  const boton = document.getElementById('btnActualizar');
+  boton.disabled = true;
+  badge.className = 'badge-live mute';
+  badge.innerHTML = '<span class="dot"></span> Sheets: actualizando…';
+  try{
+    const [lotesRows, tareasRows] = await Promise.all([cargarGvizJsonp(0), cargarGvizJsonp(442614997)]);
+    const lotesFilas = parseLotesGviz(lotesRows);
+    const tareasFilas = parseTareasGviz(tareasRows);
+    if(!lotesFilas.length || !tareasFilas.length) throw new Error('respuesta vacia o con formato inesperado');
+    actualizarModuloLotes(lotesFilas);
+    actualizarModuloTareas(tareasFilas);
+    const ahora = new Date().toLocaleTimeString('es-PY');
+    badge.className = 'badge-live ok';
+    badge.innerHTML = '<span class="dot"></span> Sheets actualizado ' + ahora;
+  }catch(e){
+    badge.className = 'badge-live bad';
+    badge.innerHTML = '<span class="dot"></span> Sheets: no se pudo actualizar en vivo (mostrando datos del último build)';
+    console.error('Fallo el refresco en vivo:', e);
+  }finally{
+    boton.disabled = false;
+  }
+}
+actualizarEnVivo();
 </script>
 </body>
 </html>
