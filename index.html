@@ -75,6 +75,7 @@
   .badge-live{display:inline-flex; align-items:center; gap:6px; font-size:11px; padding:4px 10px; border-radius:20px; font-weight:600;}
   .badge-live.ok{background:var(--green-dim); color:var(--green);}
   .badge-live.bad{background:var(--red-dim); color:var(--red);}
+  .badge-live.mute{background:#1c2330; color:var(--ink-mute);}
   .dot{width:6px; height:6px; border-radius:50%; background:currentColor;}
   .filtro-btn{background:var(--panel2); border:1px solid var(--line); color:var(--ink-dim); padding:6px 13px; border-radius:20px; font-size:12px; cursor:pointer;}
   .filtro-btn.activo{background:var(--blue-dim); color:var(--blue); border-color:var(--blue);}
@@ -109,8 +110,9 @@
     <div class="topbar">
       <div class="titles"><h1 id="topTitle">Resumen general</h1></div>
       <div class="right">
-        <span class="badge-live ok" title="La foto de datos se renueva una vez por día, corriendo el pipeline en GitHub Actions."><span class="dot"></span> última actualización de datos: 28/08/2026 20:48 UTC</span>
-        <button class="btn-refresh" onclick="location.reload()" title="Recarga la página. No trae datos nuevos, esos se actualizan una vez por día.">↻ Recargar página</button>
+        <span class="badge-live ok" title="El Excel (circuitos, productividad, ritmo) viene de SharePoint y solo se actualiza una vez por día."><span class="dot"></span> Excel actualizado 29/08/2026 10:38 hs</span>
+        <span id="badgeLotesLive" class="badge-live mute"><span class="dot"></span> Sheets: cargando…</span>
+        <button class="btn-refresh" id="btnActualizar" onclick="actualizarEnVivo()">↻ Actualizar</button>
       </div>
     </div>
 
@@ -123,7 +125,7 @@
           <div class="kpi c-blue"><div class="label">Total alimentadores</div><div class="value">754</div><div class="sub">6 regionales</div></div>
           <div class="kpi c-orange"><div class="label">En proceso</div><div class="value">13</div><div class="sub">circuitos activos hoy</div></div>
           <div class="kpi c-red"><div class="label">No iniciado</div><div class="value">738</div><div class="sub">circuitos sin arrancar</div></div>
-          <div class="kpi c-green"><div class="label">Finalizados</div><div class="value">3</div><div class="sub">actualizado 28/08/2026 20:48 UTC</div></div>
+          <div class="kpi c-green"><div class="label">Finalizados</div><div class="value">3</div><div class="sub">actualizado 29/08/2026 10:38 hs</div></div>
         </div>
         <div class="grid cols-2" style="margin-top:16px;">
           <div class="panel-box">
@@ -216,23 +218,23 @@
         <h2 class="page-title">Control de lotes</h2>
         <div class="page-sub">Google Sheets publicado &middot; datos actualizados una vez por día por el pipeline</div>
         <div class="grid cols-4">
-          <div class="kpi c-blue"><div class="label">Total lotes</div><div class="value">250</div><div class="sub">Items cargados en la hoja</div></div>
-          <div class="kpi c-green"><div class="label">En trámite</div><div class="value">67</div><div class="sub">Columna Z distinto de "Sin iniciar"</div></div>
-          <div class="kpi c-orange"><div class="label">En cola</div><div class="value">183</div><div class="sub">Columna Z = Sin iniciar / vacío</div></div>
-          <div class="kpi c-purple"><div class="label">Postes 8A</div><div class="value">293.546</div><div class="sub">Suma sobre lotes con conteo</div></div>
+          <div class="kpi c-blue"><div class="label">Total lotes</div><div class="value" id="idLotesTotal">250</div><div class="sub">Items cargados en la hoja</div></div>
+          <div class="kpi c-green"><div class="label">En trámite</div><div class="value" id="idLotesTramite">67</div><div class="sub">Columna Z distinto de "Sin iniciar"</div></div>
+          <div class="kpi c-orange"><div class="label">En cola</div><div class="value" id="idLotesCola">183</div><div class="sub">Columna Z = Sin iniciar / vacío</div></div>
+          <div class="kpi c-purple"><div class="label">Postes 8A</div><div class="value" id="idLotesPostes">3.249.337</div><div class="sub">Suma sobre lotes con conteo</div></div>
         </div>
 
         <div class="grid cols-3" style="margin-top:14px;">
           <div class="panel-box">
             <h3>Lotes en curso ahora (columna Z)</h3>
-            <div class="chips-wrap">
+            <div class="chips-wrap" id="idLotesEnCursoChips">
 <span class="chip">Lote 66 <small>(METRO Y CENTRAL)</small></span>
 <span class="chip">Lote 67 <small>(METRO Y CENTRAL)</small></span>
             </div>
           </div>
           <div class="panel-box">
             <h3>Aceptados sin firma 8A <span style="color:var(--ink-mute); text-transform:none; font-weight:400;">(Z=Aceptado, AD≠SI)</span></h3>
-            <div class="chips-wrap">
+            <div class="chips-wrap" id="idLotesPend8aChips">
 <span class="chip">Lote 55 <small>(SUR)</small></span>
 <span class="chip">Lote 57 <small>(SUR)</small></span>
 <span class="chip">Lote 64 <small>(SUR)</small></span>
@@ -241,7 +243,7 @@
           </div>
           <div class="panel-box">
             <h3>Habilitados sin firma 8B <span style="color:var(--ink-mute); text-transform:none; font-weight:400;">(AE=SI, AF≠SI)</span></h3>
-            <div class="chips-wrap">
+            <div class="chips-wrap" id="idLotesPend8bChips">
 <span class="chip">Lote 55 <small>(SUR)</small></span>
 <span class="chip">Lote 57 <small>(SUR)</small></span>
 <span class="chip">Lote 64 <small>(SUR)</small></span>
@@ -250,12 +252,12 @@
         </div>
 
         <div class="grid cols-2" style="margin-top:14px;">
-          <div class="panel-box"><h3>Por regional (lotes en trámite)</h3><div>
+          <div class="panel-box"><h3>Por regional (lotes en trámite)</h3><div id="idLotesBarsRegional">
 <div class="bar-row"><div class="lbl">ESTE</div><div class="bar-track"><div class="bar-fill" style="width:100%; background:#4d9fef"></div></div><div class="bar-val">34</div></div>
 <div class="bar-row"><div class="lbl">SUR</div><div class="bar-track"><div class="bar-fill" style="width:91%; background:#4d9fef"></div></div><div class="bar-val">31</div></div>
 <div class="bar-row"><div class="lbl">METRO Y CENTRAL</div><div class="bar-track"><div class="bar-fill" style="width:6%; background:#4d9fef"></div></div><div class="bar-val">2</div></div>
           </div></div>
-          <div class="panel-box"><h3>Estado del lote (columna Z)</h3><div>
+          <div class="panel-box"><h3>Estado del lote (columna Z)</h3><div id="idLotesBarsEstado">
 <div class="bar-row"><div class="lbl">Sin iniciar</div><div class="bar-track"><div class="bar-fill" style="width:100%; background:#f0a94d"></div></div><div class="bar-val">183</div></div>
 <div class="bar-row"><div class="lbl">Aceptado</div><div class="bar-track"><div class="bar-fill" style="width:36%; background:#3ecf8e"></div></div><div class="bar-val">65</div></div>
 <div class="bar-row"><div class="lbl">En curso</div><div class="bar-track"><div class="bar-fill" style="width:1%; background:#f0a94d"></div></div><div class="bar-val">2</div></div>
@@ -317,36 +319,54 @@
         <div class="page-sub">Pestaña "Pendientes Grales por Area" &middot; datos actualizados una vez por día por el pipeline</div>
 
         <div class="grid cols-4">
-          <div class="kpi c-blue"><div class="label">Total tareas</div><div class="value">249</div><div class="sub">cargadas en la hoja</div></div>
-          <div class="kpi c-green"><div class="label">Realizadas</div><div class="value">0</div><div class="sub">Realizado / Completado</div></div>
-          <div class="kpi c-red"><div class="label">Pendientes</div><div class="value">249</div><div class="sub">sin marcar todavía</div></div>
-          <div class="kpi c-purple"><div class="label">Personas con pendientes</div><div class="value">14</div><div class="sub">responsables activos</div></div>
+          <div class="kpi c-blue"><div class="label">Total tareas</div><div class="value" id="idTareasTotal">249</div><div class="sub">cargadas en la hoja</div></div>
+          <div class="kpi c-green"><div class="label">Realizadas</div><div class="value" id="idTareasOk">24</div><div class="sub">Realizado / Completado</div></div>
+          <div class="kpi c-red"><div class="label">Pendientes</div><div class="value" id="idTareasPend">225</div><div class="sub">sin marcar todavía</div></div>
+          <div class="kpi c-purple"><div class="label">Personas con pendientes</div><div class="value" id="idTareasPersonas">5</div><div class="sub">responsables activos</div></div>
         </div>
 
         <div class="panel-box" style="margin-top:14px;">
           <h3>Pendientes por responsable</h3>
-          <div class="grid cols-4">
-<div class="kpi c-red"><div class="label">13/08/2026</div><div class="value">6</div><div class="sub">pendientes de 6 tareas</div></div>
-<div class="kpi c-red"><div class="label">03/09/2026</div><div class="value">5</div><div class="sub">pendientes de 5 tareas</div></div>
-<div class="kpi c-red"><div class="label">12/08/2026</div><div class="value">4</div><div class="sub">pendientes de 4 tareas</div></div>
-<div class="kpi c-red"><div class="label">28/08/2026</div><div class="value">4</div><div class="sub">pendientes de 4 tareas</div></div>
-<div class="kpi c-red"><div class="label">24/08/2026</div><div class="value">2</div><div class="sub">pendientes de 2 tareas</div></div>
-<div class="kpi c-red"><div class="label">14/08/2026</div><div class="value">2</div><div class="sub">pendientes de 2 tareas</div></div>
-<div class="kpi c-red"><div class="label">19/08/2026</div><div class="value">2</div><div class="sub">pendientes de 2 tareas</div></div>
-<div class="kpi c-red"><div class="label">31/08/2026</div><div class="value">2</div><div class="sub">pendientes de 2 tareas</div></div>
-<div class="kpi c-red"><div class="label">04/09/2026</div><div class="value">2</div><div class="sub">pendientes de 2 tareas</div></div>
-<div class="kpi c-red"><div class="label">10/08/2026</div><div class="value">1</div><div class="sub">pendientes de 1 tareas</div></div>
-<div class="kpi c-red"><div class="label">18/08/2026</div><div class="value">1</div><div class="sub">pendientes de 1 tareas</div></div>
-<div class="kpi c-red"><div class="label">20/08/2026</div><div class="value">1</div><div class="sub">pendientes de 1 tareas</div></div>
-<div class="kpi c-red"><div class="label">18/8/26</div><div class="value">1</div><div class="sub">pendientes de 1 tareas</div></div>
-<div class="kpi c-red"><div class="label">21/08/2026</div><div class="value">1</div><div class="sub">pendientes de 1 tareas</div></div>
+          <div class="grid cols-4" id="idTareasCardsResponsables">
+<div class="kpi c-red"><div class="label">Luis Alonso</div><div class="value">7</div><div class="sub">pendientes de 16 tareas</div></div>
+<div class="kpi c-red"><div class="label">Gabriel Servian</div><div class="value">7</div><div class="sub">pendientes de 14 tareas</div></div>
+<div class="kpi c-red"><div class="label">Fernando Rodriguez</div><div class="value">6</div><div class="sub">pendientes de 11 tareas</div></div>
+<div class="kpi c-red"><div class="label">Amado Arrieta</div><div class="value">5</div><div class="sub">pendientes de 5 tareas</div></div>
+<div class="kpi c-red"><div class="label">Luis Alonso, Fernando Rodriguez</div><div class="value">1</div><div class="sub">pendientes de 3 tareas</div></div>
+<div class="kpi c-green"><div class="label">Luis Alonso, Gabriel Servian</div><div class="value">0</div><div class="sub">pendientes de 1 tareas</div></div>
+          </div>
+        </div>
+
+        <div class="panel-box" style="margin-top:14px; border-color:#5a2e2c;">
+          <h3 style="color:var(--red);">⚠ Próximas a vencer / vencidas <span style="color:var(--ink-mute); text-transform:none; font-weight:400;">(columna Fecha de vencimiento, ventana de 7 días)</span></h3>
+          <div class="chips-wrap" id="idTareasProxVencer">
+<span class="chip atrasado">Dar continuidad de como se va a trabajar en relacion a los eventos, si lo cargara el Analista EO  y como se va a certificar y vincular. <small>(Gabriel Servian &middot; vencida hace 17 d.)</small></span>
+<span class="chip atrasado">Reporte de Distritos ya revisados <small>(Luis Alonso &middot; vencida hace 16 d.)</small></span>
+<span class="chip atrasado">Informe de levantamientos que no pudieron realizarse a causa de Acceso denegado por Lev a pie <small>(Luis Alonso &middot; vencida hace 16 d.)</small></span>
+<span class="chip atrasado">Cargar las misiones de Drone pendientes en la planilla C3 en base a la secuencia de certificacion de SSEE. <small>(Fernando Rodriguez &middot; vencida hace 16 d.)</small></span>
+<span class="chip atrasado">Enviar un correo a ANDE informando levantamientos a pie que no pudieron realizarse a causa de acceso denegado. Actualizar cada 15 días. <small>(Luis Alonso &middot; vencida hace 15 d.)</small></span>
+<span class="chip atrasado">Armar una reunion con GE para establecer fechas de implementacion que esta vinculado a la integracion del sistema linea 426 del Project. <small>(Amado Arrieta &middot; vencida hace 8 d.)</small></span>
+<span class="chip atrasado">Presentar informe de desviacion de Construccion de Circuitos. <small>(Luis Alonso &middot; vencida hace 1 d.)</small></span>
+<span class="chip atrasado">Preparar un documento o manual de consulta para los levantadores a PIE. Mezclar clasificacion con uso de Atlas. <small>(Luis Alonso, Fernando Rodriguez &middot; vencida hace 1 d.)</small></span>
+<span class="chip atrasado">Enviar planificacion centro, solicitar flyers para inicio de distritos <small>(Fernando Rodriguez &middot; vencida hace 1 d.)</small></span>
+<span class="chip">Hablar con Hugo Silvero para proyectos en BT. <small>(Gabriel Servian &middot; vence en 2 d.)</small></span>
+<span class="chip">Generar una cadena y solicitar actualizacion del documento en base a los nuevos deficiones. <small>(Gabriel Servian &middot; vence en 2 d.)</small></span>
+<span class="chip">Enviar correo a TA sobre realizar la comparativa de PD EO vs PD lev y detectar posibles postes que no se clasificaron transformadores. <small>(Gabriel Servian &middot; vence en 2 d.)</small></span>
+<span class="chip">Revision y retorno sobre propuesta de plan piloto de implementación ESTE <small>(Amado Arrieta &middot; vence en 5 d.)</small></span>
+<span class="chip">GE debe compartir tool para soluicionar lentitud de EO <small>(Amado Arrieta &middot; vence en 5 d.)</small></span>
+<span class="chip">Respuesta a ANDE por Adenda V3 a Ing. Procesos de Negocio <small>(Amado Arrieta &middot; vence en 5 d.)</small></span>
+<span class="chip">Modificar documento esp requerimientosde Cymdist. <small>(Amado Arrieta &middot; vence en 5 d.)</small></span>
+<span class="chip">Borrar fotos no utlizadas en postgress <small>(Fernando Rodriguez &middot; vence en 5 d.)</small></span>
+<span class="chip">Actualizar secuencia de SSEE de certificación 8C. <small>(Luis Alonso &middot; vence en 5 d.)</small></span>
+<span class="chip">Desarrollo del flujo de trabajo para Levantamiento en el Chaco, se usara Atlas o Apsheet, ver metodologia de trabajo <small>(Fernando Rodriguez &middot; vence en 6 d.)</small></span>
+<span class="chip">Ver que se necesita para levantar en el CHACO: tablets, camioneta, recursos, imagenes satelitales (Precio) <small>(Fernando Rodriguez &middot; vence en 6 d.)</small></span>
           </div>
         </div>
 
         <div style="display:flex; gap:10px; margin:16px 0 4px; flex-wrap:wrap; align-items:center;">
           <select id="filtroResponsableTareas" onchange="setFiltroResponsable(this.value)" class="select-filtro"></select>
         </div>
-        <div style="display:flex; gap:8px; margin:8px 0 4px; flex-wrap:wrap;">
+        <div style="display:flex; gap:8px; margin:8px 0 4px; flex-wrap:wrap;" id="idTareasFiltrosArea">
 <button data-area="Todas" onclick="setFiltroArea('Todas')" class="filtro-btn activo">Todas</button>
 <button data-area="Certificación" onclick="setFiltroArea('Certificación')" class="filtro-btn">Certificación</button>
 <button data-area="Construcción de Circuitos" onclick="setFiltroArea('Construcción de Circuitos')" class="filtro-btn">Construcción de Circuitos</button>
@@ -1263,75 +1283,75 @@ function onFiltroRegionalCirc(){
 })();
 
 let LOTES_DATA = [
-{lote:1,regional:'ESTE',estado_general:'Realizado',postes:980,estado_lote:'Aceptado',muestra_ande:'Emitido',emitido_8a:'SI',hab8b:'SI',emitido_8b:'SI'},
-{lote:2,regional:'ESTE',estado_general:'Realizado',postes:9,estado_lote:'Aceptado',muestra_ande:'Emitido',emitido_8a:'SI',hab8b:'SI',emitido_8b:'SI'},
-{lote:3,regional:'ESTE',estado_general:'Realizado',postes:9,estado_lote:'Aceptado',muestra_ande:'Emitido',emitido_8a:'SI',hab8b:'SI',emitido_8b:'SI'},
-{lote:4,regional:'ESTE',estado_general:'Realizado',postes:9,estado_lote:'Aceptado',muestra_ande:'Emitido',emitido_8a:'SI',hab8b:'SI',emitido_8b:'SI'},
-{lote:5,regional:'ESTE',estado_general:'Realizado',postes:9,estado_lote:'Aceptado',muestra_ande:'Emitido',emitido_8a:'SI',hab8b:'SI',emitido_8b:'SI'},
-{lote:6,regional:'ESTE',estado_general:'Realizado',postes:9,estado_lote:'Aceptado',muestra_ande:'Emitido',emitido_8a:'SI',hab8b:'SI',emitido_8b:'SI'},
-{lote:7,regional:'ESTE',estado_general:'Realizado',postes:9,estado_lote:'Aceptado',muestra_ande:'Emitido',emitido_8a:'SI',hab8b:'SI',emitido_8b:'SI'},
-{lote:8,regional:'ESTE',estado_general:'Realizado',postes:9,estado_lote:'Aceptado',muestra_ande:'Emitido',emitido_8a:'SI',hab8b:'SI',emitido_8b:'SI'},
-{lote:9,regional:'ESTE',estado_general:'Realizado',postes:9,estado_lote:'Aceptado',muestra_ande:'Emitido',emitido_8a:'SI',hab8b:'SI',emitido_8b:'SI'},
-{lote:10,regional:'ESTE',estado_general:'Realizado',postes:9,estado_lote:'Aceptado',muestra_ande:'Emitido',emitido_8a:'SI',hab8b:'SI',emitido_8b:'SI'},
-{lote:11,regional:'ESTE',estado_general:'Realizado',postes:9,estado_lote:'Aceptado',muestra_ande:'Emitido',emitido_8a:'SI',hab8b:'SI',emitido_8b:'SI'},
-{lote:12,regional:'ESTE',estado_general:'Realizado',postes:10,estado_lote:'Aceptado',muestra_ande:'Emitido',emitido_8a:'SI',hab8b:'SI',emitido_8b:'SI'},
-{lote:13,regional:'ESTE',estado_general:'Realizado',postes:9,estado_lote:'Aceptado',muestra_ande:'Emitido',emitido_8a:'SI',hab8b:'SI',emitido_8b:'SI'},
-{lote:14,regional:'ESTE',estado_general:'Realizado',postes:10,estado_lote:'Aceptado',muestra_ande:'Emitido',emitido_8a:'SI',hab8b:'SI',emitido_8b:'SI'},
-{lote:15,regional:'ESTE',estado_general:'Realizado',postes:9,estado_lote:'Aceptado',muestra_ande:'Emitido',emitido_8a:'SI',hab8b:'SI',emitido_8b:'SI'},
-{lote:16,regional:'ESTE',estado_general:'Realizado',postes:9,estado_lote:'Aceptado',muestra_ande:'Emitido',emitido_8a:'SI',hab8b:'SI',emitido_8b:'SI'},
-{lote:17,regional:'ESTE',estado_general:'Realizado',postes:9,estado_lote:'Aceptado',muestra_ande:'Emitido',emitido_8a:'SI',hab8b:'SI',emitido_8b:'SI'},
-{lote:18,regional:'ESTE',estado_general:'Realizado',postes:9,estado_lote:'Aceptado',muestra_ande:'Emitido',emitido_8a:'SI',hab8b:'SI',emitido_8b:'SI'},
-{lote:19,regional:'ESTE',estado_general:'Realizado',postes:9,estado_lote:'Aceptado',muestra_ande:'Emitido',emitido_8a:'SI',hab8b:'SI',emitido_8b:'SI'},
-{lote:20,regional:'ESTE',estado_general:'Realizado',postes:9,estado_lote:'Aceptado',muestra_ande:'Emitido',emitido_8a:'SI',hab8b:'SI',emitido_8b:'SI'},
-{lote:21,regional:'ESTE',estado_general:'Realizado',postes:9,estado_lote:'Aceptado',muestra_ande:'Emitido',emitido_8a:'SI',hab8b:'SI',emitido_8b:'SI'},
-{lote:22,regional:'ESTE',estado_general:'Realizado',postes:9,estado_lote:'Aceptado',muestra_ande:'Emitido',emitido_8a:'SI',hab8b:'SI',emitido_8b:'SI'},
-{lote:23,regional:'ESTE',estado_general:'Realizado',postes:9,estado_lote:'Aceptado',muestra_ande:'Emitido',emitido_8a:'SI',hab8b:'SI',emitido_8b:'SI'},
-{lote:24,regional:'ESTE',estado_general:'Realizado',postes:9,estado_lote:'Aceptado',muestra_ande:'Emitido',emitido_8a:'SI',hab8b:'SI',emitido_8b:'SI'},
-{lote:25,regional:'ESTE',estado_general:'Realizado',postes:9,estado_lote:'Aceptado',muestra_ande:'Emitido',emitido_8a:'SI',hab8b:'SI',emitido_8b:'SI'},
-{lote:26,regional:'ESTE',estado_general:'Realizado',postes:9,estado_lote:'Aceptado',muestra_ande:'Emitido',emitido_8a:'SI',hab8b:'SI',emitido_8b:'SI'},
-{lote:27,regional:'ESTE',estado_general:'Realizado',postes:9,estado_lote:'Aceptado',muestra_ande:'Emitido',emitido_8a:'SI',hab8b:'SI',emitido_8b:'SI'},
-{lote:28,regional:'ESTE',estado_general:'Realizado',postes:9,estado_lote:'Aceptado',muestra_ande:'Emitido',emitido_8a:'SI',hab8b:'SI',emitido_8b:'SI'},
-{lote:29,regional:'ESTE',estado_general:'Realizado',postes:9,estado_lote:'Aceptado',muestra_ande:'Emitido',emitido_8a:'SI',hab8b:'SI',emitido_8b:'SI'},
-{lote:30,regional:'ESTE',estado_general:'Realizado',postes:9,estado_lote:'Aceptado',muestra_ande:'Emitido',emitido_8a:'SI',hab8b:'SI',emitido_8b:'SI'},
-{lote:31,regional:'ESTE',estado_general:'Realizado',postes:9,estado_lote:'Aceptado',muestra_ande:'Emitido',emitido_8a:'SI',hab8b:'SI',emitido_8b:'SI'},
-{lote:32,regional:'SUR',estado_general:'Realizado',postes:9,estado_lote:'Aceptado',muestra_ande:'Emitido',emitido_8a:'SI',hab8b:'SI',emitido_8b:'SI'},
-{lote:33,regional:'SUR',estado_general:'Realizado',postes:9,estado_lote:'Aceptado',muestra_ande:'Emitido',emitido_8a:'SI',hab8b:'SI',emitido_8b:'SI'},
-{lote:34,regional:'SUR',estado_general:'Realizado',postes:10,estado_lote:'Aceptado',muestra_ande:'Emitido',emitido_8a:'SI',hab8b:'SI',emitido_8b:'SI'},
-{lote:35,regional:'SUR',estado_general:'Realizado',postes:9,estado_lote:'Aceptado',muestra_ande:'Emitido',emitido_8a:'SI',hab8b:'SI',emitido_8b:'SI'},
-{lote:36,regional:'SUR',estado_general:'Realizado',postes:9,estado_lote:'Aceptado',muestra_ande:'Emitido',emitido_8a:'SI',hab8b:'SI',emitido_8b:'SI'},
-{lote:37,regional:'SUR',estado_general:'Realizado',postes:9,estado_lote:'Aceptado',muestra_ande:'Emitido',emitido_8a:'SI',hab8b:'SI',emitido_8b:'SI'},
-{lote:38,regional:'SUR',estado_general:'Realizado',postes:9,estado_lote:'Aceptado',muestra_ande:'Emitido',emitido_8a:'SI',hab8b:'SI',emitido_8b:'SI'},
-{lote:39,regional:'SUR',estado_general:'Realizado',postes:9,estado_lote:'Aceptado',muestra_ande:'Emitido',emitido_8a:'SI',hab8b:'SI',emitido_8b:'SI'},
-{lote:40,regional:'SUR',estado_general:'Realizado',postes:9506,estado_lote:'Aceptado',muestra_ande:'Emitido',emitido_8a:'SI',hab8b:'SI',emitido_8b:'SI'},
-{lote:41,regional:'SUR',estado_general:'Realizado',postes:9068,estado_lote:'Aceptado',muestra_ande:'Emitido',emitido_8a:'SI',hab8b:'SI',emitido_8b:'SI'},
-{lote:42,regional:'SUR',estado_general:'Realizado',postes:9399,estado_lote:'Aceptado',muestra_ande:'Emitido',emitido_8a:'SI',hab8b:'SI',emitido_8b:'SI'},
-{lote:43,regional:'SUR',estado_general:'Realizado',postes:9605,estado_lote:'Aceptado',muestra_ande:'Emitido',emitido_8a:'SI',hab8b:'SI',emitido_8b:'SI'},
-{lote:44,regional:'SUR',estado_general:'Realizado',postes:9074,estado_lote:'Aceptado',muestra_ande:'Emitido',emitido_8a:'SI',hab8b:'SI',emitido_8b:'SI'},
-{lote:45,regional:'SUR',estado_general:'Realizado',postes:9890,estado_lote:'Aceptado',muestra_ande:'Emitido',emitido_8a:'SI',hab8b:'SI',emitido_8b:'SI'},
-{lote:46,regional:'SUR',estado_general:'Realizado',postes:9888,estado_lote:'Aceptado',muestra_ande:'Emitido',emitido_8a:'SI',hab8b:'SI',emitido_8b:'SI'},
-{lote:47,regional:'SUR',estado_general:'Realizado',postes:9927,estado_lote:'Aceptado',muestra_ande:'Emitido',emitido_8a:'SI',hab8b:'SI',emitido_8b:'SI'},
-{lote:48,regional:'SUR',estado_general:'Realizado',postes:9810,estado_lote:'Aceptado',muestra_ande:'Emitido',emitido_8a:'SI',hab8b:'SI',emitido_8b:'SI'},
-{lote:49,regional:'SUR',estado_general:'Realizado',postes:9973,estado_lote:'Aceptado',muestra_ande:'Emitido',emitido_8a:'SI',hab8b:'SI',emitido_8b:'SI'},
-{lote:50,regional:'SUR',estado_general:'Realizado',postes:9788,estado_lote:'Aceptado',muestra_ande:'Emitido',emitido_8a:'SI',hab8b:'SI',emitido_8b:'SI'},
-{lote:51,regional:'SUR',estado_general:'Realizado',postes:9937,estado_lote:'Aceptado',muestra_ande:'Emitido',emitido_8a:'SI',hab8b:'SI',emitido_8b:'SI'},
-{lote:52,regional:'SUR',estado_general:'Realizado',postes:9953,estado_lote:'Aceptado',muestra_ande:'Emitido',emitido_8a:'SI',hab8b:'SI',emitido_8b:'SI'},
-{lote:53,regional:'SUR',estado_general:'Realizado',postes:9989,estado_lote:'Aceptado',muestra_ande:'Emitido',emitido_8a:'SI',hab8b:'SI',emitido_8b:'SI'},
-{lote:54,regional:'SUR',estado_general:'Realizado',postes:9815,estado_lote:'Aceptado',muestra_ande:'Emitido',emitido_8a:'SI',hab8b:'SI',emitido_8b:'SI'},
-{lote:55,regional:'SUR',estado_general:'Realizado',postes:9926,estado_lote:'Aceptado',muestra_ande:'Emitido',emitido_8a:'NO',hab8b:'SI',emitido_8b:'Pendiente'},
-{lote:56,regional:'SUR',estado_general:'Realizado',postes:9945,estado_lote:'Aceptado',muestra_ande:'Emitido',emitido_8a:'SI',hab8b:'SI',emitido_8b:'SI'},
-{lote:57,regional:'SUR',estado_general:'Realizado',postes:9895,estado_lote:'Aceptado',muestra_ande:'Emitido',emitido_8a:'NO',hab8b:'SI',emitido_8b:'Pendiente'},
-{lote:58,regional:'ESTE',estado_general:'Realizado',postes:9767,estado_lote:'Aceptado',muestra_ande:'Emitido',emitido_8a:'SI',hab8b:'SI',emitido_8b:'SI'},
-{lote:59,regional:'ESTE',estado_general:'Realizado',postes:9152,estado_lote:'Aceptado',muestra_ande:'Emitido',emitido_8a:'SI',hab8b:'SI',emitido_8b:'SI'},
-{lote:60,regional:'ESTE',estado_general:'Realizado',postes:9434,estado_lote:'Aceptado',muestra_ande:'Emitido',emitido_8a:'SI',hab8b:'SI',emitido_8b:'SI'},
-{lote:61,regional:'SUR',estado_general:'Realizado',postes:9962,estado_lote:'Aceptado',muestra_ande:'Emitido',emitido_8a:'SI',hab8b:'SI',emitido_8b:'SI'},
-{lote:62,regional:'SUR',estado_general:'Realizado',postes:9801,estado_lote:'Aceptado',muestra_ande:'Emitido',emitido_8a:'SI',hab8b:'SI',emitido_8b:'SI'},
-{lote:63,regional:'SUR',estado_general:'Realizado',postes:9382,estado_lote:'Aceptado',muestra_ande:'Emitido',emitido_8a:'SI',hab8b:'SI',emitido_8b:'SI'},
-{lote:64,regional:'SUR',estado_general:'Realizado',postes:9955,estado_lote:'Aceptado',muestra_ande:'Emitido',emitido_8a:'NO',hab8b:'SI',emitido_8b:''},
-{lote:65,regional:'SUR',estado_general:'Realizado',postes:9618,estado_lote:'Aceptado',muestra_ande:'Emitido',emitido_8a:'NO',hab8b:'',emitido_8b:''},
-{lote:66,regional:'METRO Y CENTRAL',estado_general:'Realizado',postes:9915,estado_lote:'En curso',muestra_ande:'Emitido',emitido_8a:'NO',hab8b:'',emitido_8b:''},
-{lote:67,regional:'METRO Y CENTRAL',estado_general:'Realizado',postes:9968,estado_lote:'En curso',muestra_ande:'Emitido',emitido_8a:'NO',hab8b:'',emitido_8b:''},
-{lote:68,regional:'METRO Y CENTRAL',estado_general:'Realizado',postes:9907,estado_lote:'Sin iniciar',muestra_ande:'',emitido_8a:'NO',hab8b:'',emitido_8b:''},
-{lote:69,regional:'METRO Y CENTRAL',estado_general:'Realizado',postes:9972,estado_lote:'Sin iniciar',muestra_ande:'',emitido_8a:'NO',hab8b:'',emitido_8b:''},
+{lote:1,regional:'ESTE',estado_general:'Realizado',postes:9800,estado_lote:'Aceptado',muestra_ande:'Emitido',emitido_8a:'SI',hab8b:'SI',emitido_8b:'SI'},
+{lote:2,regional:'ESTE',estado_general:'Realizado',postes:9994,estado_lote:'Aceptado',muestra_ande:'Emitido',emitido_8a:'SI',hab8b:'SI',emitido_8b:'SI'},
+{lote:3,regional:'ESTE',estado_general:'Realizado',postes:9999,estado_lote:'Aceptado',muestra_ande:'Emitido',emitido_8a:'SI',hab8b:'SI',emitido_8b:'SI'},
+{lote:4,regional:'ESTE',estado_general:'Realizado',postes:9993,estado_lote:'Aceptado',muestra_ande:'Emitido',emitido_8a:'SI',hab8b:'SI',emitido_8b:'SI'},
+{lote:5,regional:'ESTE',estado_general:'Realizado',postes:9916,estado_lote:'Aceptado',muestra_ande:'Emitido',emitido_8a:'SI',hab8b:'SI',emitido_8b:'SI'},
+{lote:6,regional:'ESTE',estado_general:'Realizado',postes:9999,estado_lote:'Aceptado',muestra_ande:'Emitido',emitido_8a:'SI',hab8b:'SI',emitido_8b:'SI'},
+{lote:7,regional:'ESTE',estado_general:'Realizado',postes:9988,estado_lote:'Aceptado',muestra_ande:'Emitido',emitido_8a:'SI',hab8b:'SI',emitido_8b:'SI'},
+{lote:8,regional:'ESTE',estado_general:'Realizado',postes:9999,estado_lote:'Aceptado',muestra_ande:'Emitido',emitido_8a:'SI',hab8b:'SI',emitido_8b:'SI'},
+{lote:9,regional:'ESTE',estado_general:'Realizado',postes:9964,estado_lote:'Aceptado',muestra_ande:'Emitido',emitido_8a:'SI',hab8b:'SI',emitido_8b:'SI'},
+{lote:10,regional:'ESTE',estado_general:'Realizado',postes:9996,estado_lote:'Aceptado',muestra_ande:'Emitido',emitido_8a:'SI',hab8b:'SI',emitido_8b:'SI'},
+{lote:11,regional:'ESTE',estado_general:'Realizado',postes:9948,estado_lote:'Aceptado',muestra_ande:'Emitido',emitido_8a:'SI',hab8b:'SI',emitido_8b:'SI'},
+{lote:12,regional:'ESTE',estado_general:'Realizado',postes:100,estado_lote:'Aceptado',muestra_ande:'Emitido',emitido_8a:'SI',hab8b:'SI',emitido_8b:'SI'},
+{lote:13,regional:'ESTE',estado_general:'Realizado',postes:999,estado_lote:'Aceptado',muestra_ande:'Emitido',emitido_8a:'SI',hab8b:'SI',emitido_8b:'SI'},
+{lote:14,regional:'ESTE',estado_general:'Realizado',postes:100,estado_lote:'Aceptado',muestra_ande:'Emitido',emitido_8a:'SI',hab8b:'SI',emitido_8b:'SI'},
+{lote:15,regional:'ESTE',estado_general:'Realizado',postes:9998,estado_lote:'Aceptado',muestra_ande:'Emitido',emitido_8a:'SI',hab8b:'SI',emitido_8b:'SI'},
+{lote:16,regional:'ESTE',estado_general:'Realizado',postes:9985,estado_lote:'Aceptado',muestra_ande:'Emitido',emitido_8a:'SI',hab8b:'SI',emitido_8b:'SI'},
+{lote:17,regional:'ESTE',estado_general:'Realizado',postes:9999,estado_lote:'Aceptado',muestra_ande:'Emitido',emitido_8a:'SI',hab8b:'SI',emitido_8b:'SI'},
+{lote:18,regional:'ESTE',estado_general:'Realizado',postes:99,estado_lote:'Aceptado',muestra_ande:'Emitido',emitido_8a:'SI',hab8b:'SI',emitido_8b:'SI'},
+{lote:19,regional:'ESTE',estado_general:'Realizado',postes:992,estado_lote:'Aceptado',muestra_ande:'Emitido',emitido_8a:'SI',hab8b:'SI',emitido_8b:'SI'},
+{lote:20,regional:'ESTE',estado_general:'Realizado',postes:9294,estado_lote:'Aceptado',muestra_ande:'Emitido',emitido_8a:'SI',hab8b:'SI',emitido_8b:'SI'},
+{lote:21,regional:'ESTE',estado_general:'Realizado',postes:9636,estado_lote:'Aceptado',muestra_ande:'Emitido',emitido_8a:'SI',hab8b:'SI',emitido_8b:'SI'},
+{lote:22,regional:'ESTE',estado_general:'Realizado',postes:9977,estado_lote:'Aceptado',muestra_ande:'Emitido',emitido_8a:'SI',hab8b:'SI',emitido_8b:'SI'},
+{lote:23,regional:'ESTE',estado_general:'Realizado',postes:9854,estado_lote:'Aceptado',muestra_ande:'Emitido',emitido_8a:'SI',hab8b:'SI',emitido_8b:'SI'},
+{lote:24,regional:'ESTE',estado_general:'Realizado',postes:9972,estado_lote:'Aceptado',muestra_ande:'Emitido',emitido_8a:'SI',hab8b:'SI',emitido_8b:'SI'},
+{lote:25,regional:'ESTE',estado_general:'Realizado',postes:9987,estado_lote:'Aceptado',muestra_ande:'Emitido',emitido_8a:'SI',hab8b:'SI',emitido_8b:'SI'},
+{lote:26,regional:'ESTE',estado_general:'Realizado',postes:9491,estado_lote:'Aceptado',muestra_ande:'Emitido',emitido_8a:'SI',hab8b:'SI',emitido_8b:'SI'},
+{lote:27,regional:'ESTE',estado_general:'Realizado',postes:9192,estado_lote:'Aceptado',muestra_ande:'Emitido',emitido_8a:'SI',hab8b:'SI',emitido_8b:'SI'},
+{lote:28,regional:'ESTE',estado_general:'Realizado',postes:9918,estado_lote:'Aceptado',muestra_ande:'Emitido',emitido_8a:'SI',hab8b:'SI',emitido_8b:'SI'},
+{lote:29,regional:'ESTE',estado_general:'Realizado',postes:9917,estado_lote:'Aceptado',muestra_ande:'Emitido',emitido_8a:'SI',hab8b:'SI',emitido_8b:'SI'},
+{lote:30,regional:'ESTE',estado_general:'Realizado',postes:9705,estado_lote:'Aceptado',muestra_ande:'Emitido',emitido_8a:'SI',hab8b:'SI',emitido_8b:'SI'},
+{lote:31,regional:'ESTE',estado_general:'Realizado',postes:9634,estado_lote:'Aceptado',muestra_ande:'Emitido',emitido_8a:'SI',hab8b:'SI',emitido_8b:'SI'},
+{lote:32,regional:'SUR',estado_general:'Realizado',postes:9737,estado_lote:'Aceptado',muestra_ande:'Emitido',emitido_8a:'SI',hab8b:'SI',emitido_8b:'SI'},
+{lote:33,regional:'SUR',estado_general:'Realizado',postes:9957,estado_lote:'Aceptado',muestra_ande:'Emitido',emitido_8a:'SI',hab8b:'SI',emitido_8b:'SI'},
+{lote:34,regional:'SUR',estado_general:'Realizado',postes:100,estado_lote:'Aceptado',muestra_ande:'Emitido',emitido_8a:'SI',hab8b:'SI',emitido_8b:'SI'},
+{lote:35,regional:'SUR',estado_general:'Realizado',postes:9969,estado_lote:'Aceptado',muestra_ande:'Emitido',emitido_8a:'SI',hab8b:'SI',emitido_8b:'SI'},
+{lote:36,regional:'SUR',estado_general:'Realizado',postes:9443,estado_lote:'Aceptado',muestra_ande:'Emitido',emitido_8a:'SI',hab8b:'SI',emitido_8b:'SI'},
+{lote:37,regional:'SUR',estado_general:'Realizado',postes:9893,estado_lote:'Aceptado',muestra_ande:'Emitido',emitido_8a:'SI',hab8b:'SI',emitido_8b:'SI'},
+{lote:38,regional:'SUR',estado_general:'Realizado',postes:9914,estado_lote:'Aceptado',muestra_ande:'Emitido',emitido_8a:'SI',hab8b:'SI',emitido_8b:'SI'},
+{lote:39,regional:'SUR',estado_general:'Realizado',postes:9669,estado_lote:'Aceptado',muestra_ande:'Emitido',emitido_8a:'SI',hab8b:'SI',emitido_8b:'SI'},
+{lote:40,regional:'SUR',estado_general:'Realizado',postes:95060,estado_lote:'Aceptado',muestra_ande:'Emitido',emitido_8a:'SI',hab8b:'SI',emitido_8b:'SI'},
+{lote:41,regional:'SUR',estado_general:'Realizado',postes:90680,estado_lote:'Aceptado',muestra_ande:'Emitido',emitido_8a:'SI',hab8b:'SI',emitido_8b:'SI'},
+{lote:42,regional:'SUR',estado_general:'Realizado',postes:93990,estado_lote:'Aceptado',muestra_ande:'Emitido',emitido_8a:'SI',hab8b:'SI',emitido_8b:'SI'},
+{lote:43,regional:'SUR',estado_general:'Realizado',postes:96050,estado_lote:'Aceptado',muestra_ande:'Emitido',emitido_8a:'SI',hab8b:'SI',emitido_8b:'SI'},
+{lote:44,regional:'SUR',estado_general:'Realizado',postes:90740,estado_lote:'Aceptado',muestra_ande:'Emitido',emitido_8a:'SI',hab8b:'SI',emitido_8b:'SI'},
+{lote:45,regional:'SUR',estado_general:'Realizado',postes:98900,estado_lote:'Aceptado',muestra_ande:'Emitido',emitido_8a:'SI',hab8b:'SI',emitido_8b:'SI'},
+{lote:46,regional:'SUR',estado_general:'Realizado',postes:98880,estado_lote:'Aceptado',muestra_ande:'Emitido',emitido_8a:'SI',hab8b:'SI',emitido_8b:'SI'},
+{lote:47,regional:'SUR',estado_general:'Realizado',postes:99270,estado_lote:'Aceptado',muestra_ande:'Emitido',emitido_8a:'SI',hab8b:'SI',emitido_8b:'SI'},
+{lote:48,regional:'SUR',estado_general:'Realizado',postes:98100,estado_lote:'Aceptado',muestra_ande:'Emitido',emitido_8a:'SI',hab8b:'SI',emitido_8b:'SI'},
+{lote:49,regional:'SUR',estado_general:'Realizado',postes:99730,estado_lote:'Aceptado',muestra_ande:'Emitido',emitido_8a:'SI',hab8b:'SI',emitido_8b:'SI'},
+{lote:50,regional:'SUR',estado_general:'Realizado',postes:97880,estado_lote:'Aceptado',muestra_ande:'Emitido',emitido_8a:'SI',hab8b:'SI',emitido_8b:'SI'},
+{lote:51,regional:'SUR',estado_general:'Realizado',postes:99370,estado_lote:'Aceptado',muestra_ande:'Emitido',emitido_8a:'SI',hab8b:'SI',emitido_8b:'SI'},
+{lote:52,regional:'SUR',estado_general:'Realizado',postes:99530,estado_lote:'Aceptado',muestra_ande:'Emitido',emitido_8a:'SI',hab8b:'SI',emitido_8b:'SI'},
+{lote:53,regional:'SUR',estado_general:'Realizado',postes:99890,estado_lote:'Aceptado',muestra_ande:'Emitido',emitido_8a:'SI',hab8b:'SI',emitido_8b:'SI'},
+{lote:54,regional:'SUR',estado_general:'Realizado',postes:98150,estado_lote:'Aceptado',muestra_ande:'Emitido',emitido_8a:'SI',hab8b:'SI',emitido_8b:'SI'},
+{lote:55,regional:'SUR',estado_general:'Realizado',postes:99260,estado_lote:'Aceptado',muestra_ande:'Emitido',emitido_8a:'NO',hab8b:'SI',emitido_8b:'Pendiente'},
+{lote:56,regional:'SUR',estado_general:'Realizado',postes:99450,estado_lote:'Aceptado',muestra_ande:'Emitido',emitido_8a:'SI',hab8b:'SI',emitido_8b:'SI'},
+{lote:57,regional:'SUR',estado_general:'Realizado',postes:98950,estado_lote:'Aceptado',muestra_ande:'Emitido',emitido_8a:'NO',hab8b:'SI',emitido_8b:'Pendiente'},
+{lote:58,regional:'ESTE',estado_general:'Realizado',postes:97670,estado_lote:'Aceptado',muestra_ande:'Emitido',emitido_8a:'SI',hab8b:'SI',emitido_8b:'SI'},
+{lote:59,regional:'ESTE',estado_general:'Realizado',postes:91520,estado_lote:'Aceptado',muestra_ande:'Emitido',emitido_8a:'SI',hab8b:'SI',emitido_8b:'SI'},
+{lote:60,regional:'ESTE',estado_general:'Realizado',postes:94340,estado_lote:'Aceptado',muestra_ande:'Emitido',emitido_8a:'SI',hab8b:'SI',emitido_8b:'SI'},
+{lote:61,regional:'SUR',estado_general:'Realizado',postes:99620,estado_lote:'Aceptado',muestra_ande:'Emitido',emitido_8a:'SI',hab8b:'SI',emitido_8b:'SI'},
+{lote:62,regional:'SUR',estado_general:'Realizado',postes:98010,estado_lote:'Aceptado',muestra_ande:'Emitido',emitido_8a:'SI',hab8b:'SI',emitido_8b:'SI'},
+{lote:63,regional:'SUR',estado_general:'Realizado',postes:93820,estado_lote:'Aceptado',muestra_ande:'Emitido',emitido_8a:'SI',hab8b:'SI',emitido_8b:'SI'},
+{lote:64,regional:'SUR',estado_general:'Realizado',postes:99550,estado_lote:'Aceptado',muestra_ande:'Emitido',emitido_8a:'NO',hab8b:'SI',emitido_8b:''},
+{lote:65,regional:'SUR',estado_general:'Realizado',postes:96180,estado_lote:'Aceptado',muestra_ande:'Emitido',emitido_8a:'NO',hab8b:'',emitido_8b:''},
+{lote:66,regional:'METRO Y CENTRAL',estado_general:'Realizado',postes:99150,estado_lote:'En curso',muestra_ande:'Emitido',emitido_8a:'NO',hab8b:'',emitido_8b:''},
+{lote:67,regional:'METRO Y CENTRAL',estado_general:'Realizado',postes:99680,estado_lote:'En curso',muestra_ande:'Emitido',emitido_8a:'NO',hab8b:'',emitido_8b:''},
+{lote:68,regional:'METRO Y CENTRAL',estado_general:'Realizado',postes:99070,estado_lote:'Sin iniciar',muestra_ande:'',emitido_8a:'NO',hab8b:'',emitido_8b:''},
+{lote:69,regional:'METRO Y CENTRAL',estado_general:'Realizado',postes:99720,estado_lote:'Sin iniciar',muestra_ande:'',emitido_8a:'NO',hab8b:'',emitido_8b:''},
 {lote:70,regional:'METRO Y CENTRAL',estado_general:'Realizado',postes:null,estado_lote:'Sin iniciar',muestra_ande:'',emitido_8a:'NO',hab8b:'',emitido_8b:''},
 {lote:71,regional:'METRO Y CENTRAL',estado_general:'Realizado',postes:null,estado_lote:'Sin iniciar',muestra_ande:'',emitido_8a:'NO',hab8b:'',emitido_8b:''},
 {lote:72,regional:'METRO Y CENTRAL',estado_general:'Realizado',postes:null,estado_lote:'Sin iniciar',muestra_ande:'',emitido_8a:'NO',hab8b:'',emitido_8b:''},
@@ -1540,13 +1560,16 @@ function setFiltroRegionalLotes(reg){
   document.querySelectorAll('#filtrosRegionalLotes button').forEach(b => b.classList.toggle('activo', b.dataset.reg === reg));
   aplicarFiltrosLotes();
 }
-(function initFiltrosRegionalLotes(){
+function initFiltrosRegionalLotes(){
+  FILTRO_REGIONAL_LOTES = 'Todas';
   const regiones = ['Todas', ...new Set(LOTES_DATA.map(r => r.regional || 'Sin asignar'))];
   document.getElementById('filtrosRegionalLotes').innerHTML = regiones.map(reg =>
     `<button data-reg="${reg}" class="filtro-btn${reg==='Todas'?' activo':''}" onclick="setFiltroRegionalLotes('${reg}')">${reg}</button>`
   ).join('');
-})();
-pintarLotes(LOTES_DATA);
+  document.getElementById('filtroLotes').value = '';
+  aplicarFiltrosLotes();
+}
+initFiltrosRegionalLotes();
 
 const RITMO_DATA = [
 {circuito:'DES10',tipo:'MT',analista:'Mostermann',estado:'Completado',fecha_asignacion:'12/08/2026',dias:6,km_mt_ajustados:29.09,pd_ande:114.0,pd_terceros:19.0,pd_ande_construido:0.0,pd_terceros_construido:0.0,puntos_servicio:0.0,prom_km_mt_ajustados:4.85,prom_pd_ande:19.0,prom_pd_terceros:3.17,prom_pd_ande_construido:0.0,prom_pd_terceros_construido:0.0,prom_puntos_servicio:0.0},
@@ -1610,255 +1633,255 @@ function pintarRitmo(){
 })();
 
 let TAREAS_DATA = [
-{item:1,area:'Levantamiento y Captura',tarea:'Solicitud de Acceso Barrio Surubi METRO',responsable:'24/08/2026',regional:'Luis Alonso',estado:'METRO Y CENTRAL',reporte:'Completado'},
-{item:2,area:'Levantamiento y Captura',tarea:'Reporte de Distritos ya revisados',responsable:'13/08/2026',regional:'Luis Alonso',estado:'METRO Y CENTRAL',reporte:'En curso'},
-{item:3,area:'Levantamiento y Captura',tarea:'Reunion de Planificacion captura Metropolitana',responsable:'',regional:'Gabriel Servian',estado:'METRO Y CENTRAL',reporte:'Pendiente'},
-{item:4,area:'Levantamiento y Captura',tarea:'Entrevistas Laborales para Construccion de Circuitos',responsable:'',regional:'Gabriel Servian',estado:'METRO Y CENTRAL',reporte:'En curso'},
-{item:5,area:'Levantamiento y Captura',tarea:'Informe de levantamientos que no pudieron realizarse a causa de Acceso denegado por DRONE. Evaluar con Kai para que se cargue al Atlas los accesos denegados.',responsable:'13/08/2026',regional:'Luis Alonso',estado:'METRO Y CENTRAL',reporte:'Completado'},
-{item:6,area:'Levantamiento y Captura',tarea:'Informe de levantamientos que no pudieron realizarse a causa de Acceso denegado por Lev a pie',responsable:'13/08/2026',regional:'Luis Alonso',estado:'SUR, METRO Y CENTRAL',reporte:'En curso'},
-{item:7,area:'Construcción de Circuitos',tarea:'Postes de Muestra de Lev a PIE para Construccion de Circuitos. Como complementar con el flujo actual.',responsable:'',regional:'Gabriel Servian',estado:'GENERAL',reporte:'Pendiente'},
-{item:8,area:'Construcción de Circuitos',tarea:'Como vincular evento de acceso denegado con Certificacion 8C. RED MT,BT.',responsable:'',regional:'Gabriel Servian',estado:'GENERAL',reporte:'Pendiente'},
-{item:9,area:'Construcción de Circuitos',tarea:'Vinculacion evento con Lote Lev a PIE',responsable:'',regional:'Gabriel Servian',estado:'ESTE',reporte:'Pendiente'},
-{item:10,area:'Control de Calidad',tarea:'Conformación de Lotes, conversar con Jesus para armar una reunion mañana mismo por la tarde y transferirle a Fernando.',responsable:'12/08/2026',regional:'Luis Alonso',estado:'METRO Y CENTRAL',reporte:'Completado'},
-{item:11,area:'Levantamiento y Captura',tarea:'Revision de Flujo de Trabajo 8C, definicion de Jefe de Construccion de Circuitos',responsable:'',regional:'Gabriel Servian',estado:'GENERAL',reporte:'Pendiente'},
-{item:12,area:'Levantamiento y Captura',tarea:'Cronograma tentativo de Levantamiento de SSEE pendientes.',responsable:'',regional:'Luis Alonso',estado:'METRO Y CENTRAL',reporte:'Completado'},
-{item:13,area:'Certificación',tarea:'Certificacion 8B de los lotes 40, 55, 57. Informe 8B ver con Kai',responsable:'',regional:'Gabriel Servian',estado:'SUR, METRO Y CENTRAL',reporte:'Pendiente'},
-{item:14,area:'Levantamiento y Captura',tarea:'Coordinar con Kai carga de eventos del SUR a Atlas, convalidar excel.',responsable:'13/08/2026',regional:'Luis Alonso',estado:'METRO Y CENTRAL, SUR',reporte:'Completado'},
-{item:15,area:'Procesamiento',tarea:'Planificacion de todos los distritos por levantarse a nivel Pais y carga a la planilla de Control',responsable:'12/08/2026',regional:'Fernando Rodriguez',estado:'ESTE, NORTE, CHACO',reporte:'Completado'},
-{item:16,area:'Levantamiento y Captura',tarea:'Enviar planificacion del Jueves 13/08/2026 para lo que resta el mes Certificación 8A.',responsable:'13/08/2026',regional:'Luis Alonso',estado:'METRO Y CENTRAL',reporte:'Pendiente'},
-{item:17,area:'Levantamiento y Captura',tarea:'Realizar solicitud de mimicos de dos SSEE que quedaron pendientes de levantar. Una vez confirmado el estado de SLO enviar un correo a ANDE comentando el estado de las dos SSEE. Por eso no se estan levantando, y solicitar si aplica levantar de como esta o esperamos de acuerdo al mencionado para reactivar el trabajo.',responsable:'12/08/2026',regional:'Luis Alonso, Fernando Rodriguez',estado:'METRO Y CENTRAL',reporte:'Completado'},
-{item:18,area:'Levantamiento y Captura',tarea:'Crear orden de captura de Drone para que Richar mande desde ahora la planificacion',responsable:'10/08/2026',regional:'Luis Alonso',estado:'METRO Y CENTRAL, SUR',reporte:'Completado'},
-{item:19,area:'Levantamiento y Captura',tarea:'Cargar las misiones de Drone pendientes en la planilla C3 en base a la secuencia de certificacion de SSEE.',responsable:'13/08/2026',regional:'Fernando Rodriguez',estado:'METRO Y CENTRAL',reporte:'Pendiente'},
-{item:20,area:'Levantamiento y Captura',tarea:'Enviar un correo a ANDE informando los levantamientos que no pudieron realizarse a causa de acceso denegado para DRONE. Actualizar cada 15 días.',responsable:'14/08/2026',regional:'Luis Alonso',estado:'GENERAL',reporte:'Completado'},
-{item:21,area:'Levantamiento y Captura',tarea:'Enviar un correo a ANDE informando levantamientos a pie que no pudieron realizarse a causa de acceso denegado. Actualizar cada 15 días.',responsable:'14/08/2026',regional:'Luis Alonso',estado:'GENERAL',reporte:'En curso'},
-{item:22,area:'Levantamiento y Captura',tarea:'Presentar informe de desviacion de Construccion de Circuitos.',responsable:'28/08/2026',regional:'Luis Alonso',estado:'ESTE',reporte:'Pendiente'},
-{item:23,area:'Levantamiento y Captura',tarea:'Dar continuidad de como se va a trabajar en relacion a los eventos, si lo cargara el Analista EO  y como se va a certificar y vincular.',responsable:'12/08/2026',regional:'Gabriel Servian',estado:'GENERAL',reporte:'Pendiente'},
-{item:24,area:'Construcción de Circuitos',tarea:'Dpto de Canindeyu revisar baches para adelantar la certificacion de las SSEE.',responsable:'',regional:'Fernando Rodriguez',estado:'ESTE',reporte:'Completado'},
-{item:25,area:'Levantamiento y Captura',tarea:'Capacitación a Arnald uso de Formulario Subterraneo',responsable:'19/08/2026',regional:'Luis Alonso',estado:'METRO Y CENTRAL',reporte:'Completado'},
-{item:26,area:'Levantamiento y Captura',tarea:'Materiales para levantamiento Subterraneo',responsable:'19/08/2026',regional:'Fernando Rodriguez',estado:'METRO Y CENTRAL',reporte:'Pendiente'},
-{item:27,area:'Levantamiento y Captura',tarea:'Fecha tentaviva de inicio levantamiento regional METRO',responsable:'31/08/2026',regional:'Luis Alonso, Gabriel Servian',estado:'METRO Y CENTRAL',reporte:'Pendiente'},
-{item:28,area:'Levantamiento y Captura',tarea:'Completitud de Datos de Canindeyu',responsable:'18/08/2026',regional:'Luis Alonso, Fernando Rodriguez',estado:'ESTE',reporte:'Pendiente'},
-{item:29,area:'Levantamiento y Captura',tarea:'Ver con Kai para que se pueda generar un PDF del mundo interno de cada registro Subterraneo',responsable:'20/08/2026',regional:'Gabriel Servian',estado:'METRO Y CENTRAL',reporte:'Pendiente'},
-{item:30,area:'Levantamiento y Captura',tarea:'Actualizar cantidades de  puntos de servicio por Alimentador.',responsable:'18/8/26',regional:'Fernando Rodriguez',estado:'GENERAL',reporte:'Completado'},
-{item:31,area:'Implementación',tarea:'Armar una reunion con GE para establecer fechas de implementacion que esta vinculado a la integracion del sistema linea 426 del Project.',responsable:'21/08/2026',regional:'Amado Arrieta',estado:'GENERAL',reporte:'Pendiente'},
-{item:32,area:'Levantamiento y Captura',tarea:'Preparar un documento o manual de consulta para los levantadores a PIE. Mezclar clasificacion con uso de Atlas.',responsable:'28/08/2026',regional:'Luis Alonso, Fernando Rodriguez',estado:'GENERAL',reporte:'Pendiente'},
-{item:33,area:'Levantamiento y Captura',tarea:'Revision de Baches ESTE y SUR',responsable:'24/08/2026',regional:'Fernando Rodriguez',estado:'ESTE, SUR',reporte:'Completado'},
-{item:34,area:'Levantamiento y Captura',tarea:'',responsable:'',regional:'',estado:'',reporte:''},
-{item:35,area:'TI',tarea:'Propuesta de implementación de AD CGIS',responsable:'',regional:'',estado:'GENERAL',reporte:'En curso'},
-{item:36,area:'Levantamiento y Captura',tarea:'Desarrollo del flujo de trabajo para Levantamiento en el Chaco, se usara Atlas o Apsheet, ver metodologia de trabajo',responsable:'04/09/2026',regional:'Fernando Rodriguez',estado:'',reporte:''},
-{item:37,area:'Levantamiento y Captura',tarea:'Ver que se necesita para levantar en el CHACO: tablets, camioneta, recursos, imagenes satelitales (Precio)',responsable:'04/09/2026',regional:'Fernando Rodriguez',estado:'',reporte:''},
-{item:38,area:'Levantamiento y Captura',tarea:'Enviar planificacion centro, solicitar flyers para inicio de distritos',responsable:'28/08/2026',regional:'Fernando Rodriguez',estado:'',reporte:''},
-{item:39,area:'Levantamiento y Captura',tarea:'Hablar con Hugo Silvero para proyectos en BT.',responsable:'',regional:'Gabriel Servian',estado:'',reporte:''},
-{item:40,area:'Levantamiento y Captura',tarea:'Hablar con GR si tienen planos y archivos de red Subterranea de Metro',responsable:'28/08/2026',regional:'Gabriel Servian',estado:'',reporte:''},
-{item:41,area:'Implementación',tarea:'Revision y retorno sobre propuesta de plan piloto de implementación ESTE',responsable:'03/09/2026',regional:'Amado Arrieta',estado:'ESTE',reporte:'En curso'},
-{item:42,area:'Implementación',tarea:'GE debe compartir tool para soluicionar lentitud de EO',responsable:'03/09/2026',regional:'Amado Arrieta',estado:'GENERAL',reporte:'En curso'},
-{item:43,area:'Levantamiento y Captura',tarea:'',responsable:'03/09/2026',regional:'Gabriel Servian',estado:'GENERAL',reporte:'Pendiente'},
-{item:44,area:'Levantamiento y Captura',tarea:'Generar una cadena y solicitar actualizacion del documento en base a los nuevos deficiones.',responsable:'31/08/2026',regional:'Gabriel Servian',estado:'GENERAL',reporte:''},
-{item:45,area:'Construcción de Circuitos',tarea:'Devuelto a Junior PBU 03 para correcciones. Debe corregir y actualizar los circuitos',responsable:'',regional:'Luis Alonso',estado:'ESTE',reporte:'Pendiente'},
-{item:46,area:'Implementación',tarea:'Respuesta a ANDE por Adenda V3 a Ing. Procesos de Negocio',responsable:'03/09/2026',regional:'Amado Arrieta',estado:'GENERAL',reporte:'Pendiente'},
-{item:47,area:'Implementación',tarea:'Modificar documento esp requerimientosde Cymdist.',responsable:'03/09/2026',regional:'Amado Arrieta',estado:'GENERAL',reporte:'Pendiente'},
-{item:48,area:'Control de Calidad',tarea:'Agregar regla que de preensamblado a preensamblado no hay transición de numero de fases',responsable:'',regional:'Luis Alonso',estado:'GENERAL',reporte:'Pendiente'},
-{item:49,area:'Levantamiento y Captura',tarea:'',responsable:'',regional:'',estado:'',reporte:''},
-{item:50,area:'',tarea:'',responsable:'',regional:'',estado:'',reporte:''},
-{item:51,area:'',tarea:'',responsable:'',regional:'',estado:'',reporte:''},
-{item:52,area:'',tarea:'',responsable:'',regional:'',estado:'',reporte:''},
-{item:53,area:'',tarea:'',responsable:'',regional:'',estado:'',reporte:''},
-{item:54,area:'',tarea:'',responsable:'',regional:'',estado:'',reporte:''},
-{item:55,area:'',tarea:'',responsable:'',regional:'',estado:'',reporte:''},
-{item:56,area:'',tarea:'',responsable:'',regional:'',estado:'',reporte:''},
-{item:57,area:'',tarea:'',responsable:'',regional:'',estado:'',reporte:''},
-{item:58,area:'',tarea:'',responsable:'',regional:'',estado:'',reporte:''},
-{item:59,area:'',tarea:'',responsable:'',regional:'',estado:'',reporte:''},
-{item:60,area:'',tarea:'',responsable:'',regional:'',estado:'',reporte:''},
-{item:61,area:'',tarea:'',responsable:'',regional:'',estado:'',reporte:''},
-{item:62,area:'',tarea:'',responsable:'',regional:'',estado:'',reporte:''},
-{item:63,area:'',tarea:'',responsable:'',regional:'',estado:'',reporte:''},
-{item:64,area:'',tarea:'',responsable:'',regional:'',estado:'',reporte:''},
-{item:65,area:'',tarea:'',responsable:'',regional:'',estado:'',reporte:''},
-{item:66,area:'',tarea:'',responsable:'',regional:'',estado:'',reporte:''},
-{item:67,area:'',tarea:'',responsable:'',regional:'',estado:'',reporte:''},
-{item:68,area:'',tarea:'',responsable:'',regional:'',estado:'',reporte:''},
-{item:69,area:'',tarea:'',responsable:'',regional:'',estado:'',reporte:''},
-{item:70,area:'',tarea:'',responsable:'',regional:'',estado:'',reporte:''},
-{item:71,area:'',tarea:'',responsable:'',regional:'',estado:'',reporte:''},
-{item:72,area:'',tarea:'',responsable:'',regional:'',estado:'',reporte:''},
-{item:73,area:'',tarea:'',responsable:'',regional:'',estado:'',reporte:''},
-{item:74,area:'',tarea:'',responsable:'',regional:'',estado:'',reporte:''},
-{item:75,area:'',tarea:'',responsable:'',regional:'',estado:'',reporte:''},
-{item:76,area:'',tarea:'',responsable:'',regional:'',estado:'',reporte:''},
-{item:77,area:'',tarea:'',responsable:'',regional:'',estado:'',reporte:''},
-{item:78,area:'',tarea:'',responsable:'',regional:'',estado:'',reporte:''},
-{item:79,area:'',tarea:'',responsable:'',regional:'',estado:'',reporte:''},
-{item:80,area:'',tarea:'',responsable:'',regional:'',estado:'',reporte:''},
-{item:81,area:'',tarea:'',responsable:'',regional:'',estado:'',reporte:''},
-{item:82,area:'',tarea:'',responsable:'',regional:'',estado:'',reporte:''},
-{item:83,area:'',tarea:'',responsable:'',regional:'',estado:'',reporte:''},
-{item:84,area:'',tarea:'',responsable:'',regional:'',estado:'',reporte:''},
-{item:85,area:'',tarea:'',responsable:'',regional:'',estado:'',reporte:''},
-{item:86,area:'',tarea:'',responsable:'',regional:'',estado:'',reporte:''},
-{item:87,area:'',tarea:'',responsable:'',regional:'',estado:'',reporte:''},
-{item:88,area:'',tarea:'',responsable:'',regional:'',estado:'',reporte:''},
-{item:89,area:'',tarea:'',responsable:'',regional:'',estado:'',reporte:''},
-{item:90,area:'',tarea:'',responsable:'',regional:'',estado:'',reporte:''},
-{item:91,area:'',tarea:'',responsable:'',regional:'',estado:'',reporte:''},
-{item:92,area:'',tarea:'',responsable:'',regional:'',estado:'',reporte:''},
-{item:93,area:'',tarea:'',responsable:'',regional:'',estado:'',reporte:''},
-{item:94,area:'',tarea:'',responsable:'',regional:'',estado:'',reporte:''},
-{item:95,area:'',tarea:'',responsable:'',regional:'',estado:'',reporte:''},
-{item:96,area:'',tarea:'',responsable:'',regional:'',estado:'',reporte:''},
-{item:97,area:'',tarea:'',responsable:'',regional:'',estado:'',reporte:''},
-{item:98,area:'',tarea:'',responsable:'',regional:'',estado:'',reporte:''},
-{item:99,area:'',tarea:'',responsable:'',regional:'',estado:'',reporte:''},
-{item:100,area:'',tarea:'',responsable:'',regional:'',estado:'',reporte:''},
-{item:101,area:'',tarea:'',responsable:'',regional:'',estado:'',reporte:''},
-{item:102,area:'',tarea:'',responsable:'',regional:'',estado:'',reporte:''},
-{item:103,area:'',tarea:'',responsable:'',regional:'',estado:'',reporte:''},
-{item:104,area:'',tarea:'',responsable:'',regional:'',estado:'',reporte:''},
-{item:105,area:'',tarea:'',responsable:'',regional:'',estado:'',reporte:''},
-{item:106,area:'',tarea:'',responsable:'',regional:'',estado:'',reporte:''},
-{item:107,area:'',tarea:'',responsable:'',regional:'',estado:'',reporte:''},
-{item:108,area:'',tarea:'',responsable:'',regional:'',estado:'',reporte:''},
-{item:109,area:'',tarea:'',responsable:'',regional:'',estado:'',reporte:''},
-{item:110,area:'',tarea:'',responsable:'',regional:'',estado:'',reporte:''},
-{item:111,area:'',tarea:'',responsable:'',regional:'',estado:'',reporte:''},
-{item:112,area:'',tarea:'',responsable:'',regional:'',estado:'',reporte:''},
-{item:113,area:'',tarea:'',responsable:'',regional:'',estado:'',reporte:''},
-{item:114,area:'',tarea:'',responsable:'',regional:'',estado:'',reporte:''},
-{item:115,area:'',tarea:'',responsable:'',regional:'',estado:'',reporte:''},
-{item:116,area:'',tarea:'',responsable:'',regional:'',estado:'',reporte:''},
-{item:117,area:'',tarea:'',responsable:'',regional:'',estado:'',reporte:''},
-{item:118,area:'',tarea:'',responsable:'',regional:'',estado:'',reporte:''},
-{item:119,area:'',tarea:'',responsable:'',regional:'',estado:'',reporte:''},
-{item:120,area:'',tarea:'',responsable:'',regional:'',estado:'',reporte:''},
-{item:121,area:'',tarea:'',responsable:'',regional:'',estado:'',reporte:''},
-{item:122,area:'',tarea:'',responsable:'',regional:'',estado:'',reporte:''},
-{item:123,area:'',tarea:'',responsable:'',regional:'',estado:'',reporte:''},
-{item:124,area:'',tarea:'',responsable:'',regional:'',estado:'',reporte:''},
-{item:125,area:'',tarea:'',responsable:'',regional:'',estado:'',reporte:''},
-{item:126,area:'',tarea:'',responsable:'',regional:'',estado:'',reporte:''},
-{item:127,area:'',tarea:'',responsable:'',regional:'',estado:'',reporte:''},
-{item:128,area:'',tarea:'',responsable:'',regional:'',estado:'',reporte:''},
-{item:129,area:'',tarea:'',responsable:'',regional:'',estado:'',reporte:''},
-{item:130,area:'',tarea:'',responsable:'',regional:'',estado:'',reporte:''},
-{item:131,area:'',tarea:'',responsable:'',regional:'',estado:'',reporte:''},
-{item:132,area:'',tarea:'',responsable:'',regional:'',estado:'',reporte:''},
-{item:133,area:'',tarea:'',responsable:'',regional:'',estado:'',reporte:''},
-{item:134,area:'',tarea:'',responsable:'',regional:'',estado:'',reporte:''},
-{item:135,area:'',tarea:'',responsable:'',regional:'',estado:'',reporte:''},
-{item:136,area:'',tarea:'',responsable:'',regional:'',estado:'',reporte:''},
-{item:137,area:'',tarea:'',responsable:'',regional:'',estado:'',reporte:''},
-{item:138,area:'',tarea:'',responsable:'',regional:'',estado:'',reporte:''},
-{item:139,area:'',tarea:'',responsable:'',regional:'',estado:'',reporte:''},
-{item:140,area:'',tarea:'',responsable:'',regional:'',estado:'',reporte:''},
-{item:141,area:'',tarea:'',responsable:'',regional:'',estado:'',reporte:''},
-{item:142,area:'',tarea:'',responsable:'',regional:'',estado:'',reporte:''},
-{item:143,area:'',tarea:'',responsable:'',regional:'',estado:'',reporte:''},
-{item:144,area:'',tarea:'',responsable:'',regional:'',estado:'',reporte:''},
-{item:145,area:'',tarea:'',responsable:'',regional:'',estado:'',reporte:''},
-{item:146,area:'',tarea:'',responsable:'',regional:'',estado:'',reporte:''},
-{item:147,area:'',tarea:'',responsable:'',regional:'',estado:'',reporte:''},
-{item:148,area:'',tarea:'',responsable:'',regional:'',estado:'',reporte:''},
-{item:149,area:'',tarea:'',responsable:'',regional:'',estado:'',reporte:''},
-{item:150,area:'',tarea:'',responsable:'',regional:'',estado:'',reporte:''},
-{item:151,area:'',tarea:'',responsable:'',regional:'',estado:'',reporte:''},
-{item:152,area:'',tarea:'',responsable:'',regional:'',estado:'',reporte:''},
-{item:153,area:'',tarea:'',responsable:'',regional:'',estado:'',reporte:''},
-{item:154,area:'',tarea:'',responsable:'',regional:'',estado:'',reporte:''},
-{item:155,area:'',tarea:'',responsable:'',regional:'',estado:'',reporte:''},
-{item:156,area:'',tarea:'',responsable:'',regional:'',estado:'',reporte:''},
-{item:157,area:'',tarea:'',responsable:'',regional:'',estado:'',reporte:''},
-{item:158,area:'',tarea:'',responsable:'',regional:'',estado:'',reporte:''},
-{item:159,area:'',tarea:'',responsable:'',regional:'',estado:'',reporte:''},
-{item:160,area:'',tarea:'',responsable:'',regional:'',estado:'',reporte:''},
-{item:161,area:'',tarea:'',responsable:'',regional:'',estado:'',reporte:''},
-{item:162,area:'',tarea:'',responsable:'',regional:'',estado:'',reporte:''},
-{item:163,area:'',tarea:'',responsable:'',regional:'',estado:'',reporte:''},
-{item:164,area:'',tarea:'',responsable:'',regional:'',estado:'',reporte:''},
-{item:165,area:'',tarea:'',responsable:'',regional:'',estado:'',reporte:''},
-{item:166,area:'',tarea:'',responsable:'',regional:'',estado:'',reporte:''},
-{item:167,area:'',tarea:'',responsable:'',regional:'',estado:'',reporte:''},
-{item:168,area:'',tarea:'',responsable:'',regional:'',estado:'',reporte:''},
-{item:169,area:'',tarea:'',responsable:'',regional:'',estado:'',reporte:''},
-{item:170,area:'',tarea:'',responsable:'',regional:'',estado:'',reporte:''},
-{item:171,area:'',tarea:'',responsable:'',regional:'',estado:'',reporte:''},
-{item:172,area:'',tarea:'',responsable:'',regional:'',estado:'',reporte:''},
-{item:173,area:'',tarea:'',responsable:'',regional:'',estado:'',reporte:''},
-{item:174,area:'',tarea:'',responsable:'',regional:'',estado:'',reporte:''},
-{item:175,area:'',tarea:'',responsable:'',regional:'',estado:'',reporte:''},
-{item:176,area:'',tarea:'',responsable:'',regional:'',estado:'',reporte:''},
-{item:177,area:'',tarea:'',responsable:'',regional:'',estado:'',reporte:''},
-{item:178,area:'',tarea:'',responsable:'',regional:'',estado:'',reporte:''},
-{item:179,area:'',tarea:'',responsable:'',regional:'',estado:'',reporte:''},
-{item:180,area:'',tarea:'',responsable:'',regional:'',estado:'',reporte:''},
-{item:181,area:'',tarea:'',responsable:'',regional:'',estado:'',reporte:''},
-{item:182,area:'',tarea:'',responsable:'',regional:'',estado:'',reporte:''},
-{item:183,area:'',tarea:'',responsable:'',regional:'',estado:'',reporte:''},
-{item:184,area:'',tarea:'',responsable:'',regional:'',estado:'',reporte:''},
-{item:185,area:'',tarea:'',responsable:'',regional:'',estado:'',reporte:''},
-{item:186,area:'',tarea:'',responsable:'',regional:'',estado:'',reporte:''},
-{item:187,area:'',tarea:'',responsable:'',regional:'',estado:'',reporte:''},
-{item:188,area:'',tarea:'',responsable:'',regional:'',estado:'',reporte:''},
-{item:189,area:'',tarea:'',responsable:'',regional:'',estado:'',reporte:''},
-{item:190,area:'',tarea:'',responsable:'',regional:'',estado:'',reporte:''},
-{item:191,area:'',tarea:'',responsable:'',regional:'',estado:'',reporte:''},
-{item:192,area:'',tarea:'',responsable:'',regional:'',estado:'',reporte:''},
-{item:193,area:'',tarea:'',responsable:'',regional:'',estado:'',reporte:''},
-{item:194,area:'',tarea:'',responsable:'',regional:'',estado:'',reporte:''},
-{item:195,area:'',tarea:'',responsable:'',regional:'',estado:'',reporte:''},
-{item:196,area:'',tarea:'',responsable:'',regional:'',estado:'',reporte:''},
-{item:197,area:'',tarea:'',responsable:'',regional:'',estado:'',reporte:''},
-{item:198,area:'',tarea:'',responsable:'',regional:'',estado:'',reporte:''},
-{item:199,area:'',tarea:'',responsable:'',regional:'',estado:'',reporte:''},
-{item:200,area:'',tarea:'',responsable:'',regional:'',estado:'',reporte:''},
-{item:201,area:'',tarea:'',responsable:'',regional:'',estado:'',reporte:''},
-{item:202,area:'',tarea:'',responsable:'',regional:'',estado:'',reporte:''},
-{item:203,area:'',tarea:'',responsable:'',regional:'',estado:'',reporte:''},
-{item:204,area:'',tarea:'',responsable:'',regional:'',estado:'',reporte:''},
-{item:205,area:'',tarea:'',responsable:'',regional:'',estado:'',reporte:''},
-{item:206,area:'',tarea:'',responsable:'',regional:'',estado:'',reporte:''},
-{item:207,area:'',tarea:'',responsable:'',regional:'',estado:'',reporte:''},
-{item:208,area:'',tarea:'',responsable:'',regional:'',estado:'',reporte:''},
-{item:209,area:'',tarea:'',responsable:'',regional:'',estado:'',reporte:''},
-{item:210,area:'',tarea:'',responsable:'',regional:'',estado:'',reporte:''},
-{item:211,area:'',tarea:'',responsable:'',regional:'',estado:'',reporte:''},
-{item:212,area:'',tarea:'',responsable:'',regional:'',estado:'',reporte:''},
-{item:213,area:'',tarea:'',responsable:'',regional:'',estado:'',reporte:''},
-{item:214,area:'',tarea:'',responsable:'',regional:'',estado:'',reporte:''},
-{item:215,area:'',tarea:'',responsable:'',regional:'',estado:'',reporte:''},
-{item:216,area:'',tarea:'',responsable:'',regional:'',estado:'',reporte:''},
-{item:217,area:'',tarea:'',responsable:'',regional:'',estado:'',reporte:''},
-{item:218,area:'',tarea:'',responsable:'',regional:'',estado:'',reporte:''},
-{item:219,area:'',tarea:'',responsable:'',regional:'',estado:'',reporte:''},
-{item:220,area:'',tarea:'',responsable:'',regional:'',estado:'',reporte:''},
-{item:221,area:'',tarea:'',responsable:'',regional:'',estado:'',reporte:''},
-{item:222,area:'',tarea:'',responsable:'',regional:'',estado:'',reporte:''},
-{item:223,area:'',tarea:'',responsable:'',regional:'',estado:'',reporte:''},
-{item:224,area:'',tarea:'',responsable:'',regional:'',estado:'',reporte:''},
-{item:225,area:'',tarea:'',responsable:'',regional:'',estado:'',reporte:''},
-{item:226,area:'',tarea:'',responsable:'',regional:'',estado:'',reporte:''},
-{item:227,area:'',tarea:'',responsable:'',regional:'',estado:'',reporte:''},
-{item:228,area:'',tarea:'',responsable:'',regional:'',estado:'',reporte:''},
-{item:229,area:'',tarea:'',responsable:'',regional:'',estado:'',reporte:''},
-{item:230,area:'',tarea:'',responsable:'',regional:'',estado:'',reporte:''},
-{item:231,area:'',tarea:'',responsable:'',regional:'',estado:'',reporte:''},
-{item:232,area:'',tarea:'',responsable:'',regional:'',estado:'',reporte:''},
-{item:233,area:'',tarea:'',responsable:'',regional:'',estado:'',reporte:''},
-{item:234,area:'',tarea:'',responsable:'',regional:'',estado:'',reporte:''},
-{item:235,area:'',tarea:'',responsable:'',regional:'',estado:'',reporte:''},
-{item:236,area:'',tarea:'',responsable:'',regional:'',estado:'',reporte:''},
-{item:237,area:'',tarea:'',responsable:'',regional:'',estado:'',reporte:''},
-{item:238,area:'',tarea:'',responsable:'',regional:'',estado:'',reporte:''},
-{item:239,area:'',tarea:'',responsable:'',regional:'',estado:'',reporte:''},
-{item:240,area:'',tarea:'',responsable:'',regional:'',estado:'',reporte:''},
-{item:241,area:'',tarea:'',responsable:'',regional:'',estado:'',reporte:''},
-{item:242,area:'',tarea:'',responsable:'',regional:'',estado:'',reporte:''},
-{item:243,area:'',tarea:'',responsable:'',regional:'',estado:'',reporte:''},
-{item:244,area:'',tarea:'',responsable:'',regional:'',estado:'',reporte:''},
-{item:245,area:'',tarea:'',responsable:'',regional:'',estado:'',reporte:''},
-{item:246,area:'',tarea:'',responsable:'',regional:'',estado:'',reporte:''},
-{item:247,area:'',tarea:'',responsable:'',regional:'',estado:'',reporte:''},
-{item:248,area:'',tarea:'',responsable:'',regional:'',estado:'',reporte:''},
-{item:249,area:'',tarea:'',responsable:'',regional:'',estado:'',reporte:''}
+{item:1,area:'Levantamiento y Captura',tarea:'Solicitud de Acceso Barrio Surubi METRO',fecha_inicio:'28/01/2026',fecha_venc:'24/08/2026',responsable:'Luis Alonso',regional:'METRO Y CENTRAL',estado:'Completado',reporte:''},
+{item:2,area:'Levantamiento y Captura',tarea:'Reporte de Distritos ya revisados',fecha_inicio:'04/08/2026',fecha_venc:'13/08/2026',responsable:'Luis Alonso',regional:'METRO Y CENTRAL',estado:'En curso',reporte:''},
+{item:3,area:'Levantamiento y Captura',tarea:'Reunion de Planificacion captura Metropolitana',fecha_inicio:'05/08/2026',fecha_venc:'',responsable:'Gabriel Servian',regional:'METRO Y CENTRAL',estado:'Completado',reporte:'Pendiente'},
+{item:4,area:'Levantamiento y Captura',tarea:'Entrevistas Laborales para Construccion de Circuitos',fecha_inicio:'04/08/2026',fecha_venc:'',responsable:'Gabriel Servian',regional:'METRO Y CENTRAL',estado:'En curso',reporte:'Pendiente'},
+{item:5,area:'Levantamiento y Captura',tarea:'Informe de levantamientos que no pudieron realizarse a causa de Acceso denegado por DRONE. Evaluar con Kai para que se cargue al Atlas los accesos denegados.',fecha_inicio:'04/08/2026',fecha_venc:'13/08/2026',responsable:'Luis Alonso',regional:'METRO Y CENTRAL',estado:'Completado',reporte:'Pendiente'},
+{item:6,area:'Levantamiento y Captura',tarea:'Informe de levantamientos que no pudieron realizarse a causa de Acceso denegado por Lev a pie',fecha_inicio:'04/08/2026',fecha_venc:'13/08/2026',responsable:'Luis Alonso',regional:'SUR, METRO Y CENTRAL',estado:'En curso',reporte:'Pendiente'},
+{item:7,area:'Construcción de Circuitos',tarea:'Postes de Muestra de Lev a PIE para Construccion de Circuitos. Como complementar con el flujo actual.',fecha_inicio:'04/08/2026',fecha_venc:'',responsable:'Gabriel Servian',regional:'GENERAL',estado:'Completado',reporte:'Pendiente'},
+{item:8,area:'Construcción de Circuitos',tarea:'Como vincular evento de acceso denegado con Certificacion 8C. RED MT,BT.',fecha_inicio:'04/08/2026',fecha_venc:'',responsable:'Gabriel Servian',regional:'GENERAL',estado:'Completado',reporte:'Pendiente'},
+{item:9,area:'Construcción de Circuitos',tarea:'Vinculacion evento con Lote Lev a PIE',fecha_inicio:'04/08/2026',fecha_venc:'',responsable:'Gabriel Servian',regional:'ESTE',estado:'Pendiente',reporte:'Pendiente'},
+{item:10,area:'Control de Calidad',tarea:'Conformación de Lotes, conversar con Jesus para armar una reunion mañana mismo por la tarde y transferirle a Fernando.',fecha_inicio:'04/08/2026',fecha_venc:'12/08/2026',responsable:'Luis Alonso',regional:'METRO Y CENTRAL',estado:'Completado',reporte:'Completado'},
+{item:11,area:'Levantamiento y Captura',tarea:'Revision de Flujo de Trabajo 8C, definicion de Jefe de Construccion de Circuitos',fecha_inicio:'04/08/2026',fecha_venc:'',responsable:'Gabriel Servian',regional:'GENERAL',estado:'Pendiente',reporte:'Pendiente'},
+{item:12,area:'Levantamiento y Captura',tarea:'Cronograma tentativo de Levantamiento de SSEE pendientes.',fecha_inicio:'05/08/2026',fecha_venc:'',responsable:'Luis Alonso',regional:'METRO Y CENTRAL',estado:'Completado',reporte:'Pendiente, Completado'},
+{item:13,area:'Certificación',tarea:'Certificacion 8B de los lotes 40, 55, 57. Informe 8B ver con Kai',fecha_inicio:'05/08/2026',fecha_venc:'',responsable:'Gabriel Servian',regional:'SUR, METRO Y CENTRAL',estado:'Completado',reporte:'Pendiente'},
+{item:14,area:'Levantamiento y Captura',tarea:'Coordinar con Kai carga de eventos del SUR a Atlas, convalidar excel.',fecha_inicio:'07/08/2026',fecha_venc:'13/08/2026',responsable:'Luis Alonso',regional:'METRO Y CENTRAL, SUR',estado:'Completado',reporte:'Completado'},
+{item:15,area:'Procesamiento',tarea:'Planificacion de todos los distritos por levantarse a nivel Pais y carga a la planilla de Control',fecha_inicio:'07/08/2026',fecha_venc:'12/08/2026',responsable:'Fernando Rodriguez',regional:'ESTE, NORTE, CHACO',estado:'Completado',reporte:'Pendiente'},
+{item:16,area:'Levantamiento y Captura',tarea:'Enviar planificacion del Jueves 13/08/2026 para lo que resta el mes Certificación 8A.',fecha_inicio:'07/08/2026',fecha_venc:'13/08/2026',responsable:'Luis Alonso',regional:'METRO Y CENTRAL',estado:'Completado',reporte:''},
+{item:17,area:'Levantamiento y Captura',tarea:'Realizar solicitud de mimicos de dos SSEE que quedaron pendientes de levantar. Una vez confirmado el estado de SLO enviar un correo a ANDE comentando el estado de las dos SSEE. Por eso no se estan levantando, y solicitar si aplica levantar de como esta o esperamos de acuerdo al mencionado para reactivar el trabajo.',fecha_inicio:'10/08/2026',fecha_venc:'12/08/2026',responsable:'Luis Alonso, Fernando Rodriguez',regional:'METRO Y CENTRAL',estado:'Completado',reporte:''},
+{item:18,area:'Levantamiento y Captura',tarea:'Crear orden de captura de Drone para que Richar mande desde ahora la planificacion',fecha_inicio:'11/08/2026',fecha_venc:'10/08/2026',responsable:'Luis Alonso',regional:'METRO Y CENTRAL, SUR',estado:'Completado',reporte:'Completado'},
+{item:19,area:'Levantamiento y Captura',tarea:'Cargar las misiones de Drone pendientes en la planilla C3 en base a la secuencia de certificacion de SSEE.',fecha_inicio:'11/08/2026',fecha_venc:'13/08/2026',responsable:'Fernando Rodriguez',regional:'METRO Y CENTRAL',estado:'Pendiente',reporte:''},
+{item:20,area:'Levantamiento y Captura',tarea:'Enviar un correo a ANDE informando los levantamientos que no pudieron realizarse a causa de acceso denegado para DRONE. Actualizar cada 15 días.',fecha_inicio:'12/08/2026',fecha_venc:'14/08/2026',responsable:'Luis Alonso',regional:'GENERAL',estado:'Completado',reporte:'Completado'},
+{item:21,area:'Levantamiento y Captura',tarea:'Enviar un correo a ANDE informando levantamientos a pie que no pudieron realizarse a causa de acceso denegado. Actualizar cada 15 días.',fecha_inicio:'13/08/2026',fecha_venc:'14/08/2026',responsable:'Luis Alonso',regional:'GENERAL',estado:'En curso',reporte:''},
+{item:22,area:'Levantamiento y Captura',tarea:'Presentar informe de desviacion de Construccion de Circuitos.',fecha_inicio:'11/08/2026',fecha_venc:'28/08/2026',responsable:'Luis Alonso',regional:'ESTE',estado:'Pendiente',reporte:''},
+{item:23,area:'Levantamiento y Captura',tarea:'Dar continuidad de como se va a trabajar en relacion a los eventos, si lo cargara el Analista EO  y como se va a certificar y vincular.',fecha_inicio:'11/08/2026',fecha_venc:'12/08/2026',responsable:'Gabriel Servian',regional:'GENERAL',estado:'Pendiente',reporte:''},
+{item:24,area:'Construcción de Circuitos',tarea:'Dpto de Canindeyu revisar baches para adelantar la certificacion de las SSEE.',fecha_inicio:'11/08/2026',fecha_venc:'',responsable:'Fernando Rodriguez',regional:'ESTE',estado:'Completado',reporte:''},
+{item:25,area:'Levantamiento y Captura',tarea:'Capacitación a Arnald uso de Formulario Subterraneo',fecha_inicio:'11/08/2026',fecha_venc:'19/08/2026',responsable:'Luis Alonso',regional:'METRO Y CENTRAL',estado:'Completado',reporte:''},
+{item:26,area:'Levantamiento y Captura',tarea:'Materiales para levantamiento Subterraneo',fecha_inicio:'11/08/2026',fecha_venc:'19/08/2026',responsable:'Fernando Rodriguez',regional:'METRO Y CENTRAL',estado:'Completado',reporte:''},
+{item:27,area:'Levantamiento y Captura',tarea:'Fecha tentaviva de inicio levantamiento regional METRO',fecha_inicio:'13/08/2026',fecha_venc:'31/08/2026',responsable:'Luis Alonso, Gabriel Servian',regional:'METRO Y CENTRAL',estado:'Completado',reporte:''},
+{item:28,area:'Levantamiento y Captura',tarea:'Completitud de Datos de Canindeyu',fecha_inicio:'17/08/2026',fecha_venc:'18/08/2026',responsable:'Luis Alonso, Fernando Rodriguez',regional:'ESTE',estado:'Completado',reporte:''},
+{item:29,area:'Levantamiento y Captura',tarea:'Ver con Kai para que se pueda generar un PDF del mundo interno de cada registro Subterraneo',fecha_inicio:'18/08/2026',fecha_venc:'20/08/2026',responsable:'Gabriel Servian',regional:'METRO Y CENTRAL',estado:'Completado',reporte:''},
+{item:30,area:'Levantamiento y Captura',tarea:'Actualizar cantidades de  puntos de servicio por Alimentador.',fecha_inicio:'18/8/26',fecha_venc:'18/8/26',responsable:'Fernando Rodriguez',regional:'GENERAL',estado:'Completado',reporte:''},
+{item:31,area:'Implementación',tarea:'Armar una reunion con GE para establecer fechas de implementacion que esta vinculado a la integracion del sistema linea 426 del Project.',fecha_inicio:'14/08/2026',fecha_venc:'21/08/2026',responsable:'Amado Arrieta',regional:'GENERAL',estado:'Pendiente',reporte:''},
+{item:32,area:'Levantamiento y Captura',tarea:'Preparar un documento o manual de consulta para los levantadores a PIE. Mezclar clasificacion con uso de Atlas.',fecha_inicio:'19/08/2026',fecha_venc:'28/08/2026',responsable:'Luis Alonso, Fernando Rodriguez',regional:'GENERAL',estado:'Pendiente',reporte:''},
+{item:33,area:'Levantamiento y Captura',tarea:'Revision de Baches ESTE y SUR',fecha_inicio:'19/08/2026',fecha_venc:'24/08/2026',responsable:'Fernando Rodriguez',regional:'ESTE, SUR',estado:'Completado',reporte:''},
+{item:34,area:'Levantamiento y Captura',tarea:'',fecha_inicio:'',fecha_venc:'',responsable:'',regional:'',estado:'',reporte:''},
+{item:35,area:'TI',tarea:'Propuesta de implementación de AD CGIS',fecha_inicio:'25/08/2026',fecha_venc:'',responsable:'',regional:'GENERAL',estado:'En curso',reporte:'Pendiente'},
+{item:36,area:'Levantamiento y Captura',tarea:'Desarrollo del flujo de trabajo para Levantamiento en el Chaco, se usara Atlas o Apsheet, ver metodologia de trabajo',fecha_inicio:'26/08/2026',fecha_venc:'04/09/2026',responsable:'Fernando Rodriguez',regional:'CHACO',estado:'',reporte:''},
+{item:37,area:'Levantamiento y Captura',tarea:'Ver que se necesita para levantar en el CHACO: tablets, camioneta, recursos, imagenes satelitales (Precio)',fecha_inicio:'26/08/2026',fecha_venc:'04/09/2026',responsable:'Fernando Rodriguez',regional:'CHACO',estado:'',reporte:''},
+{item:38,area:'Levantamiento y Captura',tarea:'Enviar planificacion centro, solicitar flyers para inicio de distritos',fecha_inicio:'26/08/2026',fecha_venc:'28/08/2026',responsable:'Fernando Rodriguez',regional:'CENTRO',estado:'',reporte:''},
+{item:39,area:'Levantamiento y Captura',tarea:'Hablar con Hugo Silvero para proyectos en BT.',fecha_inicio:'26/08/2026',fecha_venc:'31/08/2026',responsable:'Gabriel Servian',regional:'',estado:'',reporte:''},
+{item:40,area:'Levantamiento y Captura',tarea:'Hablar con GR si tienen planos y archivos de red Subterranea de Metro',fecha_inicio:'26/08/2026',fecha_venc:'28/08/2026',responsable:'Gabriel Servian',regional:'',estado:'Completado',reporte:''},
+{item:41,area:'Implementación',tarea:'Revision y retorno sobre propuesta de plan piloto de implementación ESTE',fecha_inicio:'28/08/2026',fecha_venc:'03/09/2026',responsable:'Amado Arrieta',regional:'ESTE',estado:'En curso',reporte:''},
+{item:42,area:'Implementación',tarea:'GE debe compartir tool para soluicionar lentitud de EO',fecha_inicio:'26/08/2026',fecha_venc:'03/09/2026',responsable:'Amado Arrieta',regional:'GENERAL',estado:'En curso',reporte:''},
+{item:43,area:'Levantamiento y Captura',tarea:'Reporte de producción de postes con miras a triple certificación.',fecha_inicio:'28/08/2026',fecha_venc:'03/09/2026',responsable:'Gabriel Servian',regional:'GENERAL',estado:'Completado',reporte:''},
+{item:44,area:'Levantamiento y Captura',tarea:'Generar una cadena y solicitar actualizacion del documento en base a los nuevos deficiones.',fecha_inicio:'28/08/2026',fecha_venc:'31/08/2026',responsable:'Gabriel Servian',regional:'GENERAL',estado:'',reporte:''},
+{item:45,area:'Construcción de Circuitos',tarea:'Devuelto a Junior PBU 03 para correcciones. Debe corregir y actualizar los circuitos',fecha_inicio:'28/08/2026',fecha_venc:'',responsable:'Luis Alonso',regional:'ESTE',estado:'Pendiente',reporte:''},
+{item:46,area:'Implementación',tarea:'Respuesta a ANDE por Adenda V3 a Ing. Procesos de Negocio',fecha_inicio:'28/08/2026',fecha_venc:'03/09/2026',responsable:'Amado Arrieta',regional:'GENERAL',estado:'Pendiente',reporte:''},
+{item:47,area:'Implementación',tarea:'Modificar documento esp requerimientosde Cymdist.',fecha_inicio:'01/09/2026',fecha_venc:'03/09/2026',responsable:'Amado Arrieta',regional:'GENERAL',estado:'Pendiente',reporte:''},
+{item:48,area:'Control de Calidad',tarea:'Agregar regla que de preensamblado a preensamblado no hay transición de numero de fases',fecha_inicio:'28/08/2026',fecha_venc:'',responsable:'Luis Alonso',regional:'GENERAL',estado:'Pendiente',reporte:''},
+{item:49,area:'Levantamiento y Captura',tarea:'Cambiar el numero de las secuencias de los distritos segun el project',fecha_inicio:'29-08-2026',fecha_venc:'',responsable:'Fernando Rodriguez',regional:'',estado:'',reporte:''},
+{item:50,area:'Levantamiento y Captura',tarea:'Borrar fotos no utlizadas en postgress',fecha_inicio:'29/08/2026',fecha_venc:'03/09/2026',responsable:'Fernando Rodriguez',regional:'GENERAL',estado:'Pendiente',reporte:''},
+{item:51,area:'Control de Calidad',tarea:'',fecha_inicio:'',fecha_venc:'',responsable:'',regional:'',estado:'',reporte:''},
+{item:52,area:'Control de Calidad',tarea:'Enviar correo a TA sobre realizar la comparativa de PD EO vs PD lev y detectar posibles postes que no se clasificaron transformadores.',fecha_inicio:'29/08/2026',fecha_venc:'31/08/2026',responsable:'Gabriel Servian',regional:'GENERAL',estado:'Pendiente',reporte:''},
+{item:53,area:'Levantamiento y Captura',tarea:'Actualizar secuencia de SSEE de certificación 8C.',fecha_inicio:'29/08/2026',fecha_venc:'03/09/2026',responsable:'Luis Alonso',regional:'ESTE',estado:'Pendiente',reporte:''},
+{item:54,area:'',tarea:'',fecha_inicio:'',fecha_venc:'',responsable:'',regional:'',estado:'',reporte:''},
+{item:55,area:'',tarea:'',fecha_inicio:'',fecha_venc:'',responsable:'',regional:'',estado:'',reporte:''},
+{item:56,area:'',tarea:'',fecha_inicio:'',fecha_venc:'',responsable:'',regional:'',estado:'',reporte:''},
+{item:57,area:'',tarea:'',fecha_inicio:'',fecha_venc:'',responsable:'',regional:'',estado:'',reporte:''},
+{item:58,area:'',tarea:'',fecha_inicio:'',fecha_venc:'',responsable:'',regional:'',estado:'',reporte:''},
+{item:59,area:'',tarea:'',fecha_inicio:'',fecha_venc:'',responsable:'',regional:'',estado:'',reporte:''},
+{item:60,area:'',tarea:'',fecha_inicio:'',fecha_venc:'',responsable:'',regional:'',estado:'',reporte:''},
+{item:61,area:'',tarea:'',fecha_inicio:'',fecha_venc:'',responsable:'',regional:'',estado:'',reporte:''},
+{item:62,area:'',tarea:'',fecha_inicio:'',fecha_venc:'',responsable:'',regional:'',estado:'',reporte:''},
+{item:63,area:'',tarea:'',fecha_inicio:'',fecha_venc:'',responsable:'',regional:'',estado:'',reporte:''},
+{item:64,area:'',tarea:'',fecha_inicio:'',fecha_venc:'',responsable:'',regional:'',estado:'',reporte:''},
+{item:65,area:'',tarea:'',fecha_inicio:'',fecha_venc:'',responsable:'',regional:'',estado:'',reporte:''},
+{item:66,area:'',tarea:'',fecha_inicio:'',fecha_venc:'',responsable:'',regional:'',estado:'',reporte:''},
+{item:67,area:'',tarea:'',fecha_inicio:'',fecha_venc:'',responsable:'',regional:'',estado:'',reporte:''},
+{item:68,area:'',tarea:'',fecha_inicio:'',fecha_venc:'',responsable:'',regional:'',estado:'',reporte:''},
+{item:69,area:'',tarea:'',fecha_inicio:'',fecha_venc:'',responsable:'',regional:'',estado:'',reporte:''},
+{item:70,area:'',tarea:'',fecha_inicio:'',fecha_venc:'',responsable:'',regional:'',estado:'',reporte:''},
+{item:71,area:'',tarea:'',fecha_inicio:'',fecha_venc:'',responsable:'',regional:'',estado:'',reporte:''},
+{item:72,area:'',tarea:'',fecha_inicio:'',fecha_venc:'',responsable:'',regional:'',estado:'',reporte:''},
+{item:73,area:'',tarea:'',fecha_inicio:'',fecha_venc:'',responsable:'',regional:'',estado:'',reporte:''},
+{item:74,area:'',tarea:'',fecha_inicio:'',fecha_venc:'',responsable:'',regional:'',estado:'',reporte:''},
+{item:75,area:'',tarea:'',fecha_inicio:'',fecha_venc:'',responsable:'',regional:'',estado:'',reporte:''},
+{item:76,area:'',tarea:'',fecha_inicio:'',fecha_venc:'',responsable:'',regional:'',estado:'',reporte:''},
+{item:77,area:'',tarea:'',fecha_inicio:'',fecha_venc:'',responsable:'',regional:'',estado:'',reporte:''},
+{item:78,area:'',tarea:'',fecha_inicio:'',fecha_venc:'',responsable:'',regional:'',estado:'',reporte:''},
+{item:79,area:'',tarea:'',fecha_inicio:'',fecha_venc:'',responsable:'',regional:'',estado:'',reporte:''},
+{item:80,area:'',tarea:'',fecha_inicio:'',fecha_venc:'',responsable:'',regional:'',estado:'',reporte:''},
+{item:81,area:'',tarea:'',fecha_inicio:'',fecha_venc:'',responsable:'',regional:'',estado:'',reporte:''},
+{item:82,area:'',tarea:'',fecha_inicio:'',fecha_venc:'',responsable:'',regional:'',estado:'',reporte:''},
+{item:83,area:'',tarea:'',fecha_inicio:'',fecha_venc:'',responsable:'',regional:'',estado:'',reporte:''},
+{item:84,area:'',tarea:'',fecha_inicio:'',fecha_venc:'',responsable:'',regional:'',estado:'',reporte:''},
+{item:85,area:'',tarea:'',fecha_inicio:'',fecha_venc:'',responsable:'',regional:'',estado:'',reporte:''},
+{item:86,area:'',tarea:'',fecha_inicio:'',fecha_venc:'',responsable:'',regional:'',estado:'',reporte:''},
+{item:87,area:'',tarea:'',fecha_inicio:'',fecha_venc:'',responsable:'',regional:'',estado:'',reporte:''},
+{item:88,area:'',tarea:'',fecha_inicio:'',fecha_venc:'',responsable:'',regional:'',estado:'',reporte:''},
+{item:89,area:'',tarea:'',fecha_inicio:'',fecha_venc:'',responsable:'',regional:'',estado:'',reporte:''},
+{item:90,area:'',tarea:'',fecha_inicio:'',fecha_venc:'',responsable:'',regional:'',estado:'',reporte:''},
+{item:91,area:'',tarea:'',fecha_inicio:'',fecha_venc:'',responsable:'',regional:'',estado:'',reporte:''},
+{item:92,area:'',tarea:'',fecha_inicio:'',fecha_venc:'',responsable:'',regional:'',estado:'',reporte:''},
+{item:93,area:'',tarea:'',fecha_inicio:'',fecha_venc:'',responsable:'',regional:'',estado:'',reporte:''},
+{item:94,area:'',tarea:'',fecha_inicio:'',fecha_venc:'',responsable:'',regional:'',estado:'',reporte:''},
+{item:95,area:'',tarea:'',fecha_inicio:'',fecha_venc:'',responsable:'',regional:'',estado:'',reporte:''},
+{item:96,area:'',tarea:'',fecha_inicio:'',fecha_venc:'',responsable:'',regional:'',estado:'',reporte:''},
+{item:97,area:'',tarea:'',fecha_inicio:'',fecha_venc:'',responsable:'',regional:'',estado:'',reporte:''},
+{item:98,area:'',tarea:'',fecha_inicio:'',fecha_venc:'',responsable:'',regional:'',estado:'',reporte:''},
+{item:99,area:'',tarea:'',fecha_inicio:'',fecha_venc:'',responsable:'',regional:'',estado:'',reporte:''},
+{item:100,area:'',tarea:'',fecha_inicio:'',fecha_venc:'',responsable:'',regional:'',estado:'',reporte:''},
+{item:101,area:'',tarea:'',fecha_inicio:'',fecha_venc:'',responsable:'',regional:'',estado:'',reporte:''},
+{item:102,area:'',tarea:'',fecha_inicio:'',fecha_venc:'',responsable:'',regional:'',estado:'',reporte:''},
+{item:103,area:'',tarea:'',fecha_inicio:'',fecha_venc:'',responsable:'',regional:'',estado:'',reporte:''},
+{item:104,area:'',tarea:'',fecha_inicio:'',fecha_venc:'',responsable:'',regional:'',estado:'',reporte:''},
+{item:105,area:'',tarea:'',fecha_inicio:'',fecha_venc:'',responsable:'',regional:'',estado:'',reporte:''},
+{item:106,area:'',tarea:'',fecha_inicio:'',fecha_venc:'',responsable:'',regional:'',estado:'',reporte:''},
+{item:107,area:'',tarea:'',fecha_inicio:'',fecha_venc:'',responsable:'',regional:'',estado:'',reporte:''},
+{item:108,area:'',tarea:'',fecha_inicio:'',fecha_venc:'',responsable:'',regional:'',estado:'',reporte:''},
+{item:109,area:'',tarea:'',fecha_inicio:'',fecha_venc:'',responsable:'',regional:'',estado:'',reporte:''},
+{item:110,area:'',tarea:'',fecha_inicio:'',fecha_venc:'',responsable:'',regional:'',estado:'',reporte:''},
+{item:111,area:'',tarea:'',fecha_inicio:'',fecha_venc:'',responsable:'',regional:'',estado:'',reporte:''},
+{item:112,area:'',tarea:'',fecha_inicio:'',fecha_venc:'',responsable:'',regional:'',estado:'',reporte:''},
+{item:113,area:'',tarea:'',fecha_inicio:'',fecha_venc:'',responsable:'',regional:'',estado:'',reporte:''},
+{item:114,area:'',tarea:'',fecha_inicio:'',fecha_venc:'',responsable:'',regional:'',estado:'',reporte:''},
+{item:115,area:'',tarea:'',fecha_inicio:'',fecha_venc:'',responsable:'',regional:'',estado:'',reporte:''},
+{item:116,area:'',tarea:'',fecha_inicio:'',fecha_venc:'',responsable:'',regional:'',estado:'',reporte:''},
+{item:117,area:'',tarea:'',fecha_inicio:'',fecha_venc:'',responsable:'',regional:'',estado:'',reporte:''},
+{item:118,area:'',tarea:'',fecha_inicio:'',fecha_venc:'',responsable:'',regional:'',estado:'',reporte:''},
+{item:119,area:'',tarea:'',fecha_inicio:'',fecha_venc:'',responsable:'',regional:'',estado:'',reporte:''},
+{item:120,area:'',tarea:'',fecha_inicio:'',fecha_venc:'',responsable:'',regional:'',estado:'',reporte:''},
+{item:121,area:'',tarea:'',fecha_inicio:'',fecha_venc:'',responsable:'',regional:'',estado:'',reporte:''},
+{item:122,area:'',tarea:'',fecha_inicio:'',fecha_venc:'',responsable:'',regional:'',estado:'',reporte:''},
+{item:123,area:'',tarea:'',fecha_inicio:'',fecha_venc:'',responsable:'',regional:'',estado:'',reporte:''},
+{item:124,area:'',tarea:'',fecha_inicio:'',fecha_venc:'',responsable:'',regional:'',estado:'',reporte:''},
+{item:125,area:'',tarea:'',fecha_inicio:'',fecha_venc:'',responsable:'',regional:'',estado:'',reporte:''},
+{item:126,area:'',tarea:'',fecha_inicio:'',fecha_venc:'',responsable:'',regional:'',estado:'',reporte:''},
+{item:127,area:'',tarea:'',fecha_inicio:'',fecha_venc:'',responsable:'',regional:'',estado:'',reporte:''},
+{item:128,area:'',tarea:'',fecha_inicio:'',fecha_venc:'',responsable:'',regional:'',estado:'',reporte:''},
+{item:129,area:'',tarea:'',fecha_inicio:'',fecha_venc:'',responsable:'',regional:'',estado:'',reporte:''},
+{item:130,area:'',tarea:'',fecha_inicio:'',fecha_venc:'',responsable:'',regional:'',estado:'',reporte:''},
+{item:131,area:'',tarea:'',fecha_inicio:'',fecha_venc:'',responsable:'',regional:'',estado:'',reporte:''},
+{item:132,area:'',tarea:'',fecha_inicio:'',fecha_venc:'',responsable:'',regional:'',estado:'',reporte:''},
+{item:133,area:'',tarea:'',fecha_inicio:'',fecha_venc:'',responsable:'',regional:'',estado:'',reporte:''},
+{item:134,area:'',tarea:'',fecha_inicio:'',fecha_venc:'',responsable:'',regional:'',estado:'',reporte:''},
+{item:135,area:'',tarea:'',fecha_inicio:'',fecha_venc:'',responsable:'',regional:'',estado:'',reporte:''},
+{item:136,area:'',tarea:'',fecha_inicio:'',fecha_venc:'',responsable:'',regional:'',estado:'',reporte:''},
+{item:137,area:'',tarea:'',fecha_inicio:'',fecha_venc:'',responsable:'',regional:'',estado:'',reporte:''},
+{item:138,area:'',tarea:'',fecha_inicio:'',fecha_venc:'',responsable:'',regional:'',estado:'',reporte:''},
+{item:139,area:'',tarea:'',fecha_inicio:'',fecha_venc:'',responsable:'',regional:'',estado:'',reporte:''},
+{item:140,area:'',tarea:'',fecha_inicio:'',fecha_venc:'',responsable:'',regional:'',estado:'',reporte:''},
+{item:141,area:'',tarea:'',fecha_inicio:'',fecha_venc:'',responsable:'',regional:'',estado:'',reporte:''},
+{item:142,area:'',tarea:'',fecha_inicio:'',fecha_venc:'',responsable:'',regional:'',estado:'',reporte:''},
+{item:143,area:'',tarea:'',fecha_inicio:'',fecha_venc:'',responsable:'',regional:'',estado:'',reporte:''},
+{item:144,area:'',tarea:'',fecha_inicio:'',fecha_venc:'',responsable:'',regional:'',estado:'',reporte:''},
+{item:145,area:'',tarea:'',fecha_inicio:'',fecha_venc:'',responsable:'',regional:'',estado:'',reporte:''},
+{item:146,area:'',tarea:'',fecha_inicio:'',fecha_venc:'',responsable:'',regional:'',estado:'',reporte:''},
+{item:147,area:'',tarea:'',fecha_inicio:'',fecha_venc:'',responsable:'',regional:'',estado:'',reporte:''},
+{item:148,area:'',tarea:'',fecha_inicio:'',fecha_venc:'',responsable:'',regional:'',estado:'',reporte:''},
+{item:149,area:'',tarea:'',fecha_inicio:'',fecha_venc:'',responsable:'',regional:'',estado:'',reporte:''},
+{item:150,area:'',tarea:'',fecha_inicio:'',fecha_venc:'',responsable:'',regional:'',estado:'',reporte:''},
+{item:151,area:'',tarea:'',fecha_inicio:'',fecha_venc:'',responsable:'',regional:'',estado:'',reporte:''},
+{item:152,area:'',tarea:'',fecha_inicio:'',fecha_venc:'',responsable:'',regional:'',estado:'',reporte:''},
+{item:153,area:'',tarea:'',fecha_inicio:'',fecha_venc:'',responsable:'',regional:'',estado:'',reporte:''},
+{item:154,area:'',tarea:'',fecha_inicio:'',fecha_venc:'',responsable:'',regional:'',estado:'',reporte:''},
+{item:155,area:'',tarea:'',fecha_inicio:'',fecha_venc:'',responsable:'',regional:'',estado:'',reporte:''},
+{item:156,area:'',tarea:'',fecha_inicio:'',fecha_venc:'',responsable:'',regional:'',estado:'',reporte:''},
+{item:157,area:'',tarea:'',fecha_inicio:'',fecha_venc:'',responsable:'',regional:'',estado:'',reporte:''},
+{item:158,area:'',tarea:'',fecha_inicio:'',fecha_venc:'',responsable:'',regional:'',estado:'',reporte:''},
+{item:159,area:'',tarea:'',fecha_inicio:'',fecha_venc:'',responsable:'',regional:'',estado:'',reporte:''},
+{item:160,area:'',tarea:'',fecha_inicio:'',fecha_venc:'',responsable:'',regional:'',estado:'',reporte:''},
+{item:161,area:'',tarea:'',fecha_inicio:'',fecha_venc:'',responsable:'',regional:'',estado:'',reporte:''},
+{item:162,area:'',tarea:'',fecha_inicio:'',fecha_venc:'',responsable:'',regional:'',estado:'',reporte:''},
+{item:163,area:'',tarea:'',fecha_inicio:'',fecha_venc:'',responsable:'',regional:'',estado:'',reporte:''},
+{item:164,area:'',tarea:'',fecha_inicio:'',fecha_venc:'',responsable:'',regional:'',estado:'',reporte:''},
+{item:165,area:'',tarea:'',fecha_inicio:'',fecha_venc:'',responsable:'',regional:'',estado:'',reporte:''},
+{item:166,area:'',tarea:'',fecha_inicio:'',fecha_venc:'',responsable:'',regional:'',estado:'',reporte:''},
+{item:167,area:'',tarea:'',fecha_inicio:'',fecha_venc:'',responsable:'',regional:'',estado:'',reporte:''},
+{item:168,area:'',tarea:'',fecha_inicio:'',fecha_venc:'',responsable:'',regional:'',estado:'',reporte:''},
+{item:169,area:'',tarea:'',fecha_inicio:'',fecha_venc:'',responsable:'',regional:'',estado:'',reporte:''},
+{item:170,area:'',tarea:'',fecha_inicio:'',fecha_venc:'',responsable:'',regional:'',estado:'',reporte:''},
+{item:171,area:'',tarea:'',fecha_inicio:'',fecha_venc:'',responsable:'',regional:'',estado:'',reporte:''},
+{item:172,area:'',tarea:'',fecha_inicio:'',fecha_venc:'',responsable:'',regional:'',estado:'',reporte:''},
+{item:173,area:'',tarea:'',fecha_inicio:'',fecha_venc:'',responsable:'',regional:'',estado:'',reporte:''},
+{item:174,area:'',tarea:'',fecha_inicio:'',fecha_venc:'',responsable:'',regional:'',estado:'',reporte:''},
+{item:175,area:'',tarea:'',fecha_inicio:'',fecha_venc:'',responsable:'',regional:'',estado:'',reporte:''},
+{item:176,area:'',tarea:'',fecha_inicio:'',fecha_venc:'',responsable:'',regional:'',estado:'',reporte:''},
+{item:177,area:'',tarea:'',fecha_inicio:'',fecha_venc:'',responsable:'',regional:'',estado:'',reporte:''},
+{item:178,area:'',tarea:'',fecha_inicio:'',fecha_venc:'',responsable:'',regional:'',estado:'',reporte:''},
+{item:179,area:'',tarea:'',fecha_inicio:'',fecha_venc:'',responsable:'',regional:'',estado:'',reporte:''},
+{item:180,area:'',tarea:'',fecha_inicio:'',fecha_venc:'',responsable:'',regional:'',estado:'',reporte:''},
+{item:181,area:'',tarea:'',fecha_inicio:'',fecha_venc:'',responsable:'',regional:'',estado:'',reporte:''},
+{item:182,area:'',tarea:'',fecha_inicio:'',fecha_venc:'',responsable:'',regional:'',estado:'',reporte:''},
+{item:183,area:'',tarea:'',fecha_inicio:'',fecha_venc:'',responsable:'',regional:'',estado:'',reporte:''},
+{item:184,area:'',tarea:'',fecha_inicio:'',fecha_venc:'',responsable:'',regional:'',estado:'',reporte:''},
+{item:185,area:'',tarea:'',fecha_inicio:'',fecha_venc:'',responsable:'',regional:'',estado:'',reporte:''},
+{item:186,area:'',tarea:'',fecha_inicio:'',fecha_venc:'',responsable:'',regional:'',estado:'',reporte:''},
+{item:187,area:'',tarea:'',fecha_inicio:'',fecha_venc:'',responsable:'',regional:'',estado:'',reporte:''},
+{item:188,area:'',tarea:'',fecha_inicio:'',fecha_venc:'',responsable:'',regional:'',estado:'',reporte:''},
+{item:189,area:'',tarea:'',fecha_inicio:'',fecha_venc:'',responsable:'',regional:'',estado:'',reporte:''},
+{item:190,area:'',tarea:'',fecha_inicio:'',fecha_venc:'',responsable:'',regional:'',estado:'',reporte:''},
+{item:191,area:'',tarea:'',fecha_inicio:'',fecha_venc:'',responsable:'',regional:'',estado:'',reporte:''},
+{item:192,area:'',tarea:'',fecha_inicio:'',fecha_venc:'',responsable:'',regional:'',estado:'',reporte:''},
+{item:193,area:'',tarea:'',fecha_inicio:'',fecha_venc:'',responsable:'',regional:'',estado:'',reporte:''},
+{item:194,area:'',tarea:'',fecha_inicio:'',fecha_venc:'',responsable:'',regional:'',estado:'',reporte:''},
+{item:195,area:'',tarea:'',fecha_inicio:'',fecha_venc:'',responsable:'',regional:'',estado:'',reporte:''},
+{item:196,area:'',tarea:'',fecha_inicio:'',fecha_venc:'',responsable:'',regional:'',estado:'',reporte:''},
+{item:197,area:'',tarea:'',fecha_inicio:'',fecha_venc:'',responsable:'',regional:'',estado:'',reporte:''},
+{item:198,area:'',tarea:'',fecha_inicio:'',fecha_venc:'',responsable:'',regional:'',estado:'',reporte:''},
+{item:199,area:'',tarea:'',fecha_inicio:'',fecha_venc:'',responsable:'',regional:'',estado:'',reporte:''},
+{item:200,area:'',tarea:'',fecha_inicio:'',fecha_venc:'',responsable:'',regional:'',estado:'',reporte:''},
+{item:201,area:'',tarea:'',fecha_inicio:'',fecha_venc:'',responsable:'',regional:'',estado:'',reporte:''},
+{item:202,area:'',tarea:'',fecha_inicio:'',fecha_venc:'',responsable:'',regional:'',estado:'',reporte:''},
+{item:203,area:'',tarea:'',fecha_inicio:'',fecha_venc:'',responsable:'',regional:'',estado:'',reporte:''},
+{item:204,area:'',tarea:'',fecha_inicio:'',fecha_venc:'',responsable:'',regional:'',estado:'',reporte:''},
+{item:205,area:'',tarea:'',fecha_inicio:'',fecha_venc:'',responsable:'',regional:'',estado:'',reporte:''},
+{item:206,area:'',tarea:'',fecha_inicio:'',fecha_venc:'',responsable:'',regional:'',estado:'',reporte:''},
+{item:207,area:'',tarea:'',fecha_inicio:'',fecha_venc:'',responsable:'',regional:'',estado:'',reporte:''},
+{item:208,area:'',tarea:'',fecha_inicio:'',fecha_venc:'',responsable:'',regional:'',estado:'',reporte:''},
+{item:209,area:'',tarea:'',fecha_inicio:'',fecha_venc:'',responsable:'',regional:'',estado:'',reporte:''},
+{item:210,area:'',tarea:'',fecha_inicio:'',fecha_venc:'',responsable:'',regional:'',estado:'',reporte:''},
+{item:211,area:'',tarea:'',fecha_inicio:'',fecha_venc:'',responsable:'',regional:'',estado:'',reporte:''},
+{item:212,area:'',tarea:'',fecha_inicio:'',fecha_venc:'',responsable:'',regional:'',estado:'',reporte:''},
+{item:213,area:'',tarea:'',fecha_inicio:'',fecha_venc:'',responsable:'',regional:'',estado:'',reporte:''},
+{item:214,area:'',tarea:'',fecha_inicio:'',fecha_venc:'',responsable:'',regional:'',estado:'',reporte:''},
+{item:215,area:'',tarea:'',fecha_inicio:'',fecha_venc:'',responsable:'',regional:'',estado:'',reporte:''},
+{item:216,area:'',tarea:'',fecha_inicio:'',fecha_venc:'',responsable:'',regional:'',estado:'',reporte:''},
+{item:217,area:'',tarea:'',fecha_inicio:'',fecha_venc:'',responsable:'',regional:'',estado:'',reporte:''},
+{item:218,area:'',tarea:'',fecha_inicio:'',fecha_venc:'',responsable:'',regional:'',estado:'',reporte:''},
+{item:219,area:'',tarea:'',fecha_inicio:'',fecha_venc:'',responsable:'',regional:'',estado:'',reporte:''},
+{item:220,area:'',tarea:'',fecha_inicio:'',fecha_venc:'',responsable:'',regional:'',estado:'',reporte:''},
+{item:221,area:'',tarea:'',fecha_inicio:'',fecha_venc:'',responsable:'',regional:'',estado:'',reporte:''},
+{item:222,area:'',tarea:'',fecha_inicio:'',fecha_venc:'',responsable:'',regional:'',estado:'',reporte:''},
+{item:223,area:'',tarea:'',fecha_inicio:'',fecha_venc:'',responsable:'',regional:'',estado:'',reporte:''},
+{item:224,area:'',tarea:'',fecha_inicio:'',fecha_venc:'',responsable:'',regional:'',estado:'',reporte:''},
+{item:225,area:'',tarea:'',fecha_inicio:'',fecha_venc:'',responsable:'',regional:'',estado:'',reporte:''},
+{item:226,area:'',tarea:'',fecha_inicio:'',fecha_venc:'',responsable:'',regional:'',estado:'',reporte:''},
+{item:227,area:'',tarea:'',fecha_inicio:'',fecha_venc:'',responsable:'',regional:'',estado:'',reporte:''},
+{item:228,area:'',tarea:'',fecha_inicio:'',fecha_venc:'',responsable:'',regional:'',estado:'',reporte:''},
+{item:229,area:'',tarea:'',fecha_inicio:'',fecha_venc:'',responsable:'',regional:'',estado:'',reporte:''},
+{item:230,area:'',tarea:'',fecha_inicio:'',fecha_venc:'',responsable:'',regional:'',estado:'',reporte:''},
+{item:231,area:'',tarea:'',fecha_inicio:'',fecha_venc:'',responsable:'',regional:'',estado:'',reporte:''},
+{item:232,area:'',tarea:'',fecha_inicio:'',fecha_venc:'',responsable:'',regional:'',estado:'',reporte:''},
+{item:233,area:'',tarea:'',fecha_inicio:'',fecha_venc:'',responsable:'',regional:'',estado:'',reporte:''},
+{item:234,area:'',tarea:'',fecha_inicio:'',fecha_venc:'',responsable:'',regional:'',estado:'',reporte:''},
+{item:235,area:'',tarea:'',fecha_inicio:'',fecha_venc:'',responsable:'',regional:'',estado:'',reporte:''},
+{item:236,area:'',tarea:'',fecha_inicio:'',fecha_venc:'',responsable:'',regional:'',estado:'',reporte:''},
+{item:237,area:'',tarea:'',fecha_inicio:'',fecha_venc:'',responsable:'',regional:'',estado:'',reporte:''},
+{item:238,area:'',tarea:'',fecha_inicio:'',fecha_venc:'',responsable:'',regional:'',estado:'',reporte:''},
+{item:239,area:'',tarea:'',fecha_inicio:'',fecha_venc:'',responsable:'',regional:'',estado:'',reporte:''},
+{item:240,area:'',tarea:'',fecha_inicio:'',fecha_venc:'',responsable:'',regional:'',estado:'',reporte:''},
+{item:241,area:'',tarea:'',fecha_inicio:'',fecha_venc:'',responsable:'',regional:'',estado:'',reporte:''},
+{item:242,area:'',tarea:'',fecha_inicio:'',fecha_venc:'',responsable:'',regional:'',estado:'',reporte:''},
+{item:243,area:'',tarea:'',fecha_inicio:'',fecha_venc:'',responsable:'',regional:'',estado:'',reporte:''},
+{item:244,area:'',tarea:'',fecha_inicio:'',fecha_venc:'',responsable:'',regional:'',estado:'',reporte:''},
+{item:245,area:'',tarea:'',fecha_inicio:'',fecha_venc:'',responsable:'',regional:'',estado:'',reporte:''},
+{item:246,area:'',tarea:'',fecha_inicio:'',fecha_venc:'',responsable:'',regional:'',estado:'',reporte:''},
+{item:247,area:'',tarea:'',fecha_inicio:'',fecha_venc:'',responsable:'',regional:'',estado:'',reporte:''},
+{item:248,area:'',tarea:'',fecha_inicio:'',fecha_venc:'',responsable:'',regional:'',estado:'',reporte:''},
+{item:249,area:'',tarea:'',fecha_inicio:'',fecha_venc:'',responsable:'',regional:'',estado:'',reporte:''}
 ];
 let FILTRO_AREA_ACTUAL = 'Todas';
 let FILTRO_RESPONSABLE_ACTUAL = 'Todos';
@@ -1886,11 +1909,198 @@ function setFiltroResponsable(nombre){
   FILTRO_RESPONSABLE_ACTUAL = nombre;
   pintarTareas();
 }
-(function initFiltroResponsable(){
+function initFiltrosArea(){
+  const areasSet = new Set(TAREAS_DATA.map(r => r.area).filter(Boolean));
+  const botones = ['<button data-area="Todas" onclick="setFiltroArea(\'Todas\')" class="filtro-btn activo">Todas</button>']
+    .concat([...areasSet].map(a => `<button data-area="${a}" onclick="setFiltroArea('${a}')" class="filtro-btn">${a}</button>`));
+  document.getElementById('idTareasFiltrosArea').innerHTML = botones.join('');
+}
+function initFiltroResponsable(){
+  FILTRO_AREA_ACTUAL = 'Todas';
+  FILTRO_RESPONSABLE_ACTUAL = 'Todos';
   const responsables = ['Todos', ...new Set(TAREAS_DATA.map(r => r.responsable).filter(Boolean))].sort((a,b)=> a==='Todos'?-1:(b==='Todos'?1:a.localeCompare(b)));
   document.getElementById('filtroResponsableTareas').innerHTML = responsables.map(n => `<option value="${n}">${n==='Todos'?'Todos los responsables':n}</option>`).join('');
-})();
-pintarTareas();
+  initFiltrosArea();
+  pintarTareas();
+}
+initFiltroResponsable();
+
+// ---------- Refresco en vivo de Control de lotes y Pendientes por área (JSONP, evita CORS) ----------
+
+const SPREADSHEET_ID = '1rbRSwcReTrYZJYzuDWzV12qFkGqEJjLK-afASTAo2WM';
+let jsonpContador = 0;
+
+function cargarGvizJsonp(gid){
+  return new Promise((resolve, reject) => {
+    const cbName = 'gvizCb' + (jsonpContador++);
+    const t = setTimeout(() => { limpiar(); reject(new Error('timeout')); }, 12000);
+    function limpiar(){
+      clearTimeout(t);
+      delete window[cbName];
+      if(script.parentNode) script.parentNode.removeChild(script);
+    }
+    window[cbName] = function(data){
+      limpiar();
+      try{
+        const rows = data.table.rows.map(r => r.c.map(c => (c && c.v !== null && c.v !== undefined) ? String(c.v) : ''));
+        resolve(rows);
+      }catch(e){ reject(e); }
+    };
+    const script = document.createElement('script');
+    script.src = `https://docs.google.com/spreadsheets/d/${SPREADSHEET_ID}/gviz/tq?gid=${gid}&tqx=out:json;responseHandler=${cbName}`;
+    script.onerror = () => { limpiar(); reject(new Error('script error')); };
+    document.body.appendChild(script);
+  });
+}
+
+function esFilaNumerica(v){ return v !== '' && v !== undefined && !isNaN(Number(v)); }
+function limpiarPostes(v){
+  if(!v) return null;
+  const n = parseInt(String(v).replace(/\./g, ''), 10);
+  return isNaN(n) ? null : n;
+}
+
+function parseLotesGviz(rows){
+  let inicio = rows.findIndex(r => (r[0]||'').toString().trim().toUpperCase() === 'ITEM');
+  let data = inicio >= 0 ? rows.slice(inicio + 1) : rows;
+  data = data.filter(r => esFilaNumerica(r[0]));
+  return data.map(r => ({
+    lote: r[2], regional: (r[1]||'').trim(), estado_general: (r[4]||'').trim(),
+    postes: limpiarPostes(r[22]), muestra_ande: (r[24]||'').trim(), estado_lote: (r[25]||'').trim(),
+    emitido_8a: (r[29]||'').trim(), hab8b: (r[30]||'').trim(), emitido_8b: (r[31]||'').trim(),
+  }));
+}
+function parseTareasGviz(rows){
+  let inicio = rows.findIndex(r => (r[0]||'').toString().trim().toLowerCase() === 'item');
+  let data = inicio >= 0 ? rows.slice(inicio + 1) : rows;
+  data = data.filter(r => esFilaNumerica(r[0]));
+  return data.map(r => ({
+    item: r[0], area: (r[1]||'').trim(), tarea: (r[2]||'').trim(),
+    fecha_inicio: (r[3]||'').trim(), fecha_venc: (r[4]||'').trim(),
+    responsable: (r[5]||'').trim(), regional: (r[6]||'').trim(), estado: (r[7]||'').trim(), reporte: (r[8]||'').trim(),
+  }));
+}
+
+function parseFechaDDMMYYYYTareas(str){
+  if(!str) return null;
+  const p = str.split('/');
+  if(p.length !== 3) return null;
+  const d = parseInt(p[0],10), m = parseInt(p[1],10), y = parseInt(p[2],10);
+  if(!d||!m||!y) return null;
+  return new Date(y, m-1, d);
+}
+function proximasVencerHtmlJs(filas){
+  const hoy = new Date(); hoy.setHours(0,0,0,0);
+  const candidatas = filas
+    .filter(f => f.estado !== 'Realizado' && f.estado !== 'Completado')
+    .map(f => {
+      const fecha = parseFechaDDMMYYYYTareas(f.fecha_venc);
+      if(!fecha) return null;
+      const dias = Math.round((fecha - hoy) / 86400000);
+      return dias <= 7 ? {...f, dias} : null;
+    })
+    .filter(Boolean)
+    .sort((a,b) => a.dias - b.dias);
+  if(!candidatas.length) return '<div class="chip-vacio">Ninguna tarea próxima a vencer ni vencida</div>';
+  return candidatas.map(f => {
+    let etiqueta, clase;
+    if(f.dias < 0){ etiqueta = `vencida hace ${Math.abs(f.dias)} d.`; clase = 'chip atrasado'; }
+    else if(f.dias === 0){ etiqueta = 'vence hoy'; clase = 'chip atrasado'; }
+    else { etiqueta = `vence en ${f.dias} d.`; clase = 'chip'; }
+    return `<span class="${clase}">${f.tarea} <small>(${f.responsable||'sin asignar'} &middot; ${etiqueta})</small></span>`;
+  }).join('');
+}
+
+function zVacioOSinIniciar(z){ return z === '' || z.replace(/_/g,' ').trim().toLowerCase() === 'sin iniciar'; }
+function barsHtmlJs(counts, colorMap, defaultColor){
+  const entries = Object.entries(counts).sort((a,b)=>b[1]-a[1]);
+  if(!entries.length) return '';
+  const max = Math.max(...entries.map(e=>e[1]));
+  return entries.map(([k,v]) => {
+    const pct = Math.round(v/max*100);
+    return `<div class="bar-row"><div class="lbl">${k}</div><div class="bar-track"><div class="bar-fill" style="width:${pct}%; background:${colorMap[k]||defaultColor}"></div></div><div class="bar-val">${v}</div></div>`;
+  }).join('');
+}
+function chipsHtmlJs(filas, vacioTexto){
+  if(!filas.length) return `<div class="chip-vacio">${vacioTexto}</div>`;
+  return filas.map(f => `<span class="chip">Lote ${f.lote} <small>(${f.regional||'Sin asignar'})</small></span>`).join('');
+}
+
+function actualizarModuloLotes(filas){
+  LOTES_DATA = filas;
+  const total = filas.length;
+  const tramite = filas.filter(f => !zVacioOSinIniciar(f.estado_lote)).length;
+  document.getElementById('idLotesTotal').textContent = total;
+  document.getElementById('idLotesTramite').textContent = tramite;
+  document.getElementById('idLotesCola').textContent = total - tramite;
+  document.getElementById('idLotesPostes').textContent = filas.reduce((s,f)=>s+(f.postes||0),0).toLocaleString('es-PY');
+
+  const regCounts = {};
+  filas.filter(f => !zVacioOSinIniciar(f.estado_lote)).forEach(f => { const k = f.regional || 'Sin asignar'; regCounts[k]=(regCounts[k]||0)+1; });
+  document.getElementById('idLotesBarsRegional').innerHTML = barsHtmlJs(regCounts, {}, '#4d9fef');
+
+  const estCounts = {};
+  filas.forEach(f => { const k = f.estado_lote || 'Sin iniciar'; estCounts[k]=(estCounts[k]||0)+1; });
+  document.getElementById('idLotesBarsEstado').innerHTML = barsHtmlJs(estCounts, {Aceptado:'#3ecf8e', Rechazado:'#f0645f'}, '#f0a94d');
+
+  document.getElementById('idLotesEnCursoChips').innerHTML = chipsHtmlJs(filas.filter(f => f.estado_lote.toLowerCase().includes('curso')), 'Ningún lote en curso en la columna Z ahora mismo');
+  document.getElementById('idLotesPend8aChips').innerHTML = chipsHtmlJs(filas.filter(f => f.estado_lote.toLowerCase()==='aceptado' && f.emitido_8a.toUpperCase()!=='SI'), 'Ningún aceptado esperando firma 8A');
+  document.getElementById('idLotesPend8bChips').innerHTML = chipsHtmlJs(filas.filter(f => f.hab8b.toUpperCase()==='SI' && f.emitido_8b.toUpperCase()!=='SI'), 'Ningún habilitado esperando firma 8B');
+
+  initFiltrosRegionalLotes();
+}
+
+function actualizarModuloTareas(filas){
+  TAREAS_DATA = filas;
+  const esOk = e => e === 'Realizado' || e === 'Completado';
+  const total = filas.length;
+  const ok = filas.filter(f => esOk(f.estado)).length;
+  document.getElementById('idTareasTotal').textContent = total;
+  document.getElementById('idTareasOk').textContent = ok;
+  document.getElementById('idTareasPend').textContent = total - ok;
+
+  const porPersona = {};
+  filas.forEach(f => {
+    if(!f.responsable) return;
+    porPersona[f.responsable] = porPersona[f.responsable] || {total:0, pend:0};
+    porPersona[f.responsable].total++;
+    if(!esOk(f.estado)) porPersona[f.responsable].pend++;
+  });
+  document.getElementById('idTareasPersonas').textContent = Object.values(porPersona).filter(p=>p.pend>0).length;
+  document.getElementById('idTareasCardsResponsables').innerHTML = Object.entries(porPersona)
+    .sort((a,b)=>b[1].pend-a[1].pend)
+    .map(([nombre,c]) => `<div class="kpi ${c.pend>0?'c-red':'c-green'}"><div class="label">${nombre}</div><div class="value">${c.pend}</div><div class="sub">pendientes de ${c.total} tareas</div></div>`)
+    .join('');
+  document.getElementById('idTareasProxVencer').innerHTML = proximasVencerHtmlJs(filas);
+
+  initFiltroResponsable();
+}
+
+async function actualizarEnVivo(){
+  const badge = document.getElementById('badgeLotesLive');
+  const boton = document.getElementById('btnActualizar');
+  boton.disabled = true;
+  badge.className = 'badge-live mute';
+  badge.innerHTML = '<span class="dot"></span> Sheets: actualizando…';
+  try{
+    const [lotesRows, tareasRows] = await Promise.all([cargarGvizJsonp(0), cargarGvizJsonp(442614997)]);
+    const lotesFilas = parseLotesGviz(lotesRows);
+    const tareasFilas = parseTareasGviz(tareasRows);
+    if(!lotesFilas.length || !tareasFilas.length) throw new Error('respuesta vacia o con formato inesperado');
+    actualizarModuloLotes(lotesFilas);
+    actualizarModuloTareas(tareasFilas);
+    const ahora = new Date().toLocaleTimeString('es-PY');
+    badge.className = 'badge-live ok';
+    badge.innerHTML = '<span class="dot"></span> Sheets actualizado ' + ahora;
+  }catch(e){
+    badge.className = 'badge-live bad';
+    badge.innerHTML = '<span class="dot"></span> Sheets: no se pudo actualizar en vivo (mostrando datos del último build)';
+    console.error('Fallo el refresco en vivo:', e);
+  }finally{
+    boton.disabled = false;
+  }
+}
+actualizarEnVivo();
 </script>
 </body>
 </html>
