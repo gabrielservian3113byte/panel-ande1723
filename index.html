@@ -110,7 +110,7 @@
     <div class="topbar">
       <div class="titles"><h1 id="topTitle">Resumen general</h1></div>
       <div class="right">
-        <span class="badge-live ok" title="El Excel (circuitos, productividad, ritmo) viene de SharePoint y solo se actualiza una vez por día."><span class="dot"></span> Excel actualizado 31/08/2026 13:59 hs</span>
+        <span class="badge-live ok" title="El Excel (circuitos, productividad, ritmo) viene de SharePoint y solo se actualiza una vez por día."><span class="dot"></span> Excel actualizado 01/09/2026 11:05 hs</span>
         <span id="badgeLotesLive" class="badge-live mute"><span class="dot"></span> Sheets: cargando…</span>
         <button class="btn-refresh" id="btnActualizar" onclick="actualizarEnVivo()">↻ Actualizar</button>
       </div>
@@ -123,9 +123,9 @@
         <div class="page-sub">679 alimentadores &middot; 6 regionales &middot; hoja AVANCES (V2) + 5. DASHBOARD</div>
         <div class="grid cols-4">
           <div class="kpi c-blue"><div class="label">Total alimentadores</div><div class="value">754</div><div class="sub">6 regionales</div></div>
-          <div class="kpi c-orange"><div class="label">En proceso</div><div class="value">13</div><div class="sub">circuitos activos hoy</div></div>
-          <div class="kpi c-red"><div class="label">No iniciado</div><div class="value">738</div><div class="sub">circuitos sin arrancar</div></div>
-          <div class="kpi c-green"><div class="label">Finalizados</div><div class="value">3</div><div class="sub">actualizado 31/08/2026 13:59 hs</div></div>
+          <div class="kpi c-orange"><div class="label">En proceso</div><div class="value">14</div><div class="sub">circuitos activos hoy</div></div>
+          <div class="kpi c-red"><div class="label">No iniciado</div><div class="value">737</div><div class="sub">circuitos sin arrancar</div></div>
+          <div class="kpi c-green"><div class="label">Finalizados</div><div class="value">3</div><div class="sub">actualizado 01/09/2026 11:05 hs</div></div>
         </div>
         <div class="grid cols-2" style="margin-top:16px;">
           <div class="panel-box">
@@ -139,7 +139,7 @@
                 <thead><tr><th>Regional</th><th class="num">Circ.</th><th class="num">MT plan</th><th class="num">MT real</th><th class="num">PD plan</th></tr></thead>
                 <tbody>
 <tr><td>Metro Y Central</td><td class='num'>333</td><td class='num'>11,202</td><td class='num'>0</td><td class='num'>30,020</td><td class='num'>0</td><td class='num'>10,836</td></tr>
-<tr><td>Este</td><td class='num'>153</td><td class='num'>19,141</td><td class='num'>1,154</td><td class='num'>12,501</td><td class='num'>1,025</td><td class='num'>11,243</td></tr>
+<tr><td>Este</td><td class='num'>153</td><td class='num'>19,141</td><td class='num'>1,190</td><td class='num'>12,501</td><td class='num'>1,100</td><td class='num'>11,243</td></tr>
 <tr><td>Sur</td><td class='num'>101</td><td class='num'>14,375</td><td class='num'>0</td><td class='num'>9,275</td><td class='num'>0</td><td class='num'>4,299</td></tr>
 <tr><td>Norte</td><td class='num'>78</td><td class='num'>15,792</td><td class='num'>0</td><td class='num'>9,073</td><td class='num'>0</td><td class='num'>5,226</td></tr>
 <tr><td>Centro</td><td class='num'>64</td><td class='num'>12,146</td><td class='num'>0</td><td class='num'>8,609</td><td class='num'>0</td><td class='num'>3,090</td></tr>
@@ -279,7 +279,7 @@
         <div class="page-sub">Cruce de 3. REPORTE_DIARIO x 1. GENERAL &middot; promedio diario asumiendo semana laboral lunes a viernes</div>
 
         <div class="grid cols-2">
-          <div class="kpi c-blue"><div class="label">Circuito/tipo con ritmo calculado</div><div class="value">25</div><div class="sub">con fecha de asignación en 1. GENERAL</div></div>
+          <div class="kpi c-blue"><div class="label">Circuito/tipo con ritmo calculado</div><div class="value">26</div><div class="sub">con fecha de asignación en 1. GENERAL</div></div>
           <div class="kpi c-orange"><div class="label">Circuitos filtrados</div><div class="value" id="kpiRitmoFiltrados">—</div><div class="sub">según los filtros de abajo</div></div>
         </div>
 
@@ -319,46 +319,44 @@
         <div class="page-sub">Pestaña "Pendientes Grales por Area" &middot; datos actualizados una vez por día por el pipeline</div>
 
         <div class="grid cols-4">
-          <div class="kpi c-blue"><div class="label">Total tareas</div><div class="value" id="idTareasTotal">249</div><div class="sub">cargadas en la hoja</div></div>
+          <div class="kpi c-blue"><div class="label">Total tareas</div><div class="value" id="idTareasTotal">247</div><div class="sub">cargadas en la hoja</div></div>
           <div class="kpi c-green"><div class="label">Realizadas</div><div class="value" id="idTareasOk">25</div><div class="sub">Realizado / Completado</div></div>
-          <div class="kpi c-red"><div class="label">Pendientes</div><div class="value" id="idTareasPend">224</div><div class="sub">sin marcar todavía</div></div>
+          <div class="kpi c-red"><div class="label">Pendientes</div><div class="value" id="idTareasPend">222</div><div class="sub">sin marcar todavía</div></div>
           <div class="kpi c-purple"><div class="label">Personas con pendientes</div><div class="value" id="idTareasPersonas">4</div><div class="sub">responsables activos</div></div>
         </div>
 
         <div class="panel-box" style="margin-top:14px;">
           <h3>Pendientes por responsable</h3>
           <div class="grid cols-4" id="idTareasCardsResponsables">
-<div class="kpi c-red"><div class="label">Luis Alonso</div><div class="value">8</div><div class="sub">pendientes de 17 tareas</div></div>
+<div class="kpi c-red"><div class="label">Luis Alonso</div><div class="value">8</div><div class="sub">pendientes de 19 tareas</div></div>
 <div class="kpi c-red"><div class="label">Gabriel Servian</div><div class="value">6</div><div class="sub">pendientes de 14 tareas</div></div>
-<div class="kpi c-red"><div class="label">Fernando Rodriguez</div><div class="value">6</div><div class="sub">pendientes de 11 tareas</div></div>
+<div class="kpi c-red"><div class="label">Fernando Rodriguez</div><div class="value">6</div><div class="sub">pendientes de 12 tareas</div></div>
 <div class="kpi c-red"><div class="label">Amado Arrieta</div><div class="value">5</div><div class="sub">pendientes de 5 tareas</div></div>
-<div class="kpi c-green"><div class="label">Luis Alonso, Fernando Rodriguez</div><div class="value">0</div><div class="sub">pendientes de 2 tareas</div></div>
-<div class="kpi c-green"><div class="label">Luis Alonso, Gabriel Servian</div><div class="value">0</div><div class="sub">pendientes de 1 tareas</div></div>
           </div>
         </div>
 
         <div class="panel-box" style="margin-top:14px; border-color:#5a2e2c;">
           <h3 style="color:var(--red);">⚠ Próximas a vencer / vencidas <span style="color:var(--ink-mute); text-transform:none; font-weight:400;">(columna Fecha de vencimiento, ventana de 7 días)</span></h3>
           <div class="chips-wrap" id="idTareasProxVencer">
-<span class="chip atrasado">Dar continuidad de como se va a trabajar en relacion a los eventos, si lo cargara el Analista EO  y como se va a certificar y vincular. <small>(Gabriel Servian &middot; vencida hace 19 d.)</small></span>
-<span class="chip atrasado">Reporte de Distritos ya revisados <small>(Luis Alonso &middot; vencida hace 18 d.)</small></span>
-<span class="chip atrasado">Informe de levantamientos que no pudieron realizarse a causa de Acceso denegado por Lev a pie <small>(Luis Alonso &middot; vencida hace 18 d.)</small></span>
-<span class="chip atrasado">Cargar las misiones de Drone pendientes en la planilla C3 en base a la secuencia de certificacion de SSEE. <small>(Fernando Rodriguez &middot; vencida hace 18 d.)</small></span>
-<span class="chip atrasado">Enviar un correo a ANDE informando levantamientos a pie que no pudieron realizarse a causa de acceso denegado. Actualizar cada 15 días. <small>(Luis Alonso &middot; vencida hace 17 d.)</small></span>
-<span class="chip atrasado">Armar una reunion con GE para establecer fechas de implementacion que esta vinculado a la integracion del sistema linea 426 del Project. <small>(Amado Arrieta &middot; vencida hace 10 d.)</small></span>
-<span class="chip atrasado">Presentar informe de desviacion de Construccion de Circuitos. <small>(Luis Alonso &middot; vencida hace 3 d.)</small></span>
-<span class="chip atrasado">Preparar un documento o manual de consulta para los levantadores a PIE. Mezclar clasificacion con uso de Atlas. <small>(Luis Alonso &middot; vencida hace 3 d.)</small></span>
-<span class="chip atrasado">Enviar planificacion centro, solicitar flyers para inicio de distritos <small>(Fernando Rodriguez &middot; vencida hace 3 d.)</small></span>
-<span class="chip atrasado">Hablar con Hugo Silvero para proyectos en BT. <small>(Gabriel Servian &middot; vence hoy)</small></span>
-<span class="chip atrasado">Enviar correo a TA sobre realizar la comparativa de PD EO vs PD lev y detectar posibles postes que no se clasificaron transformadores. <small>(Gabriel Servian &middot; vence hoy)</small></span>
-<span class="chip">Revision y retorno sobre propuesta de plan piloto de implementación ESTE <small>(Amado Arrieta &middot; vence en 3 d.)</small></span>
-<span class="chip">GE debe compartir tool para soluicionar lentitud de EO <small>(Amado Arrieta &middot; vence en 3 d.)</small></span>
-<span class="chip">Respuesta a ANDE por Adenda V3 a Ing. Procesos de Negocio <small>(Amado Arrieta &middot; vence en 3 d.)</small></span>
-<span class="chip">Modificar documento esp requerimientosde Cymdist. <small>(Amado Arrieta &middot; vence en 3 d.)</small></span>
-<span class="chip">Borrar fotos no utlizadas en postgress <small>(Fernando Rodriguez &middot; vence en 3 d.)</small></span>
-<span class="chip">Actualizar secuencia de SSEE de certificación 8C. <small>(Luis Alonso &middot; vence en 3 d.)</small></span>
-<span class="chip">Desarrollo del flujo de trabajo para Levantamiento en el Chaco, se usara Atlas o Apsheet, ver metodologia de trabajo <small>(Fernando Rodriguez &middot; vence en 4 d.)</small></span>
-<span class="chip">Ver que se necesita para levantar en el CHACO: tablets, camioneta, recursos, imagenes satelitales (Precio) <small>(Fernando Rodriguez &middot; vence en 4 d.)</small></span>
+<span class="chip atrasado">Dar continuidad de como se va a trabajar en relacion a los eventos, si lo cargara el Analista EO  y como se va a certificar y vincular. <small>(Gabriel Servian &middot; vencida hace 20 d.)</small></span>
+<span class="chip atrasado">Reporte de Distritos ya revisados <small>(Luis Alonso &middot; vencida hace 19 d.)</small></span>
+<span class="chip atrasado">Informe de levantamientos que no pudieron realizarse a causa de Acceso denegado por Lev a pie <small>(Luis Alonso &middot; vencida hace 19 d.)</small></span>
+<span class="chip atrasado">Cargar las misiones de Drone pendientes en la planilla C3 en base a la secuencia de certificacion de SSEE. <small>(Fernando Rodriguez &middot; vencida hace 19 d.)</small></span>
+<span class="chip atrasado">Enviar un correo a ANDE informando levantamientos a pie que no pudieron realizarse a causa de acceso denegado. Actualizar cada 15 días. <small>(Luis Alonso &middot; vencida hace 18 d.)</small></span>
+<span class="chip atrasado">Armar una reunion con GE para establecer fechas de implementacion que esta vinculado a la integracion del sistema linea 426 del Project. <small>(Amado Arrieta &middot; vencida hace 11 d.)</small></span>
+<span class="chip atrasado">Presentar informe de desviacion de Construccion de Circuitos. <small>(Luis Alonso &middot; vencida hace 4 d.)</small></span>
+<span class="chip atrasado">Preparar un documento o manual de consulta para los levantadores a PIE. Mezclar clasificacion con uso de Atlas. <small>(Luis Alonso &middot; vencida hace 4 d.)</small></span>
+<span class="chip atrasado">Enviar planificacion centro, solicitar flyers para inicio de distritos <small>(Fernando Rodriguez &middot; vencida hace 4 d.)</small></span>
+<span class="chip atrasado">Hablar con Hugo Silvero para proyectos en BT. <small>(Gabriel Servian &middot; vencida hace 1 d.)</small></span>
+<span class="chip atrasado">Enviar correo a TA sobre realizar la comparativa de PD EO vs PD lev y detectar posibles postes que no se clasificaron transformadores. <small>(Gabriel Servian &middot; vencida hace 1 d.)</small></span>
+<span class="chip">Revision y retorno sobre propuesta de plan piloto de implementación ESTE <small>(Amado Arrieta &middot; vence en 2 d.)</small></span>
+<span class="chip">GE debe compartir tool para soluicionar lentitud de EO <small>(Amado Arrieta &middot; vence en 2 d.)</small></span>
+<span class="chip">Respuesta a ANDE por Adenda V3 a Ing. Procesos de Negocio <small>(Amado Arrieta &middot; vence en 2 d.)</small></span>
+<span class="chip">Modificar documento esp requerimientosde Cymdist. <small>(Amado Arrieta &middot; vence en 2 d.)</small></span>
+<span class="chip">Borrar fotos no utlizadas en postgress <small>(Fernando Rodriguez &middot; vence en 2 d.)</small></span>
+<span class="chip">Actualizar secuencia de SSEE de certificación 8C. <small>(Luis Alonso &middot; vence en 2 d.)</small></span>
+<span class="chip">Desarrollo del flujo de trabajo para Levantamiento en el Chaco, se usara Atlas o Apsheet, ver metodologia de trabajo <small>(Fernando Rodriguez &middot; vence en 3 d.)</small></span>
+<span class="chip">Ver que se necesita para levantar en el CHACO: tablets, camioneta, recursos, imagenes satelitales (Precio) <small>(Fernando Rodriguez &middot; vence en 3 d.)</small></span>
           </div>
         </div>
 
@@ -419,7 +417,7 @@ const CIRCUITOS_DATA = [
 {regional:'ESTE',ssee:'PBU',circuito:'PBU02',mt:79,bt:7,pctbt:8.86,estado:'En proceso',estado_insp:'Pendiente',estado_8c:'Pendiente',inicio_bt:'24/08/2026',fin_bt:'07/09/2026',avance_mt:99.45,mt_asignado:'Cvasconi',mt_estado:'Completado',mt_fecha_ini:'10/06/2026',mt_fecha_fin:'06/07/2026',bt_asignado:'Fgarcia',bt_estado:'En curso',bt_fecha_ini:'20/08/2026',bt_fecha_fin:''},
 {regional:'ESTE',ssee:'PBU',circuito:'PBU03',mt:52,bt:46,pctbt:88.46,estado:'En proceso',estado_insp:'Pendiente',estado_8c:'Pendiente',inicio_bt:'12/08/2026',fin_bt:'27/08/2026',avance_mt:99.45,mt_asignado:'Cvasconi',mt_estado:'Completado',mt_fecha_ini:'10/04/2026',mt_fecha_fin:'27/05/2026',bt_asignado:'Jzarza',bt_estado:'Completado',bt_fecha_ini:'11/08/2026',bt_fecha_fin:'20/08/2026'},
 {regional:'ESTE',ssee:'PBU',circuito:'PBU04',mt:33,bt:33,pctbt:100.0,estado:'En proceso',estado_insp:'Pendiente',estado_8c:'Pendiente',inicio_bt:'20/08/2026',fin_bt:'01/09/2026',avance_mt:99.4,mt_asignado:'Cvasconi',mt_estado:'Completado',mt_fecha_ini:'15/04/2026',mt_fecha_fin:'13/05/2026',bt_asignado:'Mostermann',bt_estado:'En curso',bt_fecha_ini:'21/08/2026',bt_fecha_fin:''},
-{regional:'ESTE',ssee:'PBU',circuito:'PBU05',mt:137,bt:111,pctbt:81.02,estado:'En proceso',estado_insp:'Pendiente',estado_8c:'Pendiente',inicio_bt:'11/08/2026',fin_bt:'09/09/2026',avance_mt:98.3,mt_asignado:'Cvasconi',mt_estado:'Completado',mt_fecha_ini:'29/04/2026',mt_fecha_fin:'29/05/2026',bt_asignado:'Hgonzalez',bt_estado:'En curso',bt_fecha_ini:'12/08/2026',bt_fecha_fin:''},
+{regional:'ESTE',ssee:'PBU',circuito:'PBU05',mt:137,bt:120,pctbt:87.59,estado:'En proceso',estado_insp:'Pendiente',estado_8c:'Pendiente',inicio_bt:'11/08/2026',fin_bt:'09/09/2026',avance_mt:98.3,mt_asignado:'Cvasconi',mt_estado:'Completado',mt_fecha_ini:'29/04/2026',mt_fecha_fin:'29/05/2026',bt_asignado:'Hgonzalez',bt_estado:'En curso',bt_fecha_ini:'12/08/2026',bt_fecha_fin:''},
 {regional:'ESTE',ssee:'DES',circuito:'DES10',mt:114,bt:0,pctbt:0.0,estado:'MT 100% - BT pendiente',estado_insp:'Pendiente',estado_8c:'Pendiente',inicio_bt:'10/09/2026',fin_bt:'15/09/2026',avance_mt:100.0,mt_asignado:'Mostermann',mt_estado:'Completado',mt_fecha_ini:'12/08/2026',mt_fecha_fin:'19/08/2026',bt_asignado:'',bt_estado:'',bt_fecha_ini:'',bt_fecha_fin:''},
 {regional:'ESTE',ssee:'DES',circuito:'DES3',mt:37,bt:0,pctbt:0.0,estado:'En proceso',estado_insp:'Pendiente',estado_8c:'Pendiente',inicio_bt:'15/09/2026',fin_bt:'18/09/2026',avance_mt:46.25,mt_asignado:'Mostermann',mt_estado:'En curso',mt_fecha_ini:'20/08/2026',mt_fecha_fin:'',bt_asignado:'',bt_estado:'',bt_fecha_ini:'',bt_fecha_fin:''},
 {regional:'ESTE',ssee:'DES',circuito:'DES4',mt:115,bt:0,pctbt:0.0,estado:'MT 100% - BT pendiente',estado_insp:'Pendiente',estado_8c:'Pendiente',inicio_bt:'18/09/2026',fin_bt:'25/09/2026',avance_mt:100.0,mt_asignado:'Cvasconi',mt_estado:'Completado',mt_fecha_ini:'18/08/2026',mt_fecha_fin:'20/08/2026',bt_asignado:'',bt_estado:'',bt_fecha_ini:'',bt_fecha_fin:''},
@@ -542,7 +540,7 @@ const CIRCUITOS_DATA = [
 {regional:'ESTE',ssee:'PIH',circuito:'PIH1',mt:0,bt:0,pctbt:0.0,estado:'No iniciado',estado_insp:'Pendiente',estado_8c:'Pendiente',inicio_bt:'14/06/2027',fin_bt:'14/06/2027',avance_mt:0.0,mt_asignado:'',mt_estado:'',mt_fecha_ini:'',mt_fecha_fin:'',bt_asignado:'',bt_estado:'',bt_fecha_ini:'',bt_fecha_fin:''},
 {regional:'ESTE',ssee:'PIH',circuito:'PIH2',mt:0,bt:0,pctbt:0.0,estado:'No iniciado',estado_insp:'Pendiente',estado_8c:'Pendiente',inicio_bt:'14/06/2027',fin_bt:'14/06/2027',avance_mt:0.0,mt_asignado:'',mt_estado:'',mt_fecha_ini:'',mt_fecha_fin:'',bt_asignado:'',bt_estado:'',bt_fecha_ini:'',bt_fecha_fin:''},
 {regional:'ESTE',ssee:'PIH',circuito:'PIH3',mt:0,bt:0,pctbt:0.0,estado:'No iniciado',estado_insp:'Pendiente',estado_8c:'Pendiente',inicio_bt:'14/06/2027',fin_bt:'15/06/2027',avance_mt:0.0,mt_asignado:'',mt_estado:'',mt_fecha_ini:'',mt_fecha_fin:'',bt_asignado:'',bt_estado:'',bt_fecha_ini:'',bt_fecha_fin:''},
-{regional:'ESTE',ssee:'PIH',circuito:'PIH4',mt:0,bt:0,pctbt:0.0,estado:'No iniciado',estado_insp:'Pendiente',estado_8c:'Pendiente',inicio_bt:'15/06/2027',fin_bt:'15/06/2027',avance_mt:0.0,mt_asignado:'',mt_estado:'',mt_fecha_ini:'',mt_fecha_fin:'',bt_asignado:'',bt_estado:'',bt_fecha_ini:'',bt_fecha_fin:''},
+{regional:'ESTE',ssee:'PIH',circuito:'PIH4',mt:75,bt:0,pctbt:0.0,estado:'En proceso',estado_insp:'Pendiente',estado_8c:'Pendiente',inicio_bt:'15/06/2027',fin_bt:'15/06/2027',avance_mt:98.46,mt_asignado:'',mt_estado:'',mt_fecha_ini:'',mt_fecha_fin:'',bt_asignado:'',bt_estado:'',bt_fecha_ini:'',bt_fecha_fin:''},
 {regional:'ESTE',ssee:'PIH',circuito:'PIH5',mt:0,bt:0,pctbt:0.0,estado:'En proceso',estado_insp:'Pendiente',estado_8c:'Pendiente',inicio_bt:'15/06/2027',fin_bt:'15/06/2027',avance_mt:90.55,mt_asignado:'',mt_estado:'',mt_fecha_ini:'',mt_fecha_fin:'',bt_asignado:'',bt_estado:'',bt_fecha_ini:'',bt_fecha_fin:''},
 {regional:'ESTE',ssee:'PIH',circuito:'PIH6',mt:0,bt:0,pctbt:0.0,estado:'En proceso',estado_insp:'Pendiente',estado_8c:'Pendiente',inicio_bt:'15/06/2027',fin_bt:'15/06/2027',avance_mt:96.26,mt_asignado:'',mt_estado:'',mt_fecha_ini:'',mt_fecha_fin:'',bt_asignado:'',bt_estado:'',bt_fecha_ini:'',bt_fecha_fin:''},
 {regional:'ESTE',ssee:'NAR',circuito:'NAR2',mt:0,bt:0,pctbt:0.0,estado:'No iniciado',estado_insp:'Pendiente',estado_8c:'Pendiente',inicio_bt:'15/06/2027',fin_bt:'16/06/2027',avance_mt:0.0,mt_asignado:'',mt_estado:'',mt_fecha_ini:'',mt_fecha_fin:'',bt_asignado:'',bt_estado:'',bt_fecha_ini:'',bt_fecha_fin:''},
@@ -1572,21 +1570,22 @@ initFiltrosRegionalLotes();
 
 const RITMO_DATA = [
 {circuito:'DES10',tipo:'MT',analista:'Mostermann',estado:'Completado',fecha_asignacion:'12/08/2026',dias:6,km_mt_ajustados:29.09,pd_ande:114.0,pd_terceros:19.0,pd_ande_construido:0.0,pd_terceros_construido:0.0,puntos_servicio:0.0,prom_km_mt_ajustados:4.85,prom_pd_ande:19.0,prom_pd_terceros:3.17,prom_pd_ande_construido:0.0,prom_pd_terceros_construido:0.0,prom_puntos_servicio:0.0},
-{circuito:'DES3',tipo:'MT',analista:'Mostermann',estado:'En curso',fecha_asignacion:'20/08/2026',dias:8,km_mt_ajustados:6.46,pd_ande:37.0,pd_terceros:10.0,pd_ande_construido:0.0,pd_terceros_construido:0.0,puntos_servicio:0.0,prom_km_mt_ajustados:0.81,prom_pd_ande:4.62,prom_pd_terceros:1.25,prom_pd_ande_construido:0.0,prom_pd_terceros_construido:0.0,prom_puntos_servicio:0.0},
+{circuito:'DES3',tipo:'MT',analista:'Mostermann',estado:'En curso',fecha_asignacion:'20/08/2026',dias:9,km_mt_ajustados:6.46,pd_ande:37.0,pd_terceros:10.0,pd_ande_construido:0.0,pd_terceros_construido:0.0,puntos_servicio:0.0,prom_km_mt_ajustados:0.72,prom_pd_ande:4.11,prom_pd_terceros:1.11,prom_pd_ande_construido:0.0,prom_pd_terceros_construido:0.0,prom_puntos_servicio:0.0},
 {circuito:'DES4',tipo:'MT',analista:'Cvasconi',estado:'Completado',fecha_asignacion:'18/08/2026',dias:3,km_mt_ajustados:18.29,pd_ande:115.0,pd_terceros:15.0,pd_ande_construido:0.0,pd_terceros_construido:0.0,puntos_servicio:0.0,prom_km_mt_ajustados:6.1,prom_pd_ande:38.33,prom_pd_terceros:5.0,prom_pd_ande_construido:0.0,prom_pd_terceros_construido:0.0,prom_puntos_servicio:0.0},
 {circuito:'DES5',tipo:'MT',analista:'Cvasconi',estado:'Completado',fecha_asignacion:'15/08/2026',dias:0,km_mt_ajustados:26.36,pd_ande:155.0,pd_terceros:35.0,pd_ande_construido:0.0,pd_terceros_construido:0.0,puntos_servicio:0.0,prom_km_mt_ajustados:null,prom_pd_ande:null,prom_pd_terceros:null,prom_pd_ande_construido:null,prom_pd_terceros_construido:null,prom_puntos_servicio:null},
 {circuito:'DES8',tipo:'MT',analista:'Cvasconi',estado:'Completado',fecha_asignacion:'21/08/2026',dias:3,km_mt_ajustados:29.05,pd_ande:168.0,pd_terceros:36.0,pd_ande_construido:0.0,pd_terceros_construido:0.0,puntos_servicio:0.0,prom_km_mt_ajustados:9.68,prom_pd_ande:56.0,prom_pd_terceros:12.0,prom_pd_ande_construido:0.0,prom_pd_terceros_construido:0.0,prom_puntos_servicio:0.0},
-{circuito:'DES9',tipo:'MT',analista:'Fgarcia',estado:'En curso',fecha_asignacion:'18/08/2026',dias:10,km_mt_ajustados:8.45,pd_ande:15.0,pd_terceros:2.0,pd_ande_construido:0.0,pd_terceros_construido:0.0,puntos_servicio:0.0,prom_km_mt_ajustados:0.84,prom_pd_ande:1.5,prom_pd_terceros:0.2,prom_pd_ande_construido:0.0,prom_pd_terceros_construido:0.0,prom_puntos_servicio:0.0},
-{circuito:'PBU01',tipo:'BT',analista:'Gferreira',estado:'En curso',fecha_asignacion:'11/08/2026',dias:15,km_mt_ajustados:0.0,pd_ande:0.0,pd_terceros:0.0,pd_ande_construido:89.0,pd_terceros_construido:0.0,puntos_servicio:0.0,prom_km_mt_ajustados:0.0,prom_pd_ande:0.0,prom_pd_terceros:0.0,prom_pd_ande_construido:5.93,prom_pd_terceros_construido:0.0,prom_puntos_servicio:0.0},
+{circuito:'DES9',tipo:'MT',analista:'Fgarcia',estado:'En curso',fecha_asignacion:'18/08/2026',dias:11,km_mt_ajustados:8.45,pd_ande:15.0,pd_terceros:2.0,pd_ande_construido:0.0,pd_terceros_construido:0.0,puntos_servicio:0.0,prom_km_mt_ajustados:0.77,prom_pd_ande:1.36,prom_pd_terceros:0.18,prom_pd_ande_construido:0.0,prom_pd_terceros_construido:0.0,prom_puntos_servicio:0.0},
+{circuito:'PBU01',tipo:'BT',analista:'Gferreira',estado:'En curso',fecha_asignacion:'11/08/2026',dias:16,km_mt_ajustados:0.0,pd_ande:0.0,pd_terceros:0.0,pd_ande_construido:89.0,pd_terceros_construido:0.0,puntos_servicio:0.0,prom_km_mt_ajustados:0.0,prom_pd_ande:0.0,prom_pd_terceros:0.0,prom_pd_ande_construido:5.56,prom_pd_terceros_construido:0.0,prom_puntos_servicio:0.0},
 {circuito:'PBU01',tipo:'MT',analista:'Cvasconi',estado:'Completado',fecha_asignacion:'10/04/2026',dias:15,km_mt_ajustados:305.5,pd_ande:120.0,pd_terceros:152.0,pd_ande_construido:0.0,pd_terceros_construido:0.0,puntos_servicio:0.0,prom_km_mt_ajustados:20.37,prom_pd_ande:8.0,prom_pd_terceros:10.13,prom_pd_ande_construido:0.0,prom_pd_terceros_construido:0.0,prom_puntos_servicio:0.0},
-{circuito:'PBU02',tipo:'BT',analista:'Fgarcia',estado:'En curso',fecha_asignacion:'20/08/2026',dias:8,km_mt_ajustados:0.0,pd_ande:0.0,pd_terceros:0.0,pd_ande_construido:7.0,pd_terceros_construido:0.0,puntos_servicio:0.0,prom_km_mt_ajustados:0.0,prom_pd_ande:0.0,prom_pd_terceros:0.0,prom_pd_ande_construido:0.88,prom_pd_terceros_construido:0.0,prom_puntos_servicio:0.0},
+{circuito:'PBU02',tipo:'BT',analista:'Fgarcia',estado:'En curso',fecha_asignacion:'20/08/2026',dias:9,km_mt_ajustados:0.0,pd_ande:0.0,pd_terceros:0.0,pd_ande_construido:7.0,pd_terceros_construido:0.0,puntos_servicio:0.0,prom_km_mt_ajustados:0.0,prom_pd_ande:0.0,prom_pd_terceros:0.0,prom_pd_ande_construido:0.78,prom_pd_terceros_construido:0.0,prom_puntos_servicio:0.0},
 {circuito:'PBU02',tipo:'MT',analista:'Cvasconi',estado:'Completado',fecha_asignacion:'10/06/2026',dias:19,km_mt_ajustados:143.4,pd_ande:79.0,pd_terceros:75.0,pd_ande_construido:0.0,pd_terceros_construido:0.0,puntos_servicio:0.0,prom_km_mt_ajustados:7.55,prom_pd_ande:4.16,prom_pd_terceros:3.95,prom_pd_ande_construido:0.0,prom_pd_terceros_construido:0.0,prom_puntos_servicio:0.0},
 {circuito:'PBU03',tipo:'BT',analista:'Jzarza',estado:'Completado',fecha_asignacion:'11/08/2026',dias:8,km_mt_ajustados:0.0,pd_ande:0.0,pd_terceros:0.0,pd_ande_construido:46.0,pd_terceros_construido:63.0,puntos_servicio:0.0,prom_km_mt_ajustados:0.0,prom_pd_ande:0.0,prom_pd_terceros:0.0,prom_pd_ande_construido:5.75,prom_pd_terceros_construido:7.88,prom_puntos_servicio:0.0},
 {circuito:'PBU03',tipo:'MT',analista:'Cvasconi',estado:'Completado',fecha_asignacion:'10/04/2026',dias:34,km_mt_ajustados:149.31,pd_ande:52.0,pd_terceros:142.0,pd_ande_construido:0.0,pd_terceros_construido:0.0,puntos_servicio:0.0,prom_km_mt_ajustados:4.39,prom_pd_ande:1.53,prom_pd_terceros:4.18,prom_pd_ande_construido:0.0,prom_pd_terceros_construido:0.0,prom_puntos_servicio:0.0},
-{circuito:'PBU04',tipo:'BT',analista:'Mostermann',estado:'En curso',fecha_asignacion:'21/08/2026',dias:7,km_mt_ajustados:0.0,pd_ande:0.0,pd_terceros:0.0,pd_ande_construido:33.0,pd_terceros_construido:0.0,puntos_servicio:0.0,prom_km_mt_ajustados:0.0,prom_pd_ande:0.0,prom_pd_terceros:0.0,prom_pd_ande_construido:4.71,prom_pd_terceros_construido:0.0,prom_puntos_servicio:0.0},
+{circuito:'PBU04',tipo:'BT',analista:'Mostermann',estado:'En curso',fecha_asignacion:'21/08/2026',dias:8,km_mt_ajustados:0.0,pd_ande:0.0,pd_terceros:0.0,pd_ande_construido:33.0,pd_terceros_construido:0.0,puntos_servicio:0.0,prom_km_mt_ajustados:0.0,prom_pd_ande:0.0,prom_pd_terceros:0.0,prom_pd_ande_construido:4.12,prom_pd_terceros_construido:0.0,prom_puntos_servicio:0.0},
 {circuito:'PBU04',tipo:'MT',analista:'Cvasconi',estado:'Completado',fecha_asignacion:'15/04/2026',dias:21,km_mt_ajustados:227.84,pd_ande:33.0,pd_terceros:187.0,pd_ande_construido:0.0,pd_terceros_construido:0.0,puntos_servicio:0.0,prom_km_mt_ajustados:10.85,prom_pd_ande:1.57,prom_pd_terceros:8.9,prom_pd_ande_construido:0.0,prom_pd_terceros_construido:0.0,prom_puntos_servicio:0.0},
-{circuito:'PBU05',tipo:'BT',analista:'Hgonzalez',estado:'En curso',fecha_asignacion:'12/08/2026',dias:14,km_mt_ajustados:0.0,pd_ande:0.0,pd_terceros:0.0,pd_ande_construido:111.0,pd_terceros_construido:0.0,puntos_servicio:0.0,prom_km_mt_ajustados:0.0,prom_pd_ande:0.0,prom_pd_terceros:0.0,prom_pd_ande_construido:7.93,prom_pd_terceros_construido:0.0,prom_puntos_servicio:0.0},
+{circuito:'PBU05',tipo:'BT',analista:'Hgonzalez',estado:'En curso',fecha_asignacion:'12/08/2026',dias:15,km_mt_ajustados:0.0,pd_ande:0.0,pd_terceros:0.0,pd_ande_construido:120.0,pd_terceros_construido:0.0,puntos_servicio:0.0,prom_km_mt_ajustados:0.0,prom_pd_ande:0.0,prom_pd_terceros:0.0,prom_pd_ande_construido:8.0,prom_pd_terceros_construido:0.0,prom_puntos_servicio:0.0},
 {circuito:'PBU05',tipo:'MT',analista:'Cvasconi',estado:'Completado',fecha_asignacion:'29/04/2026',dias:23,km_mt_ajustados:209.15,pd_ande:137.0,pd_terceros:127.0,pd_ande_construido:0.0,pd_terceros_construido:0.0,puntos_servicio:0.0,prom_km_mt_ajustados:9.09,prom_pd_ande:5.96,prom_pd_terceros:5.52,prom_pd_ande_construido:0.0,prom_pd_terceros_construido:0.0,prom_puntos_servicio:0.0},
+{circuito:'PIH4',tipo:'MT',analista:'Cvasconi',estado:'Sin dato',fecha_asignacion:'&mdash;',dias:null,km_mt_ajustados:35.25,pd_ande:75.0,pd_terceros:47.0,pd_ande_construido:0.0,pd_terceros_construido:0.0,puntos_servicio:0.0,prom_km_mt_ajustados:null,prom_pd_ande:null,prom_pd_terceros:null,prom_pd_ande_construido:null,prom_pd_terceros_construido:null,prom_puntos_servicio:null},
 {circuito:'PIH5',tipo:'MT',analista:'Cvasconi',estado:'Sin dato',fecha_asignacion:'&mdash;',dias:null,km_mt_ajustados:0.6,pd_ande:0.0,pd_terceros:1.0,pd_ande_construido:0.0,pd_terceros_construido:0.0,puntos_servicio:0.0,prom_km_mt_ajustados:null,prom_pd_ande:null,prom_pd_terceros:null,prom_pd_ande_construido:null,prom_pd_terceros_construido:null,prom_puntos_servicio:null},
 {circuito:'PIH6',tipo:'MT',analista:'Cvasconi',estado:'Sin dato',fecha_asignacion:'&mdash;',dias:null,km_mt_ajustados:0.75,pd_ande:0.0,pd_terceros:1.0,pd_ande_construido:0.0,pd_terceros_construido:0.0,puntos_servicio:0.0,prom_km_mt_ajustados:null,prom_pd_ande:null,prom_pd_terceros:null,prom_pd_ande_construido:null,prom_pd_terceros_construido:null,prom_puntos_servicio:null},
 {circuito:'SRI1',tipo:'BT',analista:'Mostermann',estado:'Completado',fecha_asignacion:'08/04/2026',dias:30,km_mt_ajustados:0.0,pd_ande:0.0,pd_terceros:0.0,pd_ande_construido:116.0,pd_terceros_construido:74.0,puntos_servicio:0.0,prom_km_mt_ajustados:0.0,prom_pd_ande:0.0,prom_pd_terceros:0.0,prom_pd_ande_construido:3.87,prom_pd_terceros_construido:2.47,prom_puntos_servicio:0.0},
@@ -1648,7 +1647,7 @@ let TAREAS_DATA = [
 {item:14,area:'Levantamiento y Captura',tarea:'Coordinar con Kai carga de eventos del SUR a Atlas, convalidar excel.',fecha_inicio:'07/08/2026',fecha_venc:'13/08/2026',responsable:'Luis Alonso',regional:'METRO Y CENTRAL, SUR',estado:'Completado',reporte:'Completado'},
 {item:15,area:'Procesamiento',tarea:'Planificacion de todos los distritos por levantarse a nivel Pais y carga a la planilla de Control',fecha_inicio:'07/08/2026',fecha_venc:'12/08/2026',responsable:'Fernando Rodriguez',regional:'ESTE, NORTE, CHACO',estado:'Completado',reporte:'Pendiente'},
 {item:16,area:'Levantamiento y Captura',tarea:'Enviar planificacion del Jueves 13/08/2026 para lo que resta el mes Certificación 8A.',fecha_inicio:'07/08/2026',fecha_venc:'13/08/2026',responsable:'Luis Alonso',regional:'METRO Y CENTRAL',estado:'Completado',reporte:''},
-{item:17,area:'Levantamiento y Captura',tarea:'Realizar solicitud de mimicos de dos SSEE que quedaron pendientes de levantar. Una vez confirmado el estado de SLO enviar un correo a ANDE comentando el estado de las dos SSEE. Por eso no se estan levantando, y solicitar si aplica levantar de como esta o esperamos de acuerdo al mencionado para reactivar el trabajo.',fecha_inicio:'10/08/2026',fecha_venc:'12/08/2026',responsable:'Luis Alonso, Fernando Rodriguez',regional:'METRO Y CENTRAL',estado:'Completado',reporte:''},
+{item:17,area:'Levantamiento y Captura',tarea:'Realizar solicitud de mimicos de dos SSEE que quedaron pendientes de levantar. Una vez confirmado el estado de SLO enviar un correo a ANDE comentando el estado de las dos SSEE. Por eso no se estan levantando, y solicitar si aplica levantar de como esta o esperamos de acuerdo al mencionado para reactivar el trabajo.',fecha_inicio:'10/08/2026',fecha_venc:'12/08/2026',responsable:'Luis Alonso',regional:'METRO Y CENTRAL',estado:'Completado',reporte:''},
 {item:18,area:'Levantamiento y Captura',tarea:'Crear orden de captura de Drone para que Richar mande desde ahora la planificacion',fecha_inicio:'11/08/2026',fecha_venc:'10/08/2026',responsable:'Luis Alonso',regional:'METRO Y CENTRAL, SUR',estado:'Completado',reporte:'Completado'},
 {item:19,area:'Levantamiento y Captura',tarea:'Cargar las misiones de Drone pendientes en la planilla C3 en base a la secuencia de certificacion de SSEE.',fecha_inicio:'11/08/2026',fecha_venc:'13/08/2026',responsable:'Fernando Rodriguez',regional:'METRO Y CENTRAL',estado:'Pendiente',reporte:''},
 {item:20,area:'Levantamiento y Captura',tarea:'Enviar un correo a ANDE informando los levantamientos que no pudieron realizarse a causa de acceso denegado para DRONE. Actualizar cada 15 días.',fecha_inicio:'12/08/2026',fecha_venc:'14/08/2026',responsable:'Luis Alonso',regional:'GENERAL',estado:'Completado',reporte:'Completado'},
@@ -1658,33 +1657,33 @@ let TAREAS_DATA = [
 {item:24,area:'Construcción de Circuitos',tarea:'Dpto de Canindeyu revisar baches para adelantar la certificacion de las SSEE.',fecha_inicio:'11/08/2026',fecha_venc:'',responsable:'Fernando Rodriguez',regional:'ESTE',estado:'Completado',reporte:''},
 {item:25,area:'Levantamiento y Captura',tarea:'Capacitación a Arnald uso de Formulario Subterraneo',fecha_inicio:'11/08/2026',fecha_venc:'19/08/2026',responsable:'Luis Alonso',regional:'METRO Y CENTRAL',estado:'Completado',reporte:''},
 {item:26,area:'Levantamiento y Captura',tarea:'Materiales para levantamiento Subterraneo',fecha_inicio:'11/08/2026',fecha_venc:'19/08/2026',responsable:'Fernando Rodriguez',regional:'METRO Y CENTRAL',estado:'Completado',reporte:''},
-{item:27,area:'Levantamiento y Captura',tarea:'Fecha tentaviva de inicio levantamiento regional METRO',fecha_inicio:'13/08/2026',fecha_venc:'31/08/2026',responsable:'Luis Alonso, Gabriel Servian',regional:'METRO Y CENTRAL',estado:'Completado',reporte:''},
-{item:28,area:'Levantamiento y Captura',tarea:'Completitud de Datos de Canindeyu',fecha_inicio:'17/08/2026',fecha_venc:'18/08/2026',responsable:'Luis Alonso, Fernando Rodriguez',regional:'ESTE',estado:'Completado',reporte:''},
+{item:27,area:'Levantamiento y Captura',tarea:'Fecha tentaviva de inicio levantamiento regional METRO',fecha_inicio:'13/08/2026',fecha_venc:'31/08/2026',responsable:'Luis Alonso',regional:'METRO Y CENTRAL',estado:'Completado',reporte:''},
+{item:28,area:'Levantamiento y Captura',tarea:'Completitud de Datos de Canindeyu',fecha_inicio:'17/08/2026',fecha_venc:'18/08/2026',responsable:'Fernando Rodriguez',regional:'ESTE',estado:'Completado',reporte:''},
 {item:29,area:'Levantamiento y Captura',tarea:'Ver con Kai para que se pueda generar un PDF del mundo interno de cada registro Subterraneo',fecha_inicio:'18/08/2026',fecha_venc:'20/08/2026',responsable:'Gabriel Servian',regional:'METRO Y CENTRAL',estado:'Completado',reporte:''},
 {item:30,area:'Levantamiento y Captura',tarea:'Actualizar cantidades de  puntos de servicio por Alimentador.',fecha_inicio:'18/8/26',fecha_venc:'18/8/26',responsable:'Fernando Rodriguez',regional:'GENERAL',estado:'Completado',reporte:''},
 {item:31,area:'Implementación',tarea:'Armar una reunion con GE para establecer fechas de implementacion que esta vinculado a la integracion del sistema linea 426 del Project.',fecha_inicio:'14/08/2026',fecha_venc:'21/08/2026',responsable:'Amado Arrieta',regional:'GENERAL',estado:'Pendiente',reporte:''},
 {item:32,area:'Levantamiento y Captura',tarea:'Preparar un documento o manual de consulta para los levantadores a PIE. Mezclar clasificacion con uso de Atlas.',fecha_inicio:'19/08/2026',fecha_venc:'28/08/2026',responsable:'Luis Alonso',regional:'GENERAL',estado:'En curso',reporte:''},
 {item:33,area:'Levantamiento y Captura',tarea:'Revision de Baches ESTE y SUR',fecha_inicio:'19/08/2026',fecha_venc:'24/08/2026',responsable:'Fernando Rodriguez',regional:'ESTE, SUR',estado:'Completado',reporte:''},
-{item:34,area:'Levantamiento y Captura',tarea:'',fecha_inicio:'',fecha_venc:'',responsable:'',regional:'',estado:'',reporte:''},
-{item:35,area:'TI',tarea:'Propuesta de implementación de AD CGIS',fecha_inicio:'25/08/2026',fecha_venc:'',responsable:'',regional:'GENERAL',estado:'En curso',reporte:'Pendiente'},
-{item:36,area:'Levantamiento y Captura',tarea:'Desarrollo del flujo de trabajo para Levantamiento en el Chaco, se usara Atlas o Apsheet, ver metodologia de trabajo',fecha_inicio:'26/08/2026',fecha_venc:'04/09/2026',responsable:'Fernando Rodriguez',regional:'CHACO',estado:'',reporte:''},
-{item:37,area:'Levantamiento y Captura',tarea:'Ver que se necesita para levantar en el CHACO: tablets, camioneta, recursos, imagenes satelitales (Precio)',fecha_inicio:'26/08/2026',fecha_venc:'04/09/2026',responsable:'Fernando Rodriguez',regional:'CHACO',estado:'',reporte:''},
-{item:38,area:'Levantamiento y Captura',tarea:'Enviar planificacion centro, solicitar flyers para inicio de distritos',fecha_inicio:'26/08/2026',fecha_venc:'28/08/2026',responsable:'Fernando Rodriguez',regional:'CENTRO',estado:'',reporte:''},
-{item:39,area:'Levantamiento y Captura',tarea:'Hablar con Hugo Silvero para proyectos en BT.',fecha_inicio:'26/08/2026',fecha_venc:'31/08/2026',responsable:'Gabriel Servian',regional:'',estado:'',reporte:''},
-{item:40,area:'Levantamiento y Captura',tarea:'Hablar con GR si tienen planos y archivos de red Subterranea de Metro',fecha_inicio:'26/08/2026',fecha_venc:'28/08/2026',responsable:'Gabriel Servian',regional:'',estado:'Completado',reporte:''},
-{item:41,area:'Implementación',tarea:'Revision y retorno sobre propuesta de plan piloto de implementación ESTE',fecha_inicio:'28/08/2026',fecha_venc:'03/09/2026',responsable:'Amado Arrieta',regional:'ESTE',estado:'En curso',reporte:''},
-{item:42,area:'Implementación',tarea:'GE debe compartir tool para soluicionar lentitud de EO',fecha_inicio:'26/08/2026',fecha_venc:'03/09/2026',responsable:'Amado Arrieta',regional:'GENERAL',estado:'En curso',reporte:''},
-{item:43,area:'Levantamiento y Captura',tarea:'Reporte de producción de postes con miras a triple certificación.',fecha_inicio:'28/08/2026',fecha_venc:'03/09/2026',responsable:'Gabriel Servian',regional:'GENERAL',estado:'Completado',reporte:''},
-{item:44,area:'Levantamiento y Captura',tarea:'Generar una cadena y solicitar actualizacion del documento en base a los nuevos deficiones.',fecha_inicio:'28/08/2026',fecha_venc:'31/08/2026',responsable:'Gabriel Servian',regional:'GENERAL',estado:'Completado',reporte:''},
-{item:45,area:'Construcción de Circuitos',tarea:'Devuelto a Junior PBU 03 para correcciones. Debe corregir y actualizar los circuitos',fecha_inicio:'28/08/2026',fecha_venc:'',responsable:'Luis Alonso',regional:'ESTE',estado:'Pendiente',reporte:''},
-{item:46,area:'Implementación',tarea:'Respuesta a ANDE por Adenda V3 a Ing. Procesos de Negocio',fecha_inicio:'28/08/2026',fecha_venc:'03/09/2026',responsable:'Amado Arrieta',regional:'GENERAL',estado:'Pendiente',reporte:''},
-{item:47,area:'Implementación',tarea:'Modificar documento esp requerimientosde Cymdist.',fecha_inicio:'01/09/2026',fecha_venc:'03/09/2026',responsable:'Amado Arrieta',regional:'GENERAL',estado:'Pendiente',reporte:''},
-{item:48,area:'Control de Calidad',tarea:'Agregar regla que de preensamblado a preensamblado no hay transición de numero de fases',fecha_inicio:'28/08/2026',fecha_venc:'',responsable:'Luis Alonso',regional:'GENERAL',estado:'Pendiente',reporte:''},
-{item:49,area:'Levantamiento y Captura',tarea:'Cambiar el numero de las secuencias de los distritos segun el project',fecha_inicio:'29-08-2026',fecha_venc:'',responsable:'Fernando Rodriguez',regional:'',estado:'',reporte:''},
-{item:50,area:'Levantamiento y Captura',tarea:'Borrar fotos no utlizadas en postgress',fecha_inicio:'29/08/2026',fecha_venc:'03/09/2026',responsable:'Fernando Rodriguez',regional:'GENERAL',estado:'Pendiente',reporte:''},
-{item:51,area:'Control de Calidad',tarea:'',fecha_inicio:'',fecha_venc:'',responsable:'',regional:'',estado:'',reporte:''},
-{item:52,area:'Control de Calidad',tarea:'Enviar correo a TA sobre realizar la comparativa de PD EO vs PD lev y detectar posibles postes que no se clasificaron transformadores.',fecha_inicio:'29/08/2026',fecha_venc:'31/08/2026',responsable:'Gabriel Servian',regional:'GENERAL',estado:'Pendiente',reporte:''},
-{item:53,area:'Levantamiento y Captura',tarea:'Actualizar secuencia de SSEE de certificación 8C.',fecha_inicio:'29/08/2026',fecha_venc:'03/09/2026',responsable:'Luis Alonso',regional:'ESTE',estado:'Pendiente',reporte:''},
+{item:34,area:'TI',tarea:'Propuesta de implementación de AD CGIS',fecha_inicio:'25/08/2026',fecha_venc:'',responsable:'',regional:'GENERAL',estado:'En curso',reporte:'Pendiente'},
+{item:35,area:'Levantamiento y Captura',tarea:'Desarrollo del flujo de trabajo para Levantamiento en el Chaco, se usara Atlas o Apsheet, ver metodologia de trabajo',fecha_inicio:'26/08/2026',fecha_venc:'04/09/2026',responsable:'Fernando Rodriguez',regional:'CHACO',estado:'',reporte:''},
+{item:36,area:'Levantamiento y Captura',tarea:'Ver que se necesita para levantar en el CHACO: tablets, camioneta, recursos, imagenes satelitales (Precio)',fecha_inicio:'26/08/2026',fecha_venc:'04/09/2026',responsable:'Fernando Rodriguez',regional:'CHACO',estado:'',reporte:''},
+{item:37,area:'Levantamiento y Captura',tarea:'Enviar planificacion centro, solicitar flyers para inicio de distritos',fecha_inicio:'26/08/2026',fecha_venc:'28/08/2026',responsable:'Fernando Rodriguez',regional:'CENTRO',estado:'',reporte:''},
+{item:38,area:'Levantamiento y Captura',tarea:'Hablar con Hugo Silvero para proyectos en BT.',fecha_inicio:'26/08/2026',fecha_venc:'31/08/2026',responsable:'Gabriel Servian',regional:'METRO Y CENTRAL',estado:'',reporte:''},
+{item:39,area:'Levantamiento y Captura',tarea:'Hablar con GR si tienen planos y archivos de red Subterranea de Metro',fecha_inicio:'26/08/2026',fecha_venc:'28/08/2026',responsable:'Gabriel Servian',regional:'METRO Y CENTRAL',estado:'Completado',reporte:''},
+{item:40,area:'Implementación',tarea:'Revision y retorno sobre propuesta de plan piloto de implementación ESTE',fecha_inicio:'28/08/2026',fecha_venc:'03/09/2026',responsable:'Amado Arrieta',regional:'ESTE',estado:'En curso',reporte:''},
+{item:41,area:'Implementación',tarea:'GE debe compartir tool para soluicionar lentitud de EO',fecha_inicio:'26/08/2026',fecha_venc:'03/09/2026',responsable:'Amado Arrieta',regional:'GENERAL',estado:'En curso',reporte:''},
+{item:42,area:'Levantamiento y Captura',tarea:'Reporte de producción de postes con miras a triple certificación.',fecha_inicio:'28/08/2026',fecha_venc:'03/09/2026',responsable:'Gabriel Servian',regional:'GENERAL',estado:'Completado',reporte:''},
+{item:43,area:'Levantamiento y Captura',tarea:'Generar una cadena y solicitar actualizacion del documento en base a los nuevos deficiones.',fecha_inicio:'28/08/2026',fecha_venc:'31/08/2026',responsable:'Gabriel Servian',regional:'GENERAL',estado:'Completado',reporte:''},
+{item:44,area:'Construcción de Circuitos',tarea:'Devuelto a Junior PBU 03 para correcciones. Debe corregir y actualizar los circuitos',fecha_inicio:'28/08/2026',fecha_venc:'',responsable:'Luis Alonso',regional:'ESTE',estado:'Pendiente',reporte:''},
+{item:45,area:'Implementación',tarea:'Respuesta a ANDE por Adenda V3 a Ing. Procesos de Negocio',fecha_inicio:'28/08/2026',fecha_venc:'03/09/2026',responsable:'Amado Arrieta',regional:'GENERAL',estado:'Pendiente',reporte:''},
+{item:46,area:'Implementación',tarea:'Modificar documento esp requerimientosde Cymdist.',fecha_inicio:'01/09/2026',fecha_venc:'03/09/2026',responsable:'Amado Arrieta',regional:'GENERAL',estado:'Pendiente',reporte:''},
+{item:47,area:'Control de Calidad',tarea:'Agregar regla que de preensamblado a preensamblado no hay transición de numero de fases',fecha_inicio:'28/08/2026',fecha_venc:'',responsable:'Luis Alonso',regional:'GENERAL',estado:'Pendiente',reporte:''},
+{item:48,area:'Levantamiento y Captura',tarea:'Cambiar el numero de las secuencias de los distritos segun el project',fecha_inicio:'29-08-2026',fecha_venc:'',responsable:'Fernando Rodriguez',regional:'',estado:'',reporte:''},
+{item:49,area:'Levantamiento y Captura',tarea:'Borrar fotos no utlizadas en postgress',fecha_inicio:'29/08/2026',fecha_venc:'03/09/2026',responsable:'Fernando Rodriguez',regional:'GENERAL',estado:'Pendiente',reporte:''},
+{item:50,area:'Control de Calidad',tarea:'Enviar correo a TA sobre realizar la comparativa de PD EO vs PD lev y detectar posibles postes que no se clasificaron transformadores.',fecha_inicio:'29/08/2026',fecha_venc:'31/08/2026',responsable:'Gabriel Servian',regional:'GENERAL',estado:'Pendiente',reporte:''},
+{item:51,area:'Levantamiento y Captura',tarea:'Actualizar secuencia de SSEE de certificación 8C.',fecha_inicio:'29/08/2026',fecha_venc:'03/09/2026',responsable:'Luis Alonso',regional:'ESTE',estado:'Pendiente',reporte:''},
+{item:52,area:'',tarea:'',fecha_inicio:'',fecha_venc:'',responsable:'',regional:'',estado:'',reporte:''},
+{item:53,area:'',tarea:'',fecha_inicio:'',fecha_venc:'',responsable:'',regional:'',estado:'',reporte:''},
 {item:54,area:'',tarea:'',fecha_inicio:'',fecha_venc:'',responsable:'',regional:'',estado:'',reporte:''},
 {item:55,area:'',tarea:'',fecha_inicio:'',fecha_venc:'',responsable:'',regional:'',estado:'',reporte:''},
 {item:56,area:'',tarea:'',fecha_inicio:'',fecha_venc:'',responsable:'',regional:'',estado:'',reporte:''},
@@ -1878,9 +1877,7 @@ let TAREAS_DATA = [
 {item:244,area:'',tarea:'',fecha_inicio:'',fecha_venc:'',responsable:'',regional:'',estado:'',reporte:''},
 {item:245,area:'',tarea:'',fecha_inicio:'',fecha_venc:'',responsable:'',regional:'',estado:'',reporte:''},
 {item:246,area:'',tarea:'',fecha_inicio:'',fecha_venc:'',responsable:'',regional:'',estado:'',reporte:''},
-{item:247,area:'',tarea:'',fecha_inicio:'',fecha_venc:'',responsable:'',regional:'',estado:'',reporte:''},
-{item:248,area:'',tarea:'',fecha_inicio:'',fecha_venc:'',responsable:'',regional:'',estado:'',reporte:''},
-{item:249,area:'',tarea:'',fecha_inicio:'',fecha_venc:'',responsable:'',regional:'',estado:'',reporte:''}
+{item:247,area:'',tarea:'',fecha_inicio:'',fecha_venc:'',responsable:'',regional:'',estado:'',reporte:''}
 ];
 let FILTRO_AREA_ACTUAL = 'Todas';
 let FILTRO_RESPONSABLE_ACTUAL = 'Todos';
