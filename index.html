@@ -110,7 +110,7 @@
     <div class="topbar">
       <div class="titles"><h1 id="topTitle">Resumen general</h1></div>
       <div class="right">
-        <span class="badge-live ok" title="El Excel (circuitos, productividad, ritmo) viene de SharePoint y solo se actualiza una vez por día."><span class="dot"></span> Excel actualizado 06/11/2026 13:41 hs</span>
+        <span class="badge-live ok" title="El Excel (circuitos, productividad, ritmo) viene de SharePoint y solo se actualiza una vez por día."><span class="dot"></span> Excel actualizado 07/11/2026 12:35 hs</span>
         <span id="badgeLotesLive" class="badge-live mute"><span class="dot"></span> Sheets: cargando…</span>
         <button class="btn-refresh" id="btnActualizar" onclick="actualizarEnVivo()">↻ Actualizar</button>
       </div>
@@ -125,7 +125,7 @@
           <div class="kpi c-blue"><div class="label">Total alimentadores</div><div class="value">735</div><div class="sub">6 regionales</div></div>
           <div class="kpi c-orange"><div class="label">En proceso</div><div class="value">18</div><div class="sub">circuitos activos hoy</div></div>
           <div class="kpi c-red"><div class="label">No iniciado</div><div class="value">706</div><div class="sub">circuitos sin arrancar</div></div>
-          <div class="kpi c-green"><div class="label">Finalizados</div><div class="value">11</div><div class="sub">actualizado 06/11/2026 13:41 hs</div></div>
+          <div class="kpi c-green"><div class="label">Finalizados</div><div class="value">11</div><div class="sub">actualizado 07/11/2026 12:35 hs</div></div>
         </div>
         <div class="grid cols-2" style="margin-top:16px;">
           <div class="panel-box">
@@ -322,18 +322,18 @@
 
         <div class="grid cols-4">
           <div class="kpi c-blue"><div class="label">Total tareas</div><div class="value" id="idTareasTotal">258</div><div class="sub">cargadas en la hoja</div></div>
-          <div class="kpi c-green"><div class="label">Realizadas</div><div class="value" id="idTareasOk">52</div><div class="sub">Realizado / Completado</div></div>
-          <div class="kpi c-red"><div class="label">Pendientes</div><div class="value" id="idTareasPend">206</div><div class="sub">sin marcar todavía</div></div>
+          <div class="kpi c-green"><div class="label">Realizadas</div><div class="value" id="idTareasOk">59</div><div class="sub">Realizado / Completado</div></div>
+          <div class="kpi c-red"><div class="label">Pendientes</div><div class="value" id="idTareasPend">199</div><div class="sub">sin marcar todavía</div></div>
           <div class="kpi c-purple"><div class="label">Personas con pendientes</div><div class="value" id="idTareasPersonas">5</div><div class="sub">responsables activos</div></div>
         </div>
 
         <div class="panel-box" style="margin-top:14px;">
           <h3>Pendientes por responsable</h3>
           <div class="grid cols-4" id="idTareasCardsResponsables">
-<div class="kpi c-red"><div class="label">Gabriel Servian</div><div class="value">10</div><div class="sub">pendientes de 22 tareas</div></div>
-<div class="kpi c-red"><div class="label">Luis Alonso</div><div class="value">7</div><div class="sub">pendientes de 30 tareas</div></div>
-<div class="kpi c-red"><div class="label">Fernando Rodriguez</div><div class="value">6</div><div class="sub">pendientes de 21 tareas</div></div>
-<div class="kpi c-red"><div class="label">Amado Arrieta</div><div class="value">3</div><div class="sub">pendientes de 5 tareas</div></div>
+<div class="kpi c-red"><div class="label">Gabriel Servian</div><div class="value">12</div><div class="sub">pendientes de 26 tareas</div></div>
+<div class="kpi c-red"><div class="label">Luis Alonso</div><div class="value">6</div><div class="sub">pendientes de 31 tareas</div></div>
+<div class="kpi c-red"><div class="label">Fernando Rodriguez</div><div class="value">5</div><div class="sub">pendientes de 21 tareas</div></div>
+<div class="kpi c-red"><div class="label">Amado Arrieta</div><div class="value">1</div><div class="sub">pendientes de 5 tareas</div></div>
 <div class="kpi c-red"><div class="label">Carlos Barreto</div><div class="value">1</div><div class="sub">pendientes de 1 tareas</div></div>
           </div>
         </div>
@@ -341,31 +341,25 @@
         <div class="panel-box" style="margin-top:14px; border-color:#5a2e2c;">
           <h3 style="color:var(--red);">⚠ Próximas a vencer / vencidas <span style="color:var(--ink-mute); text-transform:none; font-weight:400;">(columna Fecha de vencimiento, ventana de 7 días)</span></h3>
           <div class="chips-wrap" id="idTareasProxVencer">
-<span class="chip atrasado">Hablar con Hugo Silvero para proyectos en BT. <small>(Gabriel Servian &middot; vencida hace 67 d.)</small></span>
-<span class="chip atrasado">Enviar correo a TA sobre realizar la comparativa de PD EO vs PD lev y detectar posibles postes que no se clasificaron transformadores. <small>(Gabriel Servian &middot; vencida hace 67 d.)</small></span>
-<span class="chip atrasado">GE debe compartir tool para soluicionar lentitud de EO <small>(Amado Arrieta &middot; vencida hace 64 d.)</small></span>
-<span class="chip atrasado">Respuesta a ANDE por Adenda V3 a Ing. Procesos de Negocio <small>(Amado Arrieta &middot; vencida hace 64 d.)</small></span>
-<span class="chip atrasado">Modificar documento esp requerimientosde Cymdist. <small>(Amado Arrieta &middot; vencida hace 64 d.)</small></span>
-<span class="chip atrasado">Borrar fotos no utlizadas en postgress <small>(Fernando Rodriguez &middot; vencida hace 64 d.)</small></span>
-<span class="chip atrasado">Desarrollo del flujo de trabajo para Levantamiento en el Chaco, se usara Atlas o Apsheet, ver metodologia de trabajo <small>(Fernando Rodriguez &middot; vencida hace 59 d.)</small></span>
-<span class="chip atrasado">Definir fecha de implementación de bonos por produccion <small>(Gabriel Servian &middot; vencida hace 59 d.)</small></span>
-<span class="chip atrasado">Revision de Flujo de Trabajo 8C, definicion de Jefe de Construccion de Circuitos <small>(Gabriel Servian &middot; vencida hace 58 d.)</small></span>
-<span class="chip atrasado">Reunion con TA sobre bonos por produccion (Analistas EO) <small>(Gabriel Servian &middot; vencida hace 58 d.)</small></span>
-<span class="chip atrasado">Ver que se necesita para levantar en el CHACO: tablets, camioneta, recursos, imagenes satelitales (Precio) <small>(Fernando Rodriguez &middot; vencida hace 57 d.)</small></span>
-<span class="chip atrasado">Dar seguimiento que vamos a hacer con la triple certificación 8A, ya no tenemos plazo <small>(Gabriel Servian &middot; vencida hace 57 d.)</small></span>
-<span class="chip atrasado">Hablar con ANDE sobre PLAN PILOTO <small>(Gabriel Servian &middot; vencida hace 46 d.)</small></span>
-<span class="chip atrasado">Replanteo de planificacion de Richar <small>(Fernando Rodriguez &middot; vencida hace 46 d.)</small></span>
-<span class="chip atrasado">Insistir todos los dias a GV acerca del precio de las licencias lidar 360 MLS. <small>(Fernando Rodriguez &middot; vencida hace 46 d.)</small></span>
-<span class="chip atrasado">Solicitar informe 8C a Kai <small>(Luis Alonso &middot; vencida hace 45 d.)</small></span>
-<span class="chip atrasado">Enviar correo a TA para la triple certificacion a mediados de septiembre, conformar mas lotes <small>(Luis Alonso &middot; vencida hace 45 d.)</small></span>
-<span class="chip atrasado">Comunicar con las cuadrillas bonos por finalizacion de Regional Centro y ver plazos <small>(Luis Alonso &middot; vencida hace 44 d.)</small></span>
-<span class="chip atrasado">Actualizar planilla de Proyección de Levantamiento y procesamiento de Datos <small>(Luis Alonso &middot; vencida hace 44 d.)</small></span>
-<span class="chip atrasado">Test de conocimientos para levantadores a pie. <small>(Luis Alonso &middot; vencida hace 28 d.)</small></span>
-<span class="chip atrasado">Enviar propuesta de Reunión para ver el documento de red nueva de terceros. <small>(Gabriel Servian &middot; vencida hace 21 d.)</small></span>
-<span class="chip atrasado">Envio proyecto instalacion equipos ESTE. <small>(sin asignar &middot; vencida hace 16 d.)</small></span>
-<span class="chip atrasado">Envio de solicitud de CRP octubre. <small>(sin asignar &middot; vencida hace 15 d.)</small></span>
-<span class="chip atrasado">Aprobación ANDE de la guia de certificación 8A, fotos lidar <small>(Fernando Rodriguez &middot; vencida hace 15 d.)</small></span>
-<span class="chip atrasado">Mapa de Proyectos con Carlos para actualizar en EO, reglas de definicion de instalacion de postes, pd, a que metro esta del lindero, etc. <small>(Carlos Barreto &middot; vencida hace 14 d.)</small></span>
+<span class="chip atrasado">Hablar con Hugo Silvero para proyectos en BT. <small>(Gabriel Servian &middot; vencida hace 68 d.)</small></span>
+<span class="chip atrasado">Enviar correo a TA sobre realizar la comparativa de PD EO vs PD lev y detectar posibles postes que no se clasificaron transformadores. <small>(Gabriel Servian &middot; vencida hace 68 d.)</small></span>
+<span class="chip atrasado">Modificar documento esp requerimientosde Cymdist. <small>(Amado Arrieta &middot; vencida hace 65 d.)</small></span>
+<span class="chip atrasado">Borrar fotos no utlizadas en postgress <small>(Fernando Rodriguez &middot; vencida hace 65 d.)</small></span>
+<span class="chip atrasado">Desarrollo del flujo de trabajo para Levantamiento en el Chaco, se usara Atlas o Apsheet, ver metodologia de trabajo <small>(Fernando Rodriguez &middot; vencida hace 60 d.)</small></span>
+<span class="chip atrasado">Definir fecha de implementación de bonos por produccion <small>(Gabriel Servian &middot; vencida hace 60 d.)</small></span>
+<span class="chip atrasado">Revision de Flujo de Trabajo 8C, definicion de Jefe de Construccion de Circuitos <small>(Gabriel Servian &middot; vencida hace 59 d.)</small></span>
+<span class="chip atrasado">Reunion con TA sobre bonos por produccion (Analistas EO) <small>(Gabriel Servian &middot; vencida hace 59 d.)</small></span>
+<span class="chip atrasado">Ver que se necesita para levantar en el CHACO: tablets, camioneta, recursos, imagenes satelitales (Precio) <small>(Fernando Rodriguez &middot; vencida hace 58 d.)</small></span>
+<span class="chip atrasado">Dar seguimiento que vamos a hacer con la triple certificación 8A, ya no tenemos plazo <small>(Gabriel Servian &middot; vencida hace 58 d.)</small></span>
+<span class="chip atrasado">Hablar con ANDE sobre PLAN PILOTO <small>(Gabriel Servian &middot; vencida hace 47 d.)</small></span>
+<span class="chip atrasado">Insistir todos los dias a GV acerca del precio de las licencias lidar 360 MLS. <small>(Fernando Rodriguez &middot; vencida hace 47 d.)</small></span>
+<span class="chip atrasado">Solicitar informe 8C a Kai <small>(Luis Alonso &middot; vencida hace 46 d.)</small></span>
+<span class="chip atrasado">Enviar correo a TA para la triple certificacion a mediados de septiembre, conformar mas lotes <small>(Luis Alonso &middot; vencida hace 46 d.)</small></span>
+<span class="chip atrasado">Actualizar planilla de Proyección de Levantamiento y procesamiento de Datos <small>(Luis Alonso &middot; vencida hace 45 d.)</small></span>
+<span class="chip atrasado">Test de conocimientos para levantadores a pie. <small>(Luis Alonso &middot; vencida hace 29 d.)</small></span>
+<span class="chip atrasado">Enviar propuesta de Reunión para ver el documento de red nueva de terceros. <small>(Gabriel Servian &middot; vencida hace 22 d.)</small></span>
+<span class="chip atrasado">Aprobación ANDE de la guia de certificación 8A, fotos lidar <small>(Fernando Rodriguez &middot; vencida hace 16 d.)</small></span>
+<span class="chip">Mapa de Proyectos con Carlos para actualizar en EO, reglas de definicion de instalacion de postes, pd, a que metro esta del lindero, etc. <small>(Carlos Barreto &middot; vence en 6 d.)</small></span>
           </div>
         </div>
 
@@ -442,7 +436,7 @@ const CIRCUITOS_DATA = [
 {regional:'ESTE',ssee:'HER',circuito:'HER1',mt:157,bt:162,pctbt:100.0,estado:'MT 100% - BT pendiente',estado_insp:'Pendiente',estado_8c:'Pendiente',inicio_bt:'27/10/2026',fin_bt:'30/10/2026',avance_mt:100.0,mt_asignado:'Cvasconi',mt_estado:'Completado',mt_fecha_ini:'24/09/2026',mt_fecha_fin:'',bt_asignado:'Jzarza',bt_estado:'Completado',bt_fecha_ini:'',bt_fecha_fin:'21/10/2026'},
 {regional:'ESTE',ssee:'HER',circuito:'HER10',mt:73,bt:71,pctbt:97.26,estado:'En proceso',estado_insp:'Pendiente',estado_8c:'Pendiente',inicio_bt:'30/10/2026',fin_bt:'02/11/2026',avance_mt:98.76,mt_asignado:'Cvasconi',mt_estado:'Completado',mt_fecha_ini:'02/10/2026',mt_fecha_fin:'',bt_asignado:'Hfiandro',bt_estado:'',bt_fecha_ini:'30/10/2026',bt_fecha_fin:''},
 {regional:'ESTE',ssee:'HER',circuito:'HER11',mt:152,bt:47,pctbt:30.92,estado:'En proceso',estado_insp:'Pendiente',estado_8c:'Pendiente',inicio_bt:'02/11/2026',fin_bt:'05/11/2026',avance_mt:68.92,mt_asignado:'Fgarcia',mt_estado:'Completado',mt_fecha_ini:'10/09/2026',mt_fecha_fin:'',bt_asignado:'Hfiandro',bt_estado:'Completado',bt_fecha_ini:'',bt_fecha_fin:'29/10/2026'},
-{regional:'ESTE',ssee:'HER',circuito:'HER12',mt:141,bt:68,pctbt:48.23,estado:'MT 100% - BT pendiente',estado_insp:'Pendiente',estado_8c:'Pendiente',inicio_bt:'05/11/2026',fin_bt:'09/11/2026',avance_mt:100.0,mt_asignado:'Cvasconi',mt_estado:'Completado',mt_fecha_ini:'',mt_fecha_fin:'29/10/2026',bt_asignado:'Jzarza',bt_estado:'',bt_fecha_ini:'30/10/2026',bt_fecha_fin:''},
+{regional:'ESTE',ssee:'HER',circuito:'HER12',mt:141,bt:78,pctbt:55.32,estado:'MT 100% - BT pendiente',estado_insp:'Pendiente',estado_8c:'Pendiente',inicio_bt:'05/11/2026',fin_bt:'09/11/2026',avance_mt:100.0,mt_asignado:'Cvasconi',mt_estado:'Completado',mt_fecha_ini:'',mt_fecha_fin:'29/10/2026',bt_asignado:'Jzarza',bt_estado:'',bt_fecha_ini:'30/10/2026',bt_fecha_fin:''},
 {regional:'ESTE',ssee:'HER',circuito:'HER2',mt:101,bt:74,pctbt:73.27,estado:'MT 100% - BT pendiente',estado_insp:'Pendiente',estado_8c:'Pendiente',inicio_bt:'09/11/2026',fin_bt:'10/11/2026',avance_mt:100.0,mt_asignado:'Cvasconi',mt_estado:'Completado',mt_fecha_ini:'12/09/2026',mt_fecha_fin:'',bt_asignado:'Hfiandro',bt_estado:'Completado',bt_fecha_ini:'',bt_fecha_fin:'22/10/2026'},
 {regional:'ESTE',ssee:'HER',circuito:'HER6',mt:85,bt:83,pctbt:97.65,estado:'MT 100% - BT pendiente',estado_insp:'Pendiente',estado_8c:'Pendiente',inicio_bt:'10/11/2026',fin_bt:'11/11/2026',avance_mt:100.0,mt_asignado:'Cvasconi',mt_estado:'Completado',mt_fecha_ini:'07/09/2026',mt_fecha_fin:'08/09/2026',bt_asignado:'Jzarza',bt_estado:'Completado',bt_fecha_ini:'',bt_fecha_fin:'22/10/2026'},
 {regional:'ESTE',ssee:'HER',circuito:'HER7',mt:0,bt:0,pctbt:0.0,estado:'En proceso',estado_insp:'Pendiente',estado_8c:'Pendiente',inicio_bt:'11/11/2026',fin_bt:'12/11/2026',avance_mt:65.84,mt_asignado:'Cvasconi',mt_estado:'Completado',mt_fecha_ini:'08/09/2026',mt_fecha_fin:'08/09/2026',bt_asignado:'',bt_estado:'',bt_fecha_ini:'',bt_fecha_fin:''},
@@ -1580,7 +1574,7 @@ const RITMO_DATA = [
 {circuito:'HER10',tipo:'MT',analista:'Cvasconi',estado:'Completado',fecha_asignacion:'02/10/2026',dias:26,km_mt_ajustados:18.11,pd_ande:73.0,pd_terceros:29.0,pd_ande_construido:0.0,pd_terceros_construido:0.0,puntos_servicio:0.0,prom_km_mt_ajustados:0.7,prom_pd_ande:2.81,prom_pd_terceros:1.12,prom_pd_ande_construido:0.0,prom_pd_terceros_construido:0.0,prom_puntos_servicio:0.0},
 {circuito:'HER11',tipo:'BT',analista:'Hfiandro',estado:'Completado',fecha_asignacion:'&mdash;',dias:null,km_mt_ajustados:0.0,pd_ande:0.0,pd_terceros:0.0,pd_ande_construido:47.0,pd_terceros_construido:0.0,puntos_servicio:0.0,prom_km_mt_ajustados:null,prom_pd_ande:null,prom_pd_terceros:null,prom_pd_ande_construido:null,prom_pd_terceros_construido:null,prom_puntos_servicio:null},
 {circuito:'HER11',tipo:'MT',analista:'Fgarcia',estado:'Completado',fecha_asignacion:'10/09/2026',dias:42,km_mt_ajustados:35.43,pd_ande:152.0,pd_terceros:52.0,pd_ande_construido:0.0,pd_terceros_construido:0.0,puntos_servicio:0.0,prom_km_mt_ajustados:0.84,prom_pd_ande:3.62,prom_pd_terceros:1.24,prom_pd_ande_construido:0.0,prom_pd_terceros_construido:0.0,prom_puntos_servicio:0.0},
-{circuito:'HER12',tipo:'BT',analista:'Jzarza',estado:'Sin dato',fecha_asignacion:'30/10/2026',dias:6,km_mt_ajustados:0.0,pd_ande:0.0,pd_terceros:0.0,pd_ande_construido:68.0,pd_terceros_construido:0.0,puntos_servicio:0.0,prom_km_mt_ajustados:0.0,prom_pd_ande:0.0,prom_pd_terceros:0.0,prom_pd_ande_construido:11.33,prom_pd_terceros_construido:0.0,prom_puntos_servicio:0.0},
+{circuito:'HER12',tipo:'BT',analista:'Jzarza',estado:'Sin dato',fecha_asignacion:'30/10/2026',dias:6,km_mt_ajustados:0.0,pd_ande:0.0,pd_terceros:0.0,pd_ande_construido:78.0,pd_terceros_construido:0.0,puntos_servicio:0.0,prom_km_mt_ajustados:0.0,prom_pd_ande:0.0,prom_pd_terceros:0.0,prom_pd_ande_construido:13.0,prom_pd_terceros_construido:0.0,prom_puntos_servicio:0.0},
 {circuito:'HER12',tipo:'MT',analista:'Cvasconi',estado:'Completado',fecha_asignacion:'&mdash;',dias:null,km_mt_ajustados:107.0,pd_ande:141.0,pd_terceros:150.0,pd_ande_construido:0.0,pd_terceros_construido:0.0,puntos_servicio:0.0,prom_km_mt_ajustados:null,prom_pd_ande:null,prom_pd_terceros:null,prom_pd_ande_construido:null,prom_pd_terceros_construido:null,prom_puntos_servicio:null},
 {circuito:'HER2',tipo:'BT',analista:'Hfiandro',estado:'Completado',fecha_asignacion:'&mdash;',dias:null,km_mt_ajustados:0.0,pd_ande:0.0,pd_terceros:0.0,pd_ande_construido:74.0,pd_terceros_construido:0.0,puntos_servicio:0.0,prom_km_mt_ajustados:null,prom_pd_ande:null,prom_pd_terceros:null,prom_pd_ande_construido:null,prom_pd_terceros_construido:null,prom_puntos_servicio:null},
 {circuito:'HER2',tipo:'MT',analista:'Cvasconi',estado:'Completado',fecha_asignacion:'12/09/2026',dias:40,km_mt_ajustados:19.3,pd_ande:101.0,pd_terceros:52.0,pd_ande_construido:0.0,pd_terceros_construido:0.0,puntos_servicio:0.0,prom_km_mt_ajustados:0.48,prom_pd_ande:2.52,prom_pd_terceros:1.3,prom_pd_ande_construido:0.0,prom_pd_terceros_construido:0.0,prom_puntos_servicio:0.0},
@@ -1692,14 +1686,14 @@ let TAREAS_DATA = [
 {item:35,area:'Levantamiento y Captura',tarea:'Desarrollo del flujo de trabajo para Levantamiento en el Chaco, se usara Atlas o Apsheet, ver metodologia de trabajo',fecha_inicio:'26/08/2026',fecha_venc:'08/09/2026',responsable:'Fernando Rodriguez',regional:'CHACO',estado:'En curso',reporte:''},
 {item:36,area:'Levantamiento y Captura',tarea:'Ver que se necesita para levantar en el CHACO: tablets, camioneta, recursos, imagenes satelitales (Precio)',fecha_inicio:'26/08/2026',fecha_venc:'10/09/2026',responsable:'Fernando Rodriguez',regional:'CHACO',estado:'En curso',reporte:''},
 {item:37,area:'Levantamiento y Captura',tarea:'Enviar planificacion centro, solicitar flyers para inicio de distritos',fecha_inicio:'26/08/2026',fecha_venc:'28/08/2026',responsable:'Fernando Rodriguez',regional:'CENTRO',estado:'Completado',reporte:''},
-{item:38,area:'Levantamiento y Captura',tarea:'Hablar con Hugo Silvero para proyectos en BT.',fecha_inicio:'26/08/2026',fecha_venc:'31/08/2026',responsable:'Gabriel Servian',regional:'METRO Y CENTRAL',estado:'',reporte:''},
+{item:38,area:'Levantamiento y Captura',tarea:'Hablar con Hugo Silvero para proyectos en BT.',fecha_inicio:'26/08/2026',fecha_venc:'31/08/2026',responsable:'Gabriel Servian',regional:'METRO Y CENTRAL',estado:'Pendiente',reporte:''},
 {item:39,area:'Levantamiento y Captura',tarea:'Hablar con GR si tienen planos y archivos de red Subterranea de Metro',fecha_inicio:'26/08/2026',fecha_venc:'28/08/2026',responsable:'Gabriel Servian',regional:'METRO Y CENTRAL',estado:'Completado',reporte:''},
 {item:40,area:'Implementación',tarea:'Revision y retorno sobre propuesta de plan piloto de implementación ESTE',fecha_inicio:'28/08/2026',fecha_venc:'03/09/2026',responsable:'Amado Arrieta',regional:'ESTE',estado:'Completado',reporte:''},
-{item:41,area:'Implementación',tarea:'GE debe compartir tool para soluicionar lentitud de EO',fecha_inicio:'26/08/2026',fecha_venc:'03/09/2026',responsable:'Amado Arrieta',regional:'GENERAL',estado:'En curso',reporte:''},
+{item:41,area:'Implementación',tarea:'GE debe compartir tool para soluicionar lentitud de EO',fecha_inicio:'26/08/2026',fecha_venc:'03/09/2026',responsable:'Amado Arrieta',regional:'GENERAL',estado:'Completado',reporte:''},
 {item:42,area:'Levantamiento y Captura',tarea:'Reporte de producción de postes con miras a triple certificación.',fecha_inicio:'28/08/2026',fecha_venc:'03/09/2026',responsable:'Gabriel Servian',regional:'GENERAL',estado:'Completado',reporte:''},
 {item:43,area:'Levantamiento y Captura',tarea:'Generar una cadena y solicitar actualizacion del documento en base a los nuevos deficiones.',fecha_inicio:'28/08/2026',fecha_venc:'31/08/2026',responsable:'Gabriel Servian',regional:'GENERAL',estado:'Completado',reporte:''},
 {item:44,area:'Construcción de Circuitos',tarea:'Devuelto a Junior PBU 03 para correcciones. Debe corregir y actualizar los circuitos',fecha_inicio:'28/08/2026',fecha_venc:'',responsable:'Luis Alonso',regional:'ESTE',estado:'Completado',reporte:''},
-{item:45,area:'Implementación',tarea:'Respuesta a ANDE por Adenda V3 a Ing. Procesos de Negocio',fecha_inicio:'28/08/2026',fecha_venc:'03/09/2026',responsable:'Amado Arrieta',regional:'GENERAL',estado:'Pendiente',reporte:''},
+{item:45,area:'Implementación',tarea:'Respuesta a ANDE por Adenda V3 a Ing. Procesos de Negocio',fecha_inicio:'28/08/2026',fecha_venc:'03/09/2026',responsable:'Amado Arrieta',regional:'GENERAL',estado:'Completado',reporte:''},
 {item:46,area:'Implementación',tarea:'Modificar documento esp requerimientosde Cymdist.',fecha_inicio:'01/09/2026',fecha_venc:'03/09/2026',responsable:'Amado Arrieta',regional:'GENERAL',estado:'Pendiente',reporte:''},
 {item:47,area:'Control de Calidad',tarea:'Agregar regla que de preensamblado a preensamblado no hay transición de numero de fases',fecha_inicio:'28/08/2026',fecha_venc:'',responsable:'Luis Alonso',regional:'GENERAL',estado:'Completado',reporte:''},
 {item:48,area:'Levantamiento y Captura',tarea:'Cambiar el numero de las secuencias de los distritos segun el project',fecha_inicio:'29-08-2026',fecha_venc:'',responsable:'Fernando Rodriguez',regional:'',estado:'Completado',reporte:''},
@@ -1716,7 +1710,7 @@ let TAREAS_DATA = [
 {item:59,area:'Certificación',tarea:'Sacar estadisticas de Postes levantados de eventos para cert 8C de PBU.',fecha_inicio:'04/09/26',fecha_venc:'07/09/2026',responsable:'Luis Alonso',regional:'',estado:'Completado',reporte:''},
 {item:60,area:'Construcción de Circuitos',tarea:'Definir fecha de implementación de bonos por produccion',fecha_inicio:'04/09/26',fecha_venc:'08/09/2026',responsable:'Gabriel Servian',regional:'GENERAL',estado:'En curso',reporte:''},
 {item:61,area:'Construcción de Circuitos',tarea:'Reunion con TA sobre bonos por produccion (Analistas EO)',fecha_inicio:'04/09/26',fecha_venc:'09/09/2026',responsable:'Gabriel Servian',regional:'GENERAL',estado:'Pendiente',reporte:''},
-{item:62,area:'Levantamiento y Captura',tarea:'Comunicar con las cuadrillas bonos por finalizacion de Regional Centro y ver plazos',fecha_inicio:'04/09/26',fecha_venc:'23/09/2026',responsable:'Luis Alonso',regional:'CENTRO',estado:'Pendiente',reporte:''},
+{item:62,area:'Levantamiento y Captura',tarea:'Comunicar con las cuadrillas bonos por finalizacion de Regional Centro y ver plazos',fecha_inicio:'04/09/26',fecha_venc:'23/09/2026',responsable:'Luis Alonso',regional:'CENTRO',estado:'Completado',reporte:''},
 {item:63,area:'Procesamiento',tarea:'Dar seguimiento que vamos a hacer con la triple certificación 8A, ya no tenemos plazo',fecha_inicio:'04/09/26',fecha_venc:'10/09/2026',responsable:'Gabriel Servian',regional:'GENERAL',estado:'En curso',reporte:''},
 {item:64,area:'Certificación',tarea:'Solicitar informe 8C a Kai',fecha_inicio:'18/09/26',fecha_venc:'22/09/2026',responsable:'Luis Alonso',regional:'GENERAL',estado:'Pendiente',reporte:''},
 {item:65,area:'Levantamiento y Captura',tarea:'Presentar nota de solicitud de Proyectos  red subte en BT',fecha_inicio:'07/09/2026',fecha_venc:'08/09/2026',responsable:'Luis Alonso',regional:'',estado:'Completado',reporte:''},
@@ -1724,23 +1718,23 @@ let TAREAS_DATA = [
 {item:67,area:'Implementación',tarea:'Leer documentos de procesos de negocio',fecha_inicio:'10/09/2026',fecha_venc:'-',responsable:'Gabriel Servian',regional:'GENERAL',estado:'Pendiente',reporte:''},
 {item:68,area:'Implementación',tarea:'Dar seguimiento el Lunes 14/09/2026 a Fede sobre plazos sobre comentarios de las demas maquinas de estado.',fecha_inicio:'10/09/2026',fecha_venc:'14/09/2026',responsable:'Gabriel Servian',regional:'GENERAL',estado:'Completado',reporte:''},
 {item:69,area:'Construcción de Circuitos',tarea:'Dar seguimiento a proyectos de HER12, Coordinar una reunion con Alvaro y Cristina',fecha_inicio:'11/09/2026',fecha_venc:'',responsable:'Luis Alonso',regional:'ESTE',estado:'Completado',reporte:''},
-{item:70,area:'Construcción de Circuitos',tarea:'Lentitud en migracion de clientes al EO',fecha_inicio:'11/09/2026',fecha_venc:'',responsable:'Luis Alonso',regional:'ESTE',estado:'En curso',reporte:''},
+{item:70,area:'Construcción de Circuitos',tarea:'Lentitud en migracion de clientes al EO',fecha_inicio:'11/09/2026',fecha_venc:'',responsable:'Luis Alonso',regional:'ESTE',estado:'Completado',reporte:''},
 {item:71,area:'TI',tarea:'Hablar con ANDE sobre PLAN PILOTO',fecha_inicio:'16/09/2026',fecha_venc:'21/09/2026',responsable:'Gabriel Servian',regional:'ESTE',estado:'Pendiente',reporte:''},
 {item:72,area:'Certificación',tarea:'Enviar correo a TA para la triple certificacion a mediados de septiembre, conformar mas lotes',fecha_inicio:'16/09/2026',fecha_venc:'22/09/2026',responsable:'Luis Alonso',regional:'METRO Y CENTRAL',estado:'Pendiente',reporte:''},
-{item:73,area:'Levantamiento y Captura',tarea:'Replanteo de planificacion de Richar',fecha_inicio:'18/09/2026',fecha_venc:'21/09/2026',responsable:'Fernando Rodriguez',regional:'METRO Y CENTRAL',estado:'Pendiente',reporte:''},
-{item:74,area:'Levantamiento y Captura',tarea:'Mapa de Proyectos con Carlos para actualizar en EO, reglas de definicion de instalacion de postes, pd, a que metro esta del lindero, etc.',fecha_inicio:'24/09/2026',fecha_venc:'23/10/2026',responsable:'Carlos Barreto',regional:'ESTE',estado:'Pendiente',reporte:''},
-{item:75,area:'Levantamiento y Captura',tarea:'Test de conocimientos para levantadores a pie.',fecha_inicio:'07/10/2026',fecha_venc:'09/10/2026',responsable:'Luis Alonso',regional:'GENERAL',estado:'Pendiente',reporte:''},
+{item:73,area:'Levantamiento y Captura',tarea:'Replanteo de planificacion de Richar',fecha_inicio:'18/09/2026',fecha_venc:'21/09/2026',responsable:'Fernando Rodriguez',regional:'METRO Y CENTRAL',estado:'Completado',reporte:''},
+{item:74,area:'Levantamiento y Captura',tarea:'Mapa de Proyectos con Carlos para actualizar en EO, reglas de definicion de instalacion de postes, pd, a que metro esta del lindero, etc.',fecha_inicio:'24/09/2026',fecha_venc:'13/11/2026',responsable:'Carlos Barreto',regional:'ESTE',estado:'Pendiente',reporte:''},
+{item:75,area:'Levantamiento y Captura',tarea:'Test de conocimientos para levantadores a pie.',fecha_inicio:'07/10/2026',fecha_venc:'09/10/2026',responsable:'Luis Alonso',regional:'GENERAL',estado:'En curso',reporte:''},
 {item:76,area:'Implementación',tarea:'Enviar propuesta de Reunión para ver el documento de red nueva de terceros.',fecha_inicio:'14/10/2026',fecha_venc:'16/10/2026',responsable:'Gabriel Servian',regional:'GENERAL',estado:'Pendiente',reporte:''},
 {item:77,area:'Construcción de Circuitos',tarea:'Volver a revisar cuando se certifique el lote 88 la parte que dijo Cristina. Zona MPO/IRY',fecha_inicio:'2/11/2026',fecha_venc:'',responsable:'Luis Alonso',regional:'',estado:'Pendiente',reporte:''},
 {item:78,area:'Procesamiento',tarea:'Insistir todos los dias a GV acerca del precio de las licencias lidar 360 MLS.',fecha_inicio:'18/09/2026',fecha_venc:'21/09/2026',responsable:'Fernando Rodriguez',regional:'',estado:'Pendiente',reporte:''},
 {item:79,area:'Procesamiento',tarea:'Actualizar planilla de Proyección de Levantamiento y procesamiento de Datos',fecha_inicio:'21/09/2026',fecha_venc:'23/09/2026',responsable:'Luis Alonso',regional:'GENERAL',estado:'Pendiente',reporte:''},
-{item:80,area:'Levantamiento y Captura',tarea:'Envio de solicitud de CRP octubre.',fecha_inicio:'21/10/2026',fecha_venc:'22/10/2026',responsable:'',regional:'',estado:'Pendiente',reporte:''},
-{item:81,area:'Levantamiento y Captura',tarea:'Envio proyecto instalacion equipos ESTE.',fecha_inicio:'21/10/2026',fecha_venc:'21/10/2026',responsable:'',regional:'',estado:'',reporte:''},
-{item:82,area:'Levantamiento y Captura',tarea:'Propuesta de triple certificación, cuando arranca TA?',fecha_inicio:'21/10/2026',fecha_venc:'',responsable:'',regional:'',estado:'',reporte:''},
-{item:83,area:'Implementación',tarea:'Lentitud EO, cronograma de solución?',fecha_inicio:'21/10/2026',fecha_venc:'',responsable:'',regional:'',estado:'',reporte:''},
-{item:84,area:'Levantamiento y Captura',tarea:'Reporte de Estructuras Desnormalizadas, como quedo esto? QUe falta para implementar?',fecha_inicio:'21/10/2026',fecha_venc:'',responsable:'',regional:'',estado:'',reporte:''},
-{item:85,area:'Levantamiento y Captura',tarea:'Aprobación ANDE de la guia de certificación 8A, fotos lidar',fecha_inicio:'21/10/2026',fecha_venc:'22/10/2026',responsable:'Fernando Rodriguez',regional:'',estado:'',reporte:''},
-{item:86,area:'Levantamiento y Captura',tarea:'\u2060Respuesta a propuesta de máquina de estado de terceros. TA debe pasar sugerencias.',fecha_inicio:'',fecha_venc:'',responsable:'',regional:'',estado:'',reporte:''},
+{item:80,area:'Levantamiento y Captura',tarea:'Envio de solicitud de CRP octubre.',fecha_inicio:'21/10/2026',fecha_venc:'22/10/2026',responsable:'Gabriel Servian',regional:'GENERAL',estado:'Completado',reporte:''},
+{item:81,area:'Levantamiento y Captura',tarea:'Envio proyecto instalacion equipos ESTE.',fecha_inicio:'21/10/2026',fecha_venc:'21/10/2026',responsable:'Gabriel Servian',regional:'ESTE',estado:'Completado',reporte:''},
+{item:82,area:'Levantamiento y Captura',tarea:'Propuesta de triple certificación, cuando arranca TA?',fecha_inicio:'21/10/2026',fecha_venc:'',responsable:'Gabriel Servian',regional:'METRO Y CENTRAL',estado:'Pendiente',reporte:''},
+{item:83,area:'Implementación',tarea:'Lentitud EO, cronograma de solución?',fecha_inicio:'21/10/2026',fecha_venc:'',responsable:'Gabriel Servian',regional:'GENERAL',estado:'En curso',reporte:''},
+{item:84,area:'Levantamiento y Captura',tarea:'Reporte de Estructuras Desnormalizadas, como quedo esto? QUe falta para implementar?',fecha_inicio:'21/10/2026',fecha_venc:'',responsable:'Luis Alonso',regional:'GENERAL',estado:'Pendiente',reporte:''},
+{item:85,area:'Levantamiento y Captura',tarea:'Aprobación ANDE de la guia de certificación 8A, fotos lidar',fecha_inicio:'21/10/2026',fecha_venc:'22/10/2026',responsable:'Fernando Rodriguez',regional:'GENERAL',estado:'Pendiente',reporte:''},
+{item:86,area:'Levantamiento y Captura',tarea:'',fecha_inicio:'',fecha_venc:'',responsable:'',regional:'',estado:'',reporte:''},
 {item:87,area:'',tarea:'',fecha_inicio:'',fecha_venc:'',responsable:'',regional:'',estado:'',reporte:''},
 {item:88,area:'',tarea:'',fecha_inicio:'',fecha_venc:'',responsable:'',regional:'',estado:'',reporte:''},
 {item:89,area:'',tarea:'',fecha_inicio:'',fecha_venc:'',responsable:'',regional:'',estado:'',reporte:''},
